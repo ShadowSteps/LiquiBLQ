@@ -20,6 +20,7 @@
     </organization>
 
     <build>
+        
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -102,7 +103,14 @@
                     </additionalClasspathElements>
                 </configuration>
             </plugin>
+            
         </plugins>
     </build>
-
+    <dependencies>
+        <dependency>
+           <groupId>org.hibernate</groupId>
+           <artifactId>hibernate-core</artifactId>
+           <version>5.0.0.Final</version>
+        </dependency>
+    </dependencies>
 </project>
