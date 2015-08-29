@@ -3,11 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.shadows.liquiblq.controllers;
+package com.shadows.liquiblq.client.controllers;
 
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import java.awt.event.ActionEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
