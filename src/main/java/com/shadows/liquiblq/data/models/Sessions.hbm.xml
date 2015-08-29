@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 29-Aug-2015 23:25:15 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="Sessions" table="sessions" optimistic-lock="version">
+        <id name="id" type="serializable">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="users" class="Users" fetch="select">
+            <column name="user" not-null="true" />
+        </many-to-one>
+        <property name="active" type="boolean">
+            <column name="active" not-null="true" />
+        </property>
+        <property name="dateCreated" type="timestamp">
+            <column name="date_created" length="29" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

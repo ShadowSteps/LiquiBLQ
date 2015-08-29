@@ -1,4 +1,4 @@
-package com.shadows.liquiblq.client;
+package com.shadows.liquiblq.client.windows;
 
 import javafx.application.Application;
 import static javafx.application.Application.launch;

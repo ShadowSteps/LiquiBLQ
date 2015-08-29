@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.shadows.liquiblq.client.controllers;
+package com.shadows.liquiblq.client.windows.controllers;
 
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;

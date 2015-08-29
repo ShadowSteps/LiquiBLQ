@@ -11,7 +11,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <mainClass>com.shadows.liquiblq.client.LiquiBLQ</mainClass>
+        <mainClass>com.shadows.liquiblq.client.windows.LiquiBLQ</mainClass>
     </properties>
 
     <organization>
@@ -47,8 +47,7 @@
                 <version>1.2.1</version>
                 <executions>
                     <execution>
-                        <id>unpack-dependencies</id>
-                        
+                        <id>unpack-dependencies</id>                        
                         <phase>package</phase>
                         <goals>
                             <goal>exec</goal>
@@ -111,6 +110,16 @@
            <groupId>org.hibernate</groupId>
            <artifactId>hibernate-core</artifactId>
            <version>5.0.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>javazoom</groupId>
+            <artifactId>jlayer</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>9.4-1202-jdbc42</version>
         </dependency>
     </dependencies>
 </project>
