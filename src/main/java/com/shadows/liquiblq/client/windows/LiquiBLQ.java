@@ -12,12 +12,13 @@ public class LiquiBLQ extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/windows/Main.fxml"));        
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/windows/Login.fxml"));        
         Scene scene = new Scene(root);
-        scene.getStylesheets().add("/styles/Styles.css");        
+        scene.getStylesheets().add("/styles/windows/Styles.css");        
         stage.setTitle("JavaFX and Maven");
+        stage.setResizable(false);
         stage.setScene(scene);
-        stage.show();
+        stage.show();        
     }
 
     /**

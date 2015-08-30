@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.net.*?>
 <?import java.util.*?>
@@ -7,8 +8,33 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.shadows.liquiblq.client.windows.controllers.LoginController">
+<AnchorPane id="AnchorPane" fx:id="MainPanel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="183.0" prefWidth="308.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.shadows.liquiblq.client.windows.controllers.LoginController">
     <stylesheets>
-        <URL value="@/styles/windows/login.css"/>
+        <URL value="@/styles/windows/login.css" />
     </stylesheets>
+   <children>
+      <TabPane id="loginTabsPanel" fx:id="loginTabsPanel" prefHeight="188.0" prefWidth="308.0" snapToPixel="false" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <tabs>
+          <Tab id="LoginTab" onSelectionChanged="#loginTabActive" styleClass="login-tab" text="Login">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="157.0" prefWidth="308.0">
+                     <children>
+                        <Label layoutX="14.0" layoutY="14.0" text="Email:" />
+                        <TextField layoutX="14.0" layoutY="31.0" prefHeight="25.0" prefWidth="283.0" />
+                        <Label layoutX="14.0" layoutY="69.0" text="Password:" />
+                        <PasswordField layoutX="14.0" layoutY="86.0" prefHeight="25.0" prefWidth="283.0" />
+                        <Button layoutX="15.0" layoutY="125.0" mnemonicParsing="false" text="Login" />
+                        <Button layoutX="67.0" layoutY="125.0" mnemonicParsing="false" text="Cancel" />
+                     </children>
+              </AnchorPane>
+            </content>
+          </Tab>
+          <Tab id="RegisterTab" onSelectionChanged="#registerTabActive" styleClass="login-tab" text="Register">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </children>
 </AnchorPane>
