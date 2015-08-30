@@ -8,38 +8,26 @@ package com.shadows.liquiblq.data.repositories;
 import com.shadows.liquiblq.data.exceptions.EntityCannotByCreatedException;
 import com.shadows.liquiblq.common.utils.PasswordSecurityProvider;
 import com.shadows.liquiblq.data.exceptions.InvalidEntiryProvidedBeforeInsertException;
+import com.shadows.liquiblq.data.exceptions.SessionFactoryConfigurationException;
 import com.shadows.liquiblq.data.models.Users;
+import com.shadows.liquiblq.data.utils.SessionFactoryContainer;
 import com.shadows.liquiblq.data.utils.UsersValidator;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 /**
  *
  * @author John
  */
 public class UsersRepository {
-    public static void AddUser(String Email,String Password,String Name) throws EntityCannotByCreatedException{
-        final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
-            .configure() 
-            .build();
+    public static void AddUser(String Email,String Password,String Name) throws EntityCannotByCreatedException{                
         try {
-            SessionFactory sessionFactory = new MetadataSources(registry)
-                .buildMetadata()
-                .buildSessionFactory();
-            AddUser(sessionFactory, Email, Password, Name);
-	}
-        catch (Exception ex){
-            StandardServiceRegistryBuilder.destroy(registry);
-            throw ex;
+            AddUser(SessionFactoryContainer.getFactory(), Email, Password, Name);
+        } catch (SessionFactoryConfigurationException ex) {
+            throw new EntityCannotByCreatedException("User was not created! Inner exception message: "+ex.getMessage());
         }
-	finally {
-            StandardServiceRegistryBuilder.destroy(registry);
-	}
     }
     public static void AddUser(SessionFactory factory,String Email,String Password,String Name) throws EntityCannotByCreatedException {
         Users newUser = new Users();
