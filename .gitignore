@@ -1,1 +1,6 @@
 /target/
+/LiquiBLQ.Common/target/
+/LiquiBLQ.WebAPI/target/
+/LiquiBLQ.Data/target/
+/LiquiBLQ.Client.Core/target/
+/LiquiBLQ.Client.Windows/target/
