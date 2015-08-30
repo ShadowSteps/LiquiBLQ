@@ -7,7 +7,7 @@ package com.shadows.liquiblq.data.utils;
 
 import com.shadows.liquiblq.common.utils.StringValidator;
 import com.shadows.liquiblq.data.exceptions.InvalidEntiryProvidedBeforeInsertException;
-import com.shadows.liquiblq.data.models.Users;
+import com.shadows.liquiblq.data.entitys.Users;
 
 /**
  *

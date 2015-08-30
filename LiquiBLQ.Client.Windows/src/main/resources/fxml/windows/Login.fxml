@@ -29,7 +29,7 @@
               </AnchorPane>
             </content>
           </Tab>
-          <Tab id="RegisterTab" onSelectionChanged="#registerTabActive" styleClass="login-tab" text="Register">
+          <Tab id="RegisterTab" styleClass="login-tab" text="Register">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>

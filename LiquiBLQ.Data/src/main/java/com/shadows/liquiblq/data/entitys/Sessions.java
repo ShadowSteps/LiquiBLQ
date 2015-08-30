@@ -1,4 +1,4 @@
-package com.shadows.liquiblq.data.models;
+package com.shadows.liquiblq.data.entitys;
 // Generated 29-Aug-2015 23:25:15 by Hibernate Tools 4.3.1
 
 import java.io.Serializable;

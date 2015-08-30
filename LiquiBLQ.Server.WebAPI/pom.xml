@@ -3,11 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.shadows</groupId>
-    <artifactId>LiquiBLQ.WebAPI</artifactId>
+    <artifactId>LiquiBLQ.Server.WebAPI</artifactId>
     <version>1.0</version>
     <packaging>war</packaging>
 
-    <name>LiquiBLQ.WebAPI</name>
+    <name>LiquiBLQ.Server.WebAPI</name>
 
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>

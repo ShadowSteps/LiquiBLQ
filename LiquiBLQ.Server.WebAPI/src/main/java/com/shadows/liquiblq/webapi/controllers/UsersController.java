@@ -10,8 +10,6 @@ import com.shadows.liquiblq.data.repositories.UsersRepository;
 import com.shadows.liquiblq.webapi.responses.json.ErrorResponse;
 import com.shadows.liquiblq.webapi.responses.json.JSONResponse;
 import com.shadows.liquiblq.webapi.responses.json.RegisterResponse;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;

@@ -9,7 +9,7 @@ import com.shadows.liquiblq.data.exceptions.EntityCannotByCreatedException;
 import com.shadows.liquiblq.common.utils.PasswordSecurityProvider;
 import com.shadows.liquiblq.data.exceptions.InvalidEntiryProvidedBeforeInsertException;
 import com.shadows.liquiblq.data.exceptions.SessionFactoryConfigurationException;
-import com.shadows.liquiblq.data.models.Users;
+import com.shadows.liquiblq.data.entitys.Users;
 import com.shadows.liquiblq.data.utils.SessionFactoryContainer;
 import com.shadows.liquiblq.data.utils.UsersValidator;
 import java.io.UnsupportedEncodingException;

@@ -5,6 +5,8 @@
  */
 package com.shadows.liquiblq.client.windows.controllers;
 
+import com.shadows.liquiblq.client.windows.core.DialogManager;
+import java.io.IOException;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import java.net.URL;
@@ -12,6 +14,7 @@ import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.text.Text;
 
 /**
  * FXML Controller class
@@ -27,6 +30,8 @@ public class MainController implements Initializable {
     private MenuBar MainMenuBar;
     @FXML
     private MenuItem MainMenuExitMenuItem;
+    @FXML
+    private Text LoginTextButton;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
@@ -36,5 +41,8 @@ public class MainController implements Initializable {
     private void menuExitItemClick(){
         Platform.exit();
     }
-    
+    @FXML
+    private void onLoginTextClick() throws IOException{
+        DialogManager.ShowLoginDialog();
+    }
 }
