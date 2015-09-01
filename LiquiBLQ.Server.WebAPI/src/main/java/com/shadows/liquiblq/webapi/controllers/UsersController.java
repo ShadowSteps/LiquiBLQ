@@ -5,11 +5,13 @@
  */
 package com.shadows.liquiblq.webapi.controllers;
 
+import com.shadows.liquiblq.data.exceptions.EntityCannotBeFoundException;
 import com.shadows.liquiblq.data.exceptions.EntityCannotByCreatedException;
 import com.shadows.liquiblq.data.repositories.UsersRepository;
 import com.shadows.liquiblq.common.communication.json.ErrorResponse;
 import com.shadows.liquiblq.common.communication.json.JSONResponse;
 import com.shadows.liquiblq.common.communication.json.RegisterResponse;
+import com.shadows.liquiblq.webapi.responses.json.LoginResponse;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,6 +30,15 @@ public class UsersController {
             UsersRepository.AddUser(Email, Password, Name);
             return new RegisterResponse(Boolean.TRUE);
         } catch (EntityCannotByCreatedException ex) {
+            return new ErrorResponse(ex);
+        }
+    }
+    @RequestMapping(value = "/login",method = RequestMethod.POST)
+    public JSONResponse doLogin(@RequestParam("Email") String Email,@RequestParam("Password") String Password){
+        try {
+            UsersRepository.GetUserByEmailAndPassword(Email, Password);
+            return new LoginResponse(Boolean.TRUE);
+        } catch (EntityCannotBeFoundException ex) {
             return new ErrorResponse(ex);
         }
     }
