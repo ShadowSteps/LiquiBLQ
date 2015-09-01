@@ -7,9 +7,9 @@ package com.shadows.liquiblq.webapi.controllers;
 
 import com.shadows.liquiblq.data.exceptions.EntityCannotByCreatedException;
 import com.shadows.liquiblq.data.repositories.UsersRepository;
-import com.shadows.liquiblq.webapi.responses.json.ErrorResponse;
-import com.shadows.liquiblq.webapi.responses.json.JSONResponse;
-import com.shadows.liquiblq.webapi.responses.json.RegisterResponse;
+import com.shadows.liquiblq.common.communication.json.ErrorResponse;
+import com.shadows.liquiblq.common.communication.json.JSONResponse;
+import com.shadows.liquiblq.common.communication.json.RegisterResponse;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
