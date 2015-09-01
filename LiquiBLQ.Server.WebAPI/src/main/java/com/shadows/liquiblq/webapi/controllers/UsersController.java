@@ -11,7 +11,7 @@ import com.shadows.liquiblq.data.repositories.UsersRepository;
 import com.shadows.liquiblq.common.communication.json.ErrorResponse;
 import com.shadows.liquiblq.common.communication.json.JSONResponse;
 import com.shadows.liquiblq.common.communication.json.RegisterResponse;
-import com.shadows.liquiblq.webapi.responses.json.LoginResponse;
+import com.shadows.liquiblq.common.communication.json.LoginResponse;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;

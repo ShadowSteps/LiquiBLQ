@@ -18,9 +18,6 @@ import java.security.NoSuchAlgorithmException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Criteria;
-import java.util.List; 
-import org.hibernate.SessionFactory;
-import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 
 /**
@@ -57,11 +54,11 @@ public class UsersRepository {
         } 
     }
     
-    public static List GetUserByEmailAndPassword(SessionFactory factory,String Email, String Password){
+    public static Users GetUserByEmailAndPassword(SessionFactory factory,String Email, String Password){
         Criteria cr = factory.getCurrentSession().createCriteria(Users.class);
         cr.add(Restrictions.eq("email", Email));
         cr.add(Restrictions.eq("password", Password));
-        List results = cr.list();
+        Users results = (Users)cr.list().get(0);
         return results;
     }
      public static void GetUserByEmailAndPassword(String Email,String Password) throws EntityCannotBeFoundException{      
