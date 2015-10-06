@@ -16,6 +16,7 @@ import com.shadows.liquiblq.data.utils.UsersValidator;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import org.hibernate.Session;
+import java.util.UUID;
 import org.hibernate.SessionFactory;
 import org.hibernate.Criteria;
 import java.util.List; 
@@ -43,6 +44,12 @@ public class UsersRepository {
         newUser.setName(Name);
         AddUser(factory,newUser);        
     }
+    public static UUID GenerateGUID(){
+        UUID UniqueId;
+        UniqueId = UUID.randomUUID();
+        return UniqueId;
+    }
+    
     public static void AddUser(SessionFactory factory,Users User) throws EntityCannotByCreatedException{            
         try {
             User.setPassword(PasswordSecurityProvider.GenPasswordHash(User.getPassword(), User.getSalt()));
@@ -57,16 +64,23 @@ public class UsersRepository {
         } 
     }
     
-    public static List GetUserByEmailAndPassword(SessionFactory factory,String Email, String Password){
+    public static Users GetUserByEmail(SessionFactory factory,String Email){
         Criteria cr = factory.getCurrentSession().createCriteria(Users.class);
         cr.add(Restrictions.eq("email", Email));
-        cr.add(Restrictions.eq("password", Password));
         List results = cr.list();
-        return results;
+        return (Users)results.get(0);
     }
-     public static void GetUserByEmailAndPassword(String Email,String Password) throws EntityCannotBeFoundException{      
+    
+    public static String GetUserSaltAndPasswordByUserEmail(SessionFactory factory , Users Email) throws UnsupportedEncodingException, NoSuchAlgorithmException{
+        String Salt =  Email.getSalt();
+        String Password = Email.getPassword();
+        String passwordHash =  PasswordSecurityProvider.GenPasswordHash(Password, Salt);
+        return passwordHash;
+    }
+    
+     public static void GetUserByEmail(String Email,String Password) throws EntityCannotBeFoundException{      
        try {
-            GetUserByEmailAndPassword(SessionFactoryContainer.getFactory(), Email, Password);
+            GetUserByEmail(SessionFactoryContainer.getFactory(), Email);
         } catch (SessionFactoryConfigurationException ex) {
             throw new EntityCannotBeFoundException("User was not found! Inner exception message: "+ex.getMessage());
         }

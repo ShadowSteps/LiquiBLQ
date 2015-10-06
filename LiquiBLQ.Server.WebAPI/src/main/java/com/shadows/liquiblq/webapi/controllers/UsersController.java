@@ -36,7 +36,7 @@ public class UsersController {
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     public JSONResponse doLogin(@RequestParam("Email") String Email,@RequestParam("Password") String Password){
         try {
-            UsersRepository.GetUserByEmailAndPassword(Email, Password);
+            UsersRepository.GetUserByEmail(Email, Password);
             return new LoginResponse(Boolean.TRUE);
         } catch (EntityCannotBeFoundException ex) {
             return new ErrorResponse(ex);
