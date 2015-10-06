@@ -19,9 +19,6 @@ import org.hibernate.Session;
 import java.util.UUID;
 import org.hibernate.SessionFactory;
 import org.hibernate.Criteria;
-import java.util.List; 
-import org.hibernate.SessionFactory;
-import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 
 /**
@@ -63,12 +60,12 @@ public class UsersRepository {
             throw new EntityCannotByCreatedException("User was not created! Inner exception message: "+ex.getMessage());
         } 
     }
-    
-    public static Users GetUserByEmail(SessionFactory factory,String Email){
+    public static Users GetUserByEmailAndPassword(SessionFactory factory,String Email, String Password){
         Criteria cr = factory.getCurrentSession().createCriteria(Users.class);
         cr.add(Restrictions.eq("email", Email));
-        List results = cr.list();
-        return (Users)results.get(0);
+        cr.add(Restrictions.eq("password", Password));
+        Users results = (Users)cr.list().get(0);
+        return results;
     }
     
     public static String GetUserSaltAndPasswordByUserEmail(SessionFactory factory , Users Email) throws UnsupportedEncodingException, NoSuchAlgorithmException{
@@ -76,13 +73,5 @@ public class UsersRepository {
         String Password = Email.getPassword();
         String passwordHash =  PasswordSecurityProvider.GenPasswordHash(Password, Salt);
         return passwordHash;
-    }
-    
-     public static void GetUserByEmail(String Email,String Password) throws EntityCannotBeFoundException{      
-       try {
-            GetUserByEmail(SessionFactoryContainer.getFactory(), Email);
-        } catch (SessionFactoryConfigurationException ex) {
-            throw new EntityCannotBeFoundException("User was not found! Inner exception message: "+ex.getMessage());
-        }
     }
 }

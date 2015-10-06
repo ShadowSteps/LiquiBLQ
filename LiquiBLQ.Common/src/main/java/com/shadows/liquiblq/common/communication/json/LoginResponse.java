@@ -3,19 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.shadows.liquiblq.webapi.responses.json;
+package com.shadows.liquiblq.common.communication.json;
 
 /**
  *
- * @author John
+ * @author toshiba
  */
-public class RegisterResponse extends JSONResponse{
+public class LoginResponse extends JSONResponse {
+    
     private final Boolean Status;
 
-    public RegisterResponse(Boolean Status) {
+    public LoginResponse(Boolean Status) {
         this.Status = Status;
     }
-
     public Boolean getStatus() {
         return Status;
     }
