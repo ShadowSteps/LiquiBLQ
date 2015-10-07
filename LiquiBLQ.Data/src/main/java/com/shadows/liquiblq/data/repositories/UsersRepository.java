@@ -61,9 +61,9 @@ public class UsersRepository {
         Users results = (Users)cr.list().get(0);
         return results;
     }
-     public static void GetUserByEmailAndPassword(String Email,String Password) throws EntityCannotBeFoundException{      
+     public static Users GetUserByEmailAndPassword(String Email,String Password) throws EntityCannotBeFoundException{      
        try {
-            GetUserByEmailAndPassword(SessionFactoryContainer.getFactory(), Email, Password);
+            return GetUserByEmailAndPassword(SessionFactoryContainer.getFactory(), Email, Password);
         } catch (SessionFactoryConfigurationException ex) {
             throw new EntityCannotBeFoundException("User was not found! Inner exception message: "+ex.getMessage());
         }
