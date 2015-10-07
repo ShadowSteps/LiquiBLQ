@@ -15,7 +15,6 @@ public class RegisterResponse extends JSONResponse{
     public RegisterResponse(Boolean Status) {
         this.Status = Status;
     }
-
     public Boolean getStatus() {
         return Status;
     }
