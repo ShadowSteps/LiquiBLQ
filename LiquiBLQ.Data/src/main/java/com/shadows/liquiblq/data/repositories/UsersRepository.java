@@ -16,6 +16,7 @@ import com.shadows.liquiblq.data.utils.UsersValidator;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import org.hibernate.Session;
+import java.util.UUID;
 import org.hibernate.SessionFactory;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
@@ -40,6 +41,12 @@ public class UsersRepository {
         newUser.setName(Name);
         AddUser(factory,newUser);        
     }
+    public static UUID GenerateGUID(){
+        UUID UniqueId;
+        UniqueId = UUID.randomUUID();
+        return UniqueId;
+    }
+    
     public static void AddUser(SessionFactory factory,Users User) throws EntityCannotByCreatedException{            
         try {
             User.setPassword(PasswordSecurityProvider.GenPasswordHash(User.getPassword(), User.getSalt()));
@@ -53,7 +60,6 @@ public class UsersRepository {
             throw new EntityCannotByCreatedException("User was not created! Inner exception message: "+ex.getMessage());
         } 
     }
-    
     public static Users GetUserByEmailAndPassword(SessionFactory factory,String Email, String Password){
         Criteria cr = factory.getCurrentSession().createCriteria(Users.class);
         cr.add(Restrictions.eq("email", Email));
@@ -61,11 +67,19 @@ public class UsersRepository {
         Users results = (Users)cr.list().get(0);
         return results;
     }
+
      public static Users GetUserByEmailAndPassword(String Email,String Password) throws EntityCannotBeFoundException{      
        try {
             return GetUserByEmailAndPassword(SessionFactoryContainer.getFactory(), Email, Password);
         } catch (SessionFactoryConfigurationException ex) {
             throw new EntityCannotBeFoundException("User was not found! Inner exception message: "+ex.getMessage());
         }
+     }
+     
+    public static String GetUserSaltAndPasswordByUserEmail(SessionFactory factory , Users Email) throws UnsupportedEncodingException, NoSuchAlgorithmException{
+        String Salt =  Email.getSalt();
+        String Password = Email.getPassword();
+        String passwordHash =  PasswordSecurityProvider.GenPasswordHash(Password, Salt);
+        return passwordHash;
     }
 }
