@@ -127,5 +127,21 @@
             <version>1.4</version>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>com.google.code.validationframework</groupId>
+            <artifactId>validationframework-core</artifactId>
+            <version>3.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.validationframework</groupId>
+            <artifactId>validationframework-javafx</artifactId>
+            <version>3.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.shadows</groupId>
+            <artifactId>LiquiBLQ.Client.Core</artifactId>
+            <version>1.0</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
 </project>

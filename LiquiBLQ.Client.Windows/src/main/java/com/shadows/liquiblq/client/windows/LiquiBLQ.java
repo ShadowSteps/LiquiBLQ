@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 public class LiquiBLQ extends Application {
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) throws Exception {        
         DialogManager.ShowMainDialog(stage);
     }
 

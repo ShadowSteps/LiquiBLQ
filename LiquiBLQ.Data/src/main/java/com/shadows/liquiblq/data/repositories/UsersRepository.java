@@ -13,10 +13,12 @@ import com.shadows.liquiblq.data.exceptions.EntityCannotBeFoundException;
 import com.shadows.liquiblq.data.entitys.Users;
 import com.shadows.liquiblq.data.utils.SessionFactoryContainer;
 import com.shadows.liquiblq.data.utils.UsersValidator;
+import static com.sun.org.apache.regexp.internal.RETest.test;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import org.hibernate.Session;
 import java.util.UUID;
+import static jdk.nashorn.internal.objects.NativeRegExp.test;
 import org.hibernate.SessionFactory;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
@@ -58,7 +60,7 @@ public class UsersRepository {
             Users results = (Users)cr.list().get(0);
             return results;
     }
-    
+     
     public static String GetUserSaltAndPasswordByUserEmail(SessionFactory factory , Users Email) throws UnsupportedEncodingException, NoSuchAlgorithmException{
         String Salt =  Email.getSalt();
         String Password = Email.getPassword();
