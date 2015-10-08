@@ -12,6 +12,7 @@ import com.shadows.liquiblq.common.communication.json.ErrorResponse;
 import com.shadows.liquiblq.common.communication.json.JSONResponse;
 import com.shadows.liquiblq.common.communication.json.RegisterResponse;
 import com.shadows.liquiblq.common.communication.json.LoginResponse;
+import com.shadows.liquiblq.data.exceptions.SessionFactoryConfigurationException;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user")
 public class UsersController {
     @RequestMapping(value = "/register",method = RequestMethod.POST)
-    public JSONResponse doRegister(@RequestParam("Email") String Email,@RequestParam("Password") String Password,@RequestParam("Name") String Name){
+    public JSONResponse doRegister(@RequestParam("Email") String Email,@RequestParam("Password") String Password,@RequestParam("Name") String Name) throws SessionFactoryConfigurationException{
         try {
             UsersRepository.AddUser(Email, Password, Name);
             return new RegisterResponse(Boolean.TRUE);
@@ -34,12 +35,8 @@ public class UsersController {
         }
     }
     @RequestMapping(value = "/login",method = RequestMethod.POST)
-    public JSONResponse doLogin(@RequestParam("Email") String Email,@RequestParam("Password") String Password){
-        try {
-            UsersRepository.GetUserByEmailAndPassword(Email, Password);
-            return new LoginResponse(Boolean.TRUE);
-        } catch (EntityCannotBeFoundException ex) {
-            return new ErrorResponse(ex);
-        }
+    public JSONResponse doLogin(@RequestParam("Email") String Email,@RequestParam("Password") String Password) throws EntityCannotBeFoundException, SessionFactoryConfigurationException{
+        UsersRepository.GetUserByEmailAndPassword(Email, Password);
+        return new LoginResponse(Boolean.TRUE);
     }
 }

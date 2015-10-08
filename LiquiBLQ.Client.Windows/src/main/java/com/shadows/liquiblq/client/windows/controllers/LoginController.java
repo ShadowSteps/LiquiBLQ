@@ -11,15 +11,20 @@ import com.shadows.liquiblq.client.core.http.exceptions.HttpRequestErrorExceptio
 import com.shadows.liquiblq.client.windows.config.AppConfig;
 import com.shadows.liquiblq.client.windows.config.ConfigurationManager;
 import com.shadows.liquiblq.client.windows.core.validation.TextFieldContainsEmailValidator;
+import com.shadows.liquiblq.client.windows.core.validation.TextFieldMatchOtherFieldValidator;
+import com.shadows.liquiblq.client.windows.core.validation.TextFieldMaxLengthValidator;
+import com.shadows.liquiblq.client.windows.core.validation.TextFieldMinLengthValidator;
 import com.shadows.liquiblq.client.windows.core.validation.TextFieldNotEmptyValidator;
 import com.shadows.liquiblq.client.windows.core.validation.TextFieldValidator;
+import com.shadows.liquiblq.client.windows.core.validation.controls.AlertsManager;
 import com.shadows.liquiblq.client.windows.core.validation.listeners.TextFieldChangeListener;
 import com.shadows.liquiblq.client.windows.core.validation.utils.ValidationManager;
 import com.shadows.liquiblq.client.windows.exceptions.ApplicationConfigurationException;
+import com.shadows.liquiblq.common.communication.json.JSONResponse;
+import com.shadows.liquiblq.common.communication.json.LoginResponse;
+import com.shadows.liquiblq.common.communication.json.RegisterResponse;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -58,7 +63,11 @@ public class LoginController implements Initializable{
     private Button registerButton;
     
     private TextFieldChangeListener LoginEmailValidatorListener,
-        LoginPasswordValidatorListener;
+            LoginPasswordValidatorListener,
+            RegisterPasswordValidatiorListener,
+            RegisterEmailValidatiorListener,
+            RegisterPasswordRepeatValidatiorListener,
+            RegisterNameValidatiorListener;
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {        
@@ -67,6 +76,24 @@ public class LoginController implements Initializable{
             new TextFieldContainsEmailValidator()
         });
         LoginPasswordValidatorListener = ValidationManager.BindTextFieldChangeValidator(LoginPassword, new TextFieldValidator[]{
+            new TextFieldNotEmptyValidator()
+        });
+        RegisterPasswordValidatiorListener = ValidationManager.BindTextFieldChangeValidator(RegisterPassword, new TextFieldValidator[]{
+            new TextFieldNotEmptyValidator(),
+            new TextFieldMinLengthValidator(5),
+            new TextFieldMaxLengthValidator(64)
+        });
+        RegisterPasswordRepeatValidatiorListener = ValidationManager.BindTextFieldChangeValidator(RegisterRepeatPassword, new TextFieldValidator[]{
+            new TextFieldNotEmptyValidator(),
+            new TextFieldMinLengthValidator(5),
+            new TextFieldMaxLengthValidator(64),
+            new TextFieldMatchOtherFieldValidator(RegisterPassword)
+        });
+        RegisterEmailValidatiorListener = ValidationManager.BindTextFieldChangeValidator(RegisterEmail,new TextFieldValidator[]{
+            new TextFieldNotEmptyValidator(),
+            new TextFieldContainsEmailValidator()
+        });
+        RegisterNameValidatiorListener = ValidationManager.BindTextFieldChangeValidator(RegisterName, new TextFieldValidator[]{
             new TextFieldNotEmptyValidator()
         });
     }
@@ -78,7 +105,33 @@ public class LoginController implements Initializable{
     
     @FXML
     private void onRegisterButtonClick(){
-        
+        Boolean isValid = 
+                RegisterEmailValidatiorListener.ValidateFields()
+                && RegisterPasswordValidatiorListener.ValidateFields()
+                && RegisterPasswordRepeatValidatiorListener.ValidateFields()
+                && RegisterNameValidatiorListener.ValidateFields()
+                ;
+        Alert alert = new Alert(Alert.AlertType.ERROR);           
+        if (!isValid){        
+            AlertsManager.ShowErrorAlert("Invalid data provided","Please check your input fields for errors and try to submit the form again!");
+        } else {
+            try {
+                AppConfig conf = ConfigurationManager.GetApplicationConfiguration();
+                String ApiUrl = conf.getApiUrl();
+                try {
+                    RegisterResponse Resp = (RegisterResponse)RequestsManager.doRegisterRequest(ApiUrl, RegisterEmail.getText(), RegisterPassword.getText(),RegisterName.getText());
+                    AlertsManager.ShowInfoAlert("Register successfull!", "Welcome, you are registered as:");
+                    Stage stage = (Stage)registerButton.getScene().getWindow();                     
+                    stage.close();
+                } catch (HttpRequestErrorException ex) {
+                    AlertsManager.ShowErrorAlert("Server not responding","Our attempt to make a request to the server has failed! Please try again later!");
+                } catch (CannotParseResponseException ex) {
+                    AlertsManager.ShowErrorAlert("Internal server error","The response of the server was invalid! Please try again later!");
+                }
+            } catch (ApplicationConfigurationException ex) {
+                AlertsManager.ShowErrorAlert("Invalid client configuration","Your client was not configured porperly!Please reinstall");
+            }
+        }
     }
     
     @FXML
@@ -86,30 +139,24 @@ public class LoginController implements Initializable{
         Boolean isValid = 
             LoginEmailValidatorListener.ValidateFields()
             && LoginPasswordValidatorListener.ValidateFields();
-        Alert alert = new Alert(Alert.AlertType.ERROR);           
-        if (!isValid){        
-            alert.setTitle("Invalid username or password");
-            alert.setContentText("Please check your input fields and try to submit the form again!");
-            alert.show();
+        if (!isValid){
+            AlertsManager.ShowErrorAlert("Invalid username or password", "Please check your input fields and try to submit the form again!");
         } else {
             try {
                 AppConfig conf = ConfigurationManager.GetApplicationConfiguration();
                 String ApiUrl = conf.getApiUrl();
                 try {
-                    RequestsManager.doLoginRequest(ApiUrl, LoginEmail.getText(), LoginPassword.getText());
+                    LoginResponse Response = (LoginResponse)RequestsManager.doLoginRequest(ApiUrl, LoginEmail.getText(), LoginPassword.getText());  
+                    AlertsManager.ShowInfoAlert("Login successfull!", "Welcome, you are logged in as:");
+                    Stage stage = (Stage)loginButton.getScene().getWindow();
+                    stage.close();
                 } catch (HttpRequestErrorException ex) {
-                    alert.setTitle("Server not responding");
-                    alert.setContentText("Our attempt to make a request to the server has failed! Please try again later!");
-                    alert.show();
+                    AlertsManager.ShowErrorAlert("Server not responding","Our attempt to make a request to the server has failed! Please try again later!");
                 } catch (CannotParseResponseException ex) {
-                    alert.setTitle("Internal server error");
-                    alert.setContentText("The response of the server was invalid! Please try again later!");
-                    alert.show();
+                    AlertsManager.ShowErrorAlert("Internal server error","The response of the server was invalid! Please try again later!");
                 }
             } catch (ApplicationConfigurationException ex) {
-                alert.setTitle("Invalid client configuration");
-                alert.setContentText("Your client was not configured porperly!Please reinstall");
-                alert.show();
+                AlertsManager.ShowErrorAlert("Invalid client configuration","Your client was not configured porperly!Please reinstall");
             }
         }
         

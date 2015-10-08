@@ -9,6 +9,6 @@ package com.shadows.liquiblq.common.communication.json;
  *
  * @author John
  */
-public class JSONResponse {
+public abstract class JSONResponse {
     
 }

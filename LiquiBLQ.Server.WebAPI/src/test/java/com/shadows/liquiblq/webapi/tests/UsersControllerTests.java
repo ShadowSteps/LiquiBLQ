@@ -7,6 +7,7 @@ package com.shadows.liquiblq.webapi.tests;
 
 import com.shadows.liquiblq.data.exceptions.EntityCannotBeFoundException;
 import com.shadows.liquiblq.data.exceptions.EntityCannotByCreatedException;
+import com.shadows.liquiblq.data.exceptions.SessionFactoryConfigurationException;
 import com.shadows.liquiblq.data.repositories.UsersRepository;
 import com.shadows.liquiblq.webapi.controllers.UsersController;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -48,11 +49,11 @@ public class UsersControllerTests {
     // @Test
     // public void hello() {}
     @Test
-    public void TestUserInteractionLogin(){
+    public void TestUserInteractionLogin() throws SessionFactoryConfigurationException, EntityCannotBeFoundException{
         UsersController Controller = new UsersController();
         String Email = RandomStringUtils.randomAlphabetic(5) + "@" + RandomStringUtils.randomAlphabetic(3) + ".com";
         String Password = RandomStringUtils.random(25);
         Controller.doRegister(Email, Password, RandomStringUtils.randomAlphabetic(10));
-        Controller.doLogin(Email, Password);
+        Controller.doLogin(Email, Password);        
     }
 }

@@ -17,4 +17,8 @@ public class UserRequestsHandler {
         String UrlParamanters = "Email="+Username+"&Password="+Password;
         return HttpRequestHandler.sendPost(ApiUrl+"user/login", UrlParamanters);
     }
+    public static String registerRequest(String ApiUrl,String Username,String Password,String Name) throws HttpRequestErrorException{
+        String UrlParamanters = "Email="+Username+"&Password="+Password+"&Name="+Name;
+        return HttpRequestHandler.sendPost(ApiUrl+"user/register", UrlParamanters);
+    }
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.shadows.liquiblq.data.tests;
+package com.shadows.liquiblq.data.repositories.tests;
 
 import com.shadows.liquiblq.data.exceptions.EntityCannotBeFoundException;
 import com.shadows.liquiblq.data.exceptions.EntityCannotByCreatedException;
@@ -20,9 +20,9 @@ import static org.junit.Assert.*;
  *
  * @author John
  */
-public class UserRepositoryTests {
+public class UsersRepositoryTests {
     
-    public UserRepositoryTests() {
+    public UsersRepositoryTests() {
     }
     
     @BeforeClass

@@ -9,15 +9,20 @@ package com.shadows.liquiblq.common.communication.json;
  *
  * @author toshiba
  */
-public class LoginResponse extends JSONResponse {
-    
-    private final Boolean Status;
+public class LoginResponse extends JSONResponse {    
 
-    public LoginResponse(Boolean Status) {
-        this.Status = Status;
-    }
     public Boolean getStatus() {
         return Status;
     }
-    
+
+    public void setStatus(Boolean Status) {
+        this.Status = Status;
+    }
+    public Boolean Status;   
+    public LoginResponse(Boolean Result){
+        this.Status = Result;
+    }
+    public LoginResponse(){
+        
+    }
 }

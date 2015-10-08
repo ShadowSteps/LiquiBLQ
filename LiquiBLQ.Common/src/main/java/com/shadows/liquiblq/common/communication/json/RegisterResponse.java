@@ -10,14 +10,19 @@ package com.shadows.liquiblq.common.communication.json;
  * @author John
  */
 public class RegisterResponse extends JSONResponse{
-    private final Boolean Status;
-
-    public RegisterResponse(Boolean Status) {
-        this.Status = Status;
-    }
 
     public Boolean getStatus() {
-        return Status;
+        return status;
     }
-    
+
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
+    public Boolean status;
+    public RegisterResponse(Boolean status) {
+        this.status = status;
+    }
+    public RegisterResponse(){
+        
+    }
 }

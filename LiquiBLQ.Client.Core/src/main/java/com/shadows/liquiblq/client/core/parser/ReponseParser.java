@@ -11,22 +11,31 @@ import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shadows.liquiblq.client.core.http.exceptions.CannotParseResponseException;
+import com.shadows.liquiblq.common.communication.json.JSONResponse;
+import com.shadows.liquiblq.common.communication.json.RegisterResponse;
 import java.io.IOException;
 /**
  *
  * @author John
  */
 public class ReponseParser {
-    public static LoginResponse ParseLoginReponse(String Reponse) throws CannotParseResponseException{        
+    protected static JSONResponse parse(String Response,Class Type) throws CannotParseResponseException{
         ObjectMapper mapper = new ObjectMapper();
-        LoginResponse ResponseObject = null;
+        Object ResponseObject = null;
         try {                    
-            ResponseObject = mapper.readValue(Reponse, LoginResponse.class);
+            ResponseObject = mapper.readValue(Response, Type);
         } catch (JsonGenerationException | JsonMappingException e) {
             throw new CannotParseResponseException(e.getMessage());
         } catch (IOException e) {
             throw new CannotParseResponseException(e.getMessage());
         } 
-        return ResponseObject;
+        return (JSONResponse)ResponseObject;
     }
+    public static LoginResponse ParseLoginReponse(String Reponse) throws CannotParseResponseException{                
+        return (LoginResponse)parse(Reponse, LoginResponse.class);
+    }
+    public static RegisterResponse ParseRegisterReponse(String Reponse) throws CannotParseResponseException{        
+        return (RegisterResponse)parse(Reponse, RegisterResponse.class);
+    }
+    
 }
