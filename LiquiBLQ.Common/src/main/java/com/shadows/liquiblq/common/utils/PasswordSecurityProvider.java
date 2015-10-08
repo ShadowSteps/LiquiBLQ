@@ -10,6 +10,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Random;
 /**
  *
  * @author John
@@ -27,11 +28,9 @@ public class PasswordSecurityProvider {
         return hexString.toString();
     }
     public static String GenSalt(int MaxLength){
-        SecureRandom random = new SecureRandom();
-        byte bytes[] = new byte[MaxLength];
-        random.nextBytes(bytes);      
-        String str = new String(bytes, StandardCharsets.UTF_8);
-        return str;
+        Random r = new Random( System.currentTimeMillis() );
+        Integer Number = (1 + r.nextInt(2)) * 10000 + r.nextInt(10000);
+        return Number.toString();
     }
     public static String GenPasswordHash(String Password,int SaltLength) throws UnsupportedEncodingException, NoSuchAlgorithmException{
         String Salt = GenSalt(SaltLength);

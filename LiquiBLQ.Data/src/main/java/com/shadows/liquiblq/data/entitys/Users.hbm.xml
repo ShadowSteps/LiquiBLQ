@@ -4,9 +4,9 @@
 <!-- Generated 29-Aug-2015 23:25:15 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="Users" table="users" optimistic-lock="version">
-        <id name="id" type="int">
+        <id name="id" type="Integer">
             <column name="id" />
-            <generator class="assigned" />
+            <generator class="insert" />
         </id>
         <property name="email" type="string">
             <column name="email" length="55" not-null="true" />

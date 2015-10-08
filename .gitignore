@@ -5,3 +5,5 @@
 /LiquiBLQ.Client.Core/target/
 /LiquiBLQ.Client.Windows/target/
 /LiquiBLQ.Server.WebAPI/target/
+/com.shadows.liquiblq.webapi.tests/nbproject/private/
+/LiquiBlq.Server.WebAPI.Tests/nbproject/private/

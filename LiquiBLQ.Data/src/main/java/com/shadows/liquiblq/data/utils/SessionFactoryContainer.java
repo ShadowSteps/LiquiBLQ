@@ -6,10 +6,12 @@
 package com.shadows.liquiblq.data.utils;
 
 import com.shadows.liquiblq.data.exceptions.SessionFactoryConfigurationException;
+import java.net.URL;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
 
 /**
  *
@@ -19,15 +21,11 @@ public class SessionFactoryContainer {
     private static SessionFactory factory;
     private static void CreateFactory() throws SessionFactoryConfigurationException{
         if (factory == null){
-            final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
-                    .configure() 
-                    .build();
             try {
-                factory = new MetadataSources( registry ).buildMetadata().buildSessionFactory();
+                factory = new Configuration().configure().buildSessionFactory();
             }
-            catch (Exception e) {
-                StandardServiceRegistryBuilder.destroy( registry );
-                throw new SessionFactoryConfigurationException("Could not create factory!Inner exception message: "+e.getMessage());
+            catch (Exception e) {                
+                throw new SessionFactoryConfigurationException("Could not create factory! Inner exception message: "+e.getMessage());
             }
         }
     }

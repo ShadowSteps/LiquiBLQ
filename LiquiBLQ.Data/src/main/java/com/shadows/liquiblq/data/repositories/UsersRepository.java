@@ -15,10 +15,15 @@ import com.shadows.liquiblq.data.utils.SessionFactoryContainer;
 import com.shadows.liquiblq.data.utils.UsersValidator;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Time;
+import java.util.Date;
+import java.util.List;
 import org.hibernate.Session;
 import java.util.UUID;
+import javax.print.attribute.standard.DateTimeAtCompleted;
 import org.hibernate.SessionFactory;
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.criterion.Restrictions;
 
 /**
@@ -39,6 +44,7 @@ public class UsersRepository {
         newUser.setSalt(PasswordSecurityProvider.GenSalt(UsersValidator.SaltLength));        
         newUser.setPassword(Password);
         newUser.setName(Name);
+        newUser.setDateRegistered(new Date());
         AddUser(factory,newUser);        
     }
     public static UUID GenerateGUID(){
@@ -51,20 +57,80 @@ public class UsersRepository {
         try {
             User.setPassword(PasswordSecurityProvider.GenPasswordHash(User.getPassword(), User.getSalt()));
             UsersValidator.ValidateUserBeforeInsert(User);
-            try (Session session = factory.openSession()) {
+            Session session = factory.openSession();
+            try {                
                 session.beginTransaction();
                 session.save(User);
                 session.getTransaction().commit();
+            }
+            catch(Exception Exp){
+                session.getTransaction().rollback();
+            }
+            finally {
+                session.disconnect();
             }
         } catch (UnsupportedEncodingException | NoSuchAlgorithmException | InvalidEntiryProvidedBeforeInsertException ex) {
             throw new EntityCannotByCreatedException("User was not created! Inner exception message: "+ex.getMessage());
         } 
     }
-    public static Users GetUserByEmailAndPassword(SessionFactory factory,String Email, String Password){
-        Criteria cr = factory.getCurrentSession().createCriteria(Users.class);
-        cr.add(Restrictions.eq("email", Email));
-        cr.add(Restrictions.eq("password", Password));
-        Users results = (Users)cr.list().get(0);
+    public static Users GetUserByEmail(String Email) throws EntityCannotBeFoundException{
+        try {
+            SessionFactory factory = SessionFactoryContainer.getFactory();
+            Session session = factory.openSession();
+            Users results = null;       
+            try {                
+                session.beginTransaction();
+                Criteria cr = session.createCriteria(Users.class);     
+                cr.add(Restrictions.eq("email", Email));
+                List ListUsers = cr.list();
+                if (ListUsers.isEmpty()){
+                    throw new EntityCannotBeFoundException("User was not found!");
+                }
+                results = (Users)ListUsers.get(0);            
+                session.getTransaction().commit();                
+            }
+            catch(HibernateException Exp){
+                session.getTransaction().rollback();
+                throw new EntityCannotBeFoundException("User was not found! Inner Exception: "+Exp.getMessage());
+            }
+            finally {
+                session.disconnect();
+            }  
+            return results;                        
+        } catch (SessionFactoryConfigurationException ex) {
+            throw new EntityCannotBeFoundException("User was not found! Inner exception message: "+ex.getMessage());
+        }
+    }
+    public static Users GetUserByEmailAndPassword(SessionFactory factory,String Email, String Password) throws EntityCannotBeFoundException{
+        Session session = factory.openSession();
+        Users results = null;       
+        try {                
+            session.beginTransaction();
+            Users SelectedUser = GetUserByEmail(Email);
+            String Salt = SelectedUser.getSalt();
+            Password = PasswordSecurityProvider.GenPasswordHash(Password, Salt);
+            Criteria cr = session.createCriteria(Users.class);     
+            cr.add(Restrictions.and(
+                Restrictions.eq("email", Email),
+                Restrictions.eq("password", Password)
+            ));
+            List ListUsers = cr.list();
+            if (ListUsers.isEmpty()){
+                throw new EntityCannotBeFoundException("User was not found!");
+           }
+            results = (Users)ListUsers.get(0);            
+            session.getTransaction().commit();
+            return results;
+        }
+        catch(EntityCannotBeFoundException | UnsupportedEncodingException | NoSuchAlgorithmException | HibernateException Exp){
+            session.getTransaction().rollback();
+            if (Exp instanceof EntityCannotBeFoundException){
+                throw new EntityCannotBeFoundException(Exp.getMessage());
+            }
+        }
+        finally {
+            session.disconnect();
+        }          
         return results;
     }
 
@@ -76,10 +142,5 @@ public class UsersRepository {
         }
      }
      
-    public static String GetUserSaltAndPasswordByUserEmail(SessionFactory factory , Users Email) throws UnsupportedEncodingException, NoSuchAlgorithmException{
-        String Salt =  Email.getSalt();
-        String Password = Email.getPassword();
-        String passwordHash =  PasswordSecurityProvider.GenPasswordHash(Password, Salt);
-        return passwordHash;
-    }
+    
 }
