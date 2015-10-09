@@ -39,7 +39,7 @@ public class ArtistsRepository {
                  session.disconnect();
             }
         } catch (SessionFactoryConfigurationException ex) {
-            throw new EntityCannotBeFoundException("Users cannot be fetched! Inner exception message: "+ex.getMessage());
+            throw new EntityCannotBeFoundException("Artists could not be loaded! "+ex.getMessage());
         }
     }
 }

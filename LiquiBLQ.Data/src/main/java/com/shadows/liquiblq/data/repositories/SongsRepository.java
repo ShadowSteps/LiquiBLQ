@@ -5,8 +5,8 @@
  */
 package com.shadows.liquiblq.data.repositories;
 
-import com.shadows.liquiblq.data.entitys.Album;
 import com.shadows.liquiblq.data.entitys.Artist;
+import com.shadows.liquiblq.data.entitys.Songs;
 import com.shadows.liquiblq.data.exceptions.EntityCannotBeFoundException;
 import com.shadows.liquiblq.data.exceptions.SessionFactoryConfigurationException;
 import com.shadows.liquiblq.data.utils.SessionFactoryContainer;
@@ -20,20 +20,19 @@ import org.hibernate.criterion.Restrictions;
 
 /**
  *
- * @author mihail
+ * @author toshiba
  */
-public class AlbumsRepository {
-    
-    public static List<Album> GetAllAlbums() throws EntityCannotBeFoundException{
+public class SongsRepository {
+    public static List<Songs> GetAllSongs() throws EntityCannotBeFoundException{
         try {
             SessionFactory factory = SessionFactoryContainer.getFactory();
             Session session = factory.openSession(); 
             try{
                 session.beginTransaction();
-                Criteria cr = session.createCriteria(Album.class);     
-                List<Album> Albums = cr.list();                
+                Criteria cr = session.createCriteria(Songs.class);     
+                List<Songs> Songs = cr.list();                
                 session.getTransaction().commit();
-                return Albums;
+                return Songs;
             }catch(HibernateException e){
                 session.getTransaction().rollback();
                 throw e;
@@ -41,36 +40,31 @@ public class AlbumsRepository {
                  session.disconnect();
             }
         } catch (SessionFactoryConfigurationException ex) {
-            throw new EntityCannotBeFoundException("Albums cannot be fetched! Inner exception message: "+ex.getMessage());
+            throw new EntityCannotBeFoundException("Songs cannot be fetched! Inner exception message: "+ex.getMessage());
         }
     }
-    public static Album GetUserById(UUID id) throws EntityCannotBeFoundException {
-        try{
+    public static Songs GetSongById(UUID id) throws EntityCannotBeFoundException{
+        try {
             SessionFactory factory = SessionFactoryContainer.getFactory();
-            Session session = factory.openSession();
-            Album results = null;
-            try {                
+            Session session = factory.openSession(); 
+            try{
                 session.beginTransaction();
-                Criteria cr = session.createCriteria(Album.class);     
+                Criteria cr = session.createCriteria(Songs.class);     
                 cr.add(Restrictions.eq("id", id));
-                List ListUsers = cr.list();
-                if (ListUsers.isEmpty()){
-                    throw new EntityCannotBeFoundException("Album was not found!");
-                }
-                results = (Album)ListUsers.get(0);            
-                session.getTransaction().commit();      
-                return results;
-            }
-            catch(HibernateException Exp){
+                List<Songs> ListSongs = cr.list();
+                if (ListSongs.isEmpty()){
+                    throw new EntityCannotBeFoundException("Song was not found!");
+                }                
+                session.getTransaction().commit();
+                return ListSongs.get(0);
+            }catch(HibernateException e){
                 session.getTransaction().rollback();
-                throw new EntityCannotBeFoundException("Album was not found! Inner Exception: "+Exp.getMessage());
+                throw e;
+            }finally{
+                 session.disconnect();
             }
-            finally {
-                session.disconnect();
-            }  
-        }catch(Exception ex){
-            throw new EntityCannotBeFoundException("Album was not found! Inner exception message: "+ex.getMessage());
+        } catch (SessionFactoryConfigurationException ex) {
+            throw new EntityCannotBeFoundException("Songs cannot be fetched! Inner exception message: "+ex.getMessage());
         }
     }
-    
 }
