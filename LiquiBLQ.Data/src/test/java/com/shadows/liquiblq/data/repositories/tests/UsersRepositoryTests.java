@@ -66,4 +66,8 @@ public class UsersRepositoryTests {
         TestAddUser(Email, Password);
         TestGetUser(Email, Password);
     }
+    @Test
+    public void TestGetAllUsers() throws EntityCannotBeFoundException{
+        UsersRepository.GetAllUsers();
+    }
 }

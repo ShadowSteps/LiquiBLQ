@@ -11,8 +11,11 @@ import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shadows.liquiblq.client.core.http.exceptions.CannotParseResponseException;
+import com.shadows.liquiblq.common.communication.json.GetAllAlbumsResponse;
+import com.shadows.liquiblq.common.communication.json.GetAllSongsResponse;
 import com.shadows.liquiblq.common.communication.json.JSONResponse;
 import com.shadows.liquiblq.common.communication.json.RegisterResponse;
+import com.shadows.liquiblq.common.communication.json.artistResponse;
 import java.io.IOException;
 /**
  *
@@ -37,5 +40,13 @@ public class ReponseParser {
     public static RegisterResponse ParseRegisterReponse(String Reponse) throws CannotParseResponseException{        
         return (RegisterResponse)parse(Reponse, RegisterResponse.class);
     }
-    
+    public static artistResponse ParseGetAllArtistsReponse(String Reponse) throws CannotParseResponseException{        
+        return (artistResponse)parse(Reponse, artistResponse.class);
+    }
+    public static GetAllAlbumsResponse ParseGetAllAlbumsReponse(String Reponse) throws CannotParseResponseException{        
+        return (GetAllAlbumsResponse)parse(Reponse, GetAllAlbumsResponse.class);
+    }
+    public static GetAllSongsResponse ParseGetAllSongsReponse(String Reponse) throws CannotParseResponseException{        
+        return (GetAllSongsResponse)parse(Reponse, GetAllSongsResponse.class);
+    }
 }

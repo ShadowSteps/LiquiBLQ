@@ -1,11 +1,15 @@
+// default package
+// Generated 09-Oct-2015 13:21:36 by Hibernate Tools 4.3.1
 package com.shadows.liquiblq.data.entitys;
-// Generated 29-Aug-2015 23:25:15 by Hibernate Tools 4.3.1
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -20,40 +24,39 @@ import javax.persistence.TemporalType;
 @Table(name = "sessions")
 public class Sessions implements java.io.Serializable {
 
-	private Serializable id;
-	private Users users;
+	private UUID id;
+	private Integer userId;
 	private boolean active;
 	private Date dateCreated;
 
 	public Sessions() {
 	}
 
-	public Sessions(Serializable id, Users users, boolean active,
+	public Sessions(UUID id, Integer userId, boolean active,
 			Date dateCreated) {
 		this.id = id;
-		this.users = users;
+		this.userId = userId;
 		this.active = active;
 		this.dateCreated = dateCreated;
 	}
 
 	@Id
-	@Column(name = "id", unique = true, nullable = false)
-	public Serializable getId() {
+	@Column(name = "id", unique = true, nullable = false, columnDefinition = "uuid")        
+	public UUID getId() {
 		return this.id;
 	}
 
-	public void setId(Serializable id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user", nullable = false)
-	public Users getUsers() {
-		return this.users;
+	@Column(name = "user_id", nullable = false)
+	public Integer getUserId() {
+		return this.userId;
 	}
 
-	public void setUsers(Users users) {
-		this.users = users;
+	public void setUserId(Integer id) {
+		this.userId = id;
 	}
 
 	@Column(name = "active", nullable = false)
