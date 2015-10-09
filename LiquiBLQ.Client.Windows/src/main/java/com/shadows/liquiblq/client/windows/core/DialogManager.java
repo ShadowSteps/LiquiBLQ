@@ -10,6 +10,7 @@ import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -33,6 +34,7 @@ public class DialogManager {
     public static void ShowLoginDialog() throws IOException{
         Stage dialog = new Stage();
         dialog.initStyle(StageStyle.UTILITY);
-        ShowDialog(dialog, "/fxml/windows/Login.fxml", "LiquiBLQ - Login/Register");
+        dialog.initModality(Modality.WINDOW_MODAL);
+        ShowDialog(dialog, "/fxml/windows/Login.fxml", "LiquiBLQ - Login/Register");                
     }
 }

@@ -29,21 +29,44 @@ import org.hibernate.criterion.Restrictions;
  * @author John
  */
 public class UsersRepository {
-    public static void AddUser(String Email,String Password,String Name) throws EntityCannotByCreatedException{                
+    public static List<Users> GetAllUsers() throws EntityCannotBeFoundException{
         try {
-            AddUser(SessionFactoryContainer.getFactory(), Email, Password, Name);
+            SessionFactory factory = SessionFactoryContainer.getFactory();
+            Session session = factory.openSession();
+            List<Users> results = null;       
+            try {                
+                session.beginTransaction();
+                Criteria cr = session.createCriteria(Users.class);                    
+                List<Users> ListUsers = cr.list();       
+                session.getTransaction().commit();
+                return ListUsers;
+            }
+            catch(HibernateException Exp){
+                session.getTransaction().rollback();
+                throw new EntityCannotBeFoundException("Users cannot be fetched! Inner Exception: "+Exp.getMessage());
+            }
+            finally {
+                session.disconnect();
+            }                         
+        } catch (SessionFactoryConfigurationException ex) {
+            throw new EntityCannotBeFoundException("Users cannot be fetched! Inner exception message: "+ex.getMessage());
+        }
+    }
+    public static Users AddUser(String Email,String Password,String Name) throws EntityCannotByCreatedException{                
+        try {
+            return AddUser(SessionFactoryContainer.getFactory(), Email, Password, Name);
         } catch (SessionFactoryConfigurationException ex) {
             throw new EntityCannotByCreatedException("User was not created! Inner exception message: "+ex.getMessage());
         }
     }
-    public static void AddUser(SessionFactory factory,String Email,String Password,String Name) throws EntityCannotByCreatedException {
+    public static Users AddUser(SessionFactory factory,String Email,String Password,String Name) throws EntityCannotByCreatedException {
         Users newUser = new Users();
         newUser.setEmail(Email);
         newUser.setSalt(PasswordSecurityProvider.GenSalt(UsersValidator.SaltLength));        
         newUser.setPassword(Password);
         newUser.setName(Name);
         newUser.setDateRegistered(new Date());
-        AddUser(factory,newUser);        
+        return AddUser(factory,newUser);        
     }
     public static UUID GenerateGUID(){
         UUID UniqueId;
@@ -51,7 +74,7 @@ public class UsersRepository {
         return UniqueId;
     }
     
-    public static void AddUser(SessionFactory factory,Users User) throws EntityCannotByCreatedException{            
+    public static Users AddUser(SessionFactory factory,Users User) throws EntityCannotByCreatedException{            
         try {
             User.setPassword(PasswordSecurityProvider.GenPasswordHash(User.getPassword(), User.getSalt()));
             UsersValidator.ValidateUserBeforeInsert(User);
@@ -60,9 +83,11 @@ public class UsersRepository {
                 session.beginTransaction();
                 session.save(User);
                 session.getTransaction().commit();
+                return User;
             }
             catch(Exception Exp){
                 session.getTransaction().rollback();
+                throw Exp;
             }
             finally {
                 session.disconnect();
@@ -117,7 +142,7 @@ public class UsersRepository {
                 List ListUsers = cr.list();
                 if (ListUsers.isEmpty()){
                     throw new EntityCannotBeFoundException("User was not found!");
-               }
+                }
                 results = (Users)ListUsers.get(0);            
                 session.getTransaction().commit();
                 return results;

@@ -12,7 +12,11 @@ import com.shadows.liquiblq.common.communication.json.ErrorResponse;
 import com.shadows.liquiblq.common.communication.json.JSONResponse;
 import com.shadows.liquiblq.common.communication.json.RegisterResponse;
 import com.shadows.liquiblq.common.communication.json.LoginResponse;
+import com.shadows.liquiblq.data.entitys.Sessions;
+import com.shadows.liquiblq.data.entitys.Users;
 import com.shadows.liquiblq.data.exceptions.SessionFactoryConfigurationException;
+import com.shadows.liquiblq.data.repositories.SessionsRepository;
+import java.util.UUID;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,15 +32,21 @@ public class UsersController {
     @RequestMapping(value = "/register",method = RequestMethod.POST)
     public JSONResponse doRegister(@RequestParam("Email") String Email,@RequestParam("Password") String Password,@RequestParam("Name") String Name) throws SessionFactoryConfigurationException{
         try {
-            UsersRepository.AddUser(Email, Password, Name);
-            return new RegisterResponse(Boolean.TRUE);
+            Users User = UsersRepository.AddUser(Email, Password, Name);
+            return new RegisterResponse(Boolean.TRUE, User.getId(), Email);
         } catch (EntityCannotByCreatedException ex) {
             return new ErrorResponse(ex);
         }
     }
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     public JSONResponse doLogin(@RequestParam("Email") String Email,@RequestParam("Password") String Password) throws EntityCannotBeFoundException, SessionFactoryConfigurationException{
-        UsersRepository.GetUserByEmailAndPassword(Email, Password);
-        return new LoginResponse(Boolean.TRUE);
+        try {
+            Users User = UsersRepository.GetUserByEmailAndPassword(Email, Password);
+            Sessions Session = SessionsRepository.GenerateSessionForUser(User);
+            return new LoginResponse(Boolean.TRUE,(UUID)Session.getId(), Email, User.getId()); 
+        }
+        catch(EntityCannotBeFoundException | EntityCannotByCreatedException Exp){
+            return new ErrorResponse((Exp));
+        }
     }
 }
