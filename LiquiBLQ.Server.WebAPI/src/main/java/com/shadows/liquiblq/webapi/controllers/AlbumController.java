@@ -36,8 +36,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class AlbumController {
     @RequestMapping(value = "/get",method = RequestMethod.POST)
     public JSONResponse doRegister(@RequestParam("id") UUID id) throws SessionFactoryConfigurationException, EntityCannotBeFoundException{
-        Album album = AlbumsRepository.GetUserById(id);
-        return new GetAlbumByIdResponse(album);
+        try{
+            Album album = AlbumsRepository.GetUserById(id);
+            return new GetAlbumByIdResponse(album);
+        }catch(EntityCannotBeFoundException Exp){
+                return new ErrorResponse(Exp);
+        }
     }
     @RequestMapping(value = "/getAll",method = RequestMethod.POST)
     public JSONResponse doLogin() throws EntityCannotBeFoundException, SessionFactoryConfigurationException{

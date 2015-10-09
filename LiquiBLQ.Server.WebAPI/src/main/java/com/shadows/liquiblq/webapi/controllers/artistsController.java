@@ -40,12 +40,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/artists")
 public class artistsController {
-    @RequestMapping(value = "/get/{id}",method = RequestMethod.POST)
-    public JSONResponse getArtist(@PathVariable UUID id, @RequestParam("sessionKey") String Email,@RequestParam("UserId") String Password) throws SessionFactoryConfigurationException{
-       
-        
-        return null;
-    }
     
     @RequestMapping(value = "/getAll",method = RequestMethod.POST)
     public ResponseEntity<JSONResponse> GetAllARtists(@RequestParam("SessionKey") UUID Session,@RequestParam("UserId") Integer UserId){        

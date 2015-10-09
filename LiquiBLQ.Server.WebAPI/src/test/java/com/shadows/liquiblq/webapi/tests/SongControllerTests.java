@@ -5,6 +5,7 @@
  */
 package com.shadows.liquiblq.webapi.tests;
 
+import com.shadows.liquiblq.webapi.utils.SongReader;
 import java.io.InputStream;
 import javax.print.DocFlavor;
 import org.junit.After;
@@ -41,6 +42,8 @@ public class SongControllerTests {
 
     @Test
     public void FileRead() throws Exception{
+        SongReader reader = new SongReader("C:/Users/toshiba/Desktop/02 - Dilated Peoples - Worst Comes To Worst.mp3", 512);
+        reader.read();
     }
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:

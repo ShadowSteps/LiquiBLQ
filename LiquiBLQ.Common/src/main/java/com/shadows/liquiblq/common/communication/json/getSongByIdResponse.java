@@ -5,6 +5,7 @@
  */
 package com.shadows.liquiblq.common.communication.json;
 
+import com.shadows.liquiblq.data.entitys.Genre;
 import com.shadows.liquiblq.data.entitys.Songs;
 
 /**
@@ -13,8 +14,10 @@ import com.shadows.liquiblq.data.entitys.Songs;
  */
 public class getSongByIdResponse extends JSONResponse {
     public Songs Song;
+    public Genre songGenre;
     
-    public getSongByIdResponse(Songs song){
+    public getSongByIdResponse(Songs song, Genre genre ){
         this.Song = song;
+        this.songGenre = genre;      
     }
 }
