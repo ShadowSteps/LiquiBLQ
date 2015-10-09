@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.shadows.liquiblq.client.windows.core.table.handlers;
+package com.shadows.liquiblq.client.windows.core.handlers;
 
 import com.shadows.liquiblq.client.windows.core.InfomationManager;
-import com.shadows.liquiblq.data.entitys.Album;
+import com.shadows.liquiblq.client.windows.core.tasks.LoadArtistInfoTast;
 import com.shadows.liquiblq.data.entitys.Artist;
-import java.util.List;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.control.TableRow;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 
 /**
@@ -21,16 +21,19 @@ import javafx.scene.layout.AnchorPane;
 public class ArtistSelectHandler implements EventHandler {   
     private final TableRow<Artist> ArtistToHandle;
     private final AnchorPane InformationPanel;
-    private final List<Album> Artists;
-    public ArtistSelectHandler(TableRow<Artist> ArtistToHandle,AnchorPane InfoPane,List<Album> Artists) {
+    private final TableView table;
+
+    public ArtistSelectHandler(TableRow<Artist> ArtistToHandle, AnchorPane InformationPanel, TableView table) {
         this.ArtistToHandle = ArtistToHandle;
-        this.InformationPanel = InfoPane;
-        this.Artists = Artists;
+        this.InformationPanel = InformationPanel;
+        this.table = table;
     }
+    
     @Override
     public void handle(Event event) {
         if (!ArtistToHandle.isEmpty()&&InformationPanel instanceof AnchorPane){
-            InfomationManager.WriteInfoAboutArtist(InformationPanel, ArtistToHandle.getItem(),this.Artists);
+            LoadArtistInfoTast task = new LoadArtistInfoTast(ArtistToHandle.getItem(), InformationPanel,table);
+            task.run();
         }
     }
     

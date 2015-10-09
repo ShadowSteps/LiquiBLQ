@@ -5,9 +5,9 @@
  */
 package com.shadows.liquiblq.client.windows.core;
 
-import com.shadows.liquiblq.client.windows.core.table.handlers.TableRowAlbumFactory;
-import com.shadows.liquiblq.client.windows.core.table.handlers.TableRowArtistFactory;
-import com.shadows.liquiblq.client.windows.core.table.handlers.TableRowSongsFactory;
+import com.shadows.liquiblq.client.windows.core.handlers.TableRowAlbumFactory;
+import com.shadows.liquiblq.client.windows.core.handlers.TableRowArtistFactory;
+import com.shadows.liquiblq.client.windows.core.handlers.TableRowSongsFactory;
 import com.shadows.liquiblq.data.entitys.Album;
 import com.shadows.liquiblq.data.entitys.Artist;
 import com.shadows.liquiblq.data.entitys.Songs;
@@ -37,7 +37,7 @@ public class TableViewManager {
     public static void ClearTable(TableView Table){        
         Table.getColumns().clear();
     }
-    public static void CrateTableFromArtists(TableView View,List<Artist> ObjectList,AnchorPane InfoPane){
+    public static void CreateTableFromArtists(TableView View,List<Artist> ObjectList,AnchorPane InfoPane){
         ClearTable(View);
         ArtistList.clear();
         TableColumn IdColumn = new TableColumn("Id"),
@@ -62,10 +62,10 @@ public class TableViewManager {
         }
         View.setItems(ArtistList);
         
-        View.setRowFactory(new TableRowArtistFactory(InfoPane));
+        View.setRowFactory(new TableRowArtistFactory(InfoPane,View));
     }
 
-    public static void CrateTableFromAlbums(TableView mainTable, List<Album> listOfAlbums,AnchorPane InfoPane) {
+    public static void CreateTableFromAlbums(TableView mainTable, List<Album> listOfAlbums,AnchorPane InfoPane) {
         ClearTable(mainTable);
         AlbumsList.clear();
         TableColumn IdColumn = new TableColumn("Id"),
@@ -85,10 +85,10 @@ public class TableViewManager {
             AlbumsList.add(AlbumObject);
         }
         mainTable.setItems(AlbumsList);
-        mainTable.setRowFactory(new TableRowAlbumFactory(InfoPane));
+        mainTable.setRowFactory(new TableRowAlbumFactory(InfoPane,mainTable));
     }
 
-    public static void CrateTableFromSongs(TableView mainTable, List<Songs> listOfSongs,AnchorPane InfoPane) {
+    public static void CreateTableFromSongs(TableView mainTable, List<Songs> listOfSongs,AnchorPane InfoPane) {
         ClearTable(mainTable);
         SongsList.clear();
         TableColumn IdColumn = new TableColumn("Id"),
@@ -112,6 +112,6 @@ public class TableViewManager {
             SongsList.add(AlbumObject);
         }
         mainTable.setItems(SongsList);
-        mainTable.setRowFactory(new TableRowSongsFactory(InfoPane));
+        mainTable.setRowFactory(new TableRowSongsFactory(InfoPane,mainTable));
     }
 }

@@ -3,7 +3,6 @@ package com.shadows.liquiblq.data.entitys;
 // default package
 // Generated 09-Oct-2015 13:21:36 by Hibernate Tools 4.3.1
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -24,7 +23,7 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "songs")
-public class Songs implements java.io.Serializable {
+public class Songs {
 
 	private UUID id;
 	private Genre genre;

@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -23,7 +24,7 @@ import javax.persistence.TemporalType;
 @Table(name = "album")
 public class Album implements java.io.Serializable {
 
-	private Serializable id;
+	private UUID id;
 	private Date date;
 	private String name;
 	private Set<ArtistsInAlbums> artistsInAlbumses = new HashSet<ArtistsInAlbums>(
@@ -33,13 +34,13 @@ public class Album implements java.io.Serializable {
 	public Album() {
 	}
 
-	public Album(Serializable id, Date date, String name) {
+	public Album(UUID id, Date date, String name) {
 		this.id = id;
 		this.date = date;
 		this.name = name;
 	}
 
-	public Album(Serializable id, Date date, String name,
+	public Album(UUID id, Date date, String name,
 			Set<ArtistsInAlbums> artistsInAlbumses,
 			Set<SongsInAlbum> songsInAlbums) {
 		this.id = id;
@@ -50,12 +51,12 @@ public class Album implements java.io.Serializable {
 	}
 
 	@Id
-	@Column(name = "id", unique = true, nullable = false)
-	public Serializable getId() {
+	@Column(name = "id", unique = true, nullable = false, columnDefinition = "uuid")
+	public UUID getId() {
 		return this.id;
 	}
 
-	public void setId(Serializable id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 

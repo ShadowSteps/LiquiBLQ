@@ -6,6 +6,8 @@
 package com.shadows.liquiblq.client.windows.core;
 
 import com.shadows.liquiblq.client.windows.LiquiBLQ;
+import com.shadows.liquiblq.client.windows.config.MainWindowsConfiguration;
+import com.shadows.liquiblq.data.entitys.Songs;
 import java.io.IOException;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -36,11 +38,18 @@ public class DialogManager {
     public static Scene ShowMainDialog(Stage stage) throws IOException{
         return ShowDialog(stage, "/fxml/windows/Main.fxml", "LiquiBLQ - music streaming");
     }
-    public static Scene ShowLoginDialog(final Scene scene) throws IOException{
+    public static Scene ShowLoginDialog() throws IOException{
         Stage dialog = new Stage();
         dialog.initStyle(StageStyle.UNDECORATED);       
         dialog.initModality(Modality.WINDOW_MODAL);
-        dialog.initOwner(scene.getWindow());      
+        dialog.initOwner(MainWindowsConfiguration.MainForm.getWindow());      
         return ShowDialog(dialog, "/fxml/windows/Login.fxml", "LiquiBLQ - Login/Register");                
+    }
+    public static Scene ShowPlaySongDialog(Songs song) throws IOException{
+        Stage dialog = new Stage();
+        dialog.initStyle(StageStyle.UNDECORATED);       
+        dialog.initModality(Modality.WINDOW_MODAL);
+        dialog.initOwner(MainWindowsConfiguration.MainForm.getWindow());      
+        return ShowDialog(dialog, "/fxml/windows/SongPlay.fxml", "LiquiBLQ - Playsong");    
     }
 }

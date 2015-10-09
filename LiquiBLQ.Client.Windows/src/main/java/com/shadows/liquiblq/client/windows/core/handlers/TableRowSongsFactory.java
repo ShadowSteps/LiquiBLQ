@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.shadows.liquiblq.client.windows.core.table.handlers;
+package com.shadows.liquiblq.client.windows.core.handlers;
 
 import com.shadows.liquiblq.data.entitys.Album;
 import com.shadows.liquiblq.data.entitys.Songs;
 import javafx.scene.control.TableRow;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 
@@ -17,15 +18,18 @@ import javafx.util.Callback;
  */
 public class TableRowSongsFactory implements Callback {
     private final AnchorPane InformationPanel;
+    private final TableView table;
     @Override
     public Object call(Object param) {
         TableRow<Songs> row = new TableRow<>();
-        row.setOnMouseClicked(new SongsSelectHandler(row,InformationPanel));
+        row.setOnMouseClicked(new SongsSelectHandler(row,InformationPanel,table));
         return row;
     }
 
-    public TableRowSongsFactory(AnchorPane InformationPanel) {
+    public TableRowSongsFactory(AnchorPane InformationPanel, TableView table) {
         this.InformationPanel = InformationPanel;
+        this.table = table;
     }
+    
     
 }

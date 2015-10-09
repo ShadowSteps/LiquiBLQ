@@ -5,10 +5,11 @@
  */
 package com.shadows.liquiblq.client.windows.core;
 
-import com.shadows.liquiblq.client.windows.core.table.handlers.AlbumInfoGetArtistsClickHandler;
-import com.shadows.liquiblq.client.windows.core.table.handlers.ArtistInfoGetAlbumsClickHandler;
-import com.shadows.liquiblq.client.windows.core.table.handlers.AlbumInfoGetSongsClickHandler;
-import com.shadows.liquiblq.client.windows.core.table.handlers.SongInfoGetAlbumsClickHandler;
+import com.shadows.liquiblq.client.windows.core.handlers.AlbumInfoGetArtistsClickHandler;
+import com.shadows.liquiblq.client.windows.core.handlers.ArtistInfoGetAlbumsClickHandler;
+import com.shadows.liquiblq.client.windows.core.handlers.AlbumInfoGetSongsClickHandler;
+import com.shadows.liquiblq.client.windows.core.handlers.SongInfoGetAlbumsClickHandler;
+import com.shadows.liquiblq.client.windows.core.handlers.SongPlayClickHandler;
 import com.shadows.liquiblq.data.entitys.Album;
 import com.shadows.liquiblq.data.entitys.Artist;
 import com.shadows.liquiblq.data.entitys.ArtistsInAlbums;
@@ -16,6 +17,7 @@ import com.shadows.liquiblq.data.entitys.Songs;
 import java.util.List;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
@@ -25,31 +27,32 @@ import javafx.scene.text.Text;
  * @author John
  */
 public class InfomationManager {
-    public static void WriteInfoAboutArtist(AnchorPane InfoPanel,Artist artist,List<Album> Albums){
+    public static void WriteInfoAboutArtist(AnchorPane InfoPanel,Artist artist,List<Album> Albums, TableView table){
         Double Margin = 27.0;
         InfoPanel.getChildren().clear();
         ((TitledPane)InfoPanel.getParent()).setText("Infomration about artist");
         CreateText("Name: "+artist.getName(), InfoPanel, Margin);
         CreateText("Nickname: "+artist.getNickname(), InfoPanel, Margin*2);
         CreateText("Date of birth: "+artist.getDateofbirth(), InfoPanel, Margin*3);
-        CreateButton("View albums", new ArtistInfoGetAlbumsClickHandler(Albums), InfoPanel, Margin*4);
+        CreateButton("View albums", new ArtistInfoGetAlbumsClickHandler(Albums,table, InfoPanel), InfoPanel, Margin*4);
     }
-    public static void WriteInfoAboutAlbum(AnchorPane InformationPanel, Album item) {
+    public static void WriteInfoAboutAlbum(AnchorPane InformationPanel, Album item,List<Artist> Artists,List<Songs> songs, TableView table) {
         Double Margin = 27.0;
         InformationPanel.getChildren().clear();
         CreateText("Name: "+item.getName(), InformationPanel, Margin);
         CreateText("Date of destribution: "+item.getDate(), InformationPanel, Margin*2);        
-        CreateButton("View songs", new AlbumInfoGetSongsClickHandler(), InformationPanel, Margin*3);
-        CreateButton("View artists", new AlbumInfoGetArtistsClickHandler(), InformationPanel, Margin*3);
+        CreateButton("View songs", new AlbumInfoGetSongsClickHandler(songs, table, InformationPanel), InformationPanel, Margin*3);
+        CreateButton("View artists", new AlbumInfoGetArtistsClickHandler(Artists, table, InformationPanel), InformationPanel, Margin*3);
     }
 
-    public static void WriteInfoAboutSongs(AnchorPane InformationPanel, Songs item) {
+    public static void WriteInfoAboutSongs(AnchorPane InformationPanel, Songs item,List<Album> Albums, TableView table) {
         Double Margin = 27.0;
         InformationPanel.getChildren().clear();
         CreateText("Name: "+item.getName(), InformationPanel, Margin);
         CreateText("Date of destrubution: "+item.getDate(), InformationPanel, Margin*2);
         CreateText("Genre: "+item.getGenre(), InformationPanel, Margin*3);
-        CreateButton("View albums", new SongInfoGetAlbumsClickHandler(), InformationPanel, Margin*4);
+        CreateButton("View albums", new SongInfoGetAlbumsClickHandler(Albums, table, InformationPanel), InformationPanel, Margin*4);
+        CreateButton("Play song", new SongPlayClickHandler(item), InformationPanel, Margin*4);
     }
     public static void CreateText(String text,AnchorPane Parent,Double Top){
         Text textObject = new Text(text);
