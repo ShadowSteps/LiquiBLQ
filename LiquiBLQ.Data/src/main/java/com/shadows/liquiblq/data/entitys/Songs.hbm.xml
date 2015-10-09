@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 09-Oct-2015 13:21:36 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="Songs" table="songs" optimistic-lock="version">
+        <id name="id" type="serializable">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="genre" class="Genre" fetch="select">
+            <column name="genre" not-null="true" />
+        </many-to-one>
+        <property name="name" type="string">
+            <column name="name" length="55" not-null="true" />
+        </property>
+        <property name="date" type="timestamp">
+            <column name="date" length="29" not-null="true" />
+        </property>
+        <set name="songsInAlbums" table="songs_in_album" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="song" not-null="true" />
+            </key>
+            <one-to-many class="SongsInAlbum" />
+        </set>
+    </class>
+</hibernate-mapping>

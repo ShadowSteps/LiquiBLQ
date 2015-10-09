@@ -10,6 +10,7 @@ import com.shadows.liquiblq.client.core.http.exceptions.CannotParseResponseExcep
 import com.shadows.liquiblq.client.core.http.exceptions.HttpRequestErrorException;
 import com.shadows.liquiblq.client.windows.config.AppConfig;
 import com.shadows.liquiblq.client.windows.config.ConfigurationManager;
+import com.shadows.liquiblq.client.windows.config.LoginCredentials;
 import com.shadows.liquiblq.client.windows.core.validation.TextFieldContainsEmailValidator;
 import com.shadows.liquiblq.client.windows.core.validation.TextFieldMatchOtherFieldValidator;
 import com.shadows.liquiblq.client.windows.core.validation.TextFieldMaxLengthValidator;
@@ -20,7 +21,6 @@ import com.shadows.liquiblq.client.windows.core.validation.controls.AlertsManage
 import com.shadows.liquiblq.client.windows.core.validation.listeners.TextFieldChangeListener;
 import com.shadows.liquiblq.client.windows.core.validation.utils.ValidationManager;
 import com.shadows.liquiblq.client.windows.exceptions.ApplicationConfigurationException;
-import com.shadows.liquiblq.common.communication.json.JSONResponse;
 import com.shadows.liquiblq.common.communication.json.LoginResponse;
 import com.shadows.liquiblq.common.communication.json.RegisterResponse;
 import java.net.URL;
@@ -120,7 +120,7 @@ public class LoginController implements Initializable{
                 String ApiUrl = conf.getApiUrl();
                 try {
                     RegisterResponse Resp = (RegisterResponse)RequestsManager.doRegisterRequest(ApiUrl, RegisterEmail.getText(), RegisterPassword.getText(),RegisterName.getText());
-                    AlertsManager.ShowInfoAlert("Register successfull!", "Welcome, you are registered as:");
+                    AlertsManager.ShowInfoAlert("Register successfull!", "Welcome, you are registered as: "+Resp.getEmail());
                     Stage stage = (Stage)registerButton.getScene().getWindow();                     
                     stage.close();
                 } catch (HttpRequestErrorException ex) {
@@ -147,7 +147,8 @@ public class LoginController implements Initializable{
                 String ApiUrl = conf.getApiUrl();
                 try {
                     LoginResponse Response = (LoginResponse)RequestsManager.doLoginRequest(ApiUrl, LoginEmail.getText(), LoginPassword.getText());  
-                    AlertsManager.ShowInfoAlert("Login successfull!", "Welcome, you are logged in as:");
+                    AlertsManager.ShowInfoAlert("Login successfull!", "Welcome, you are logged in as: "+Response.getEmail());
+                    LoginCredentials.setLoginInfo(Response);
                     Stage stage = (Stage)loginButton.getScene().getWindow();
                     stage.close();
                 } catch (HttpRequestErrorException ex) {

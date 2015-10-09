@@ -23,11 +23,6 @@
         <property name="dateRegistered" type="timestamp">
             <column name="date_registered" length="29" not-null="true" />
         </property>
-        <set name="sessionses" table="sessions" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="user" not-null="true" />
-            </key>
-            <one-to-many class="Sessions" />
-        </set>
+        
     </class>
 </hibernate-mapping>
