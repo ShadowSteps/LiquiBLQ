@@ -1,5 +1,6 @@
 package com.shadows.liquiblq.client.windows;
 
+import com.shadows.liquiblq.client.windows.config.MainWindowsConfiguration;
 import com.shadows.liquiblq.client.windows.core.DialogManager;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
@@ -14,7 +15,8 @@ public class LiquiBLQ extends Application {
     @Override
     public void start(Stage stage) throws Exception {        
         Scene Main = DialogManager.ShowMainDialog(stage);
-        Scene Login = DialogManager.ShowLoginDialog(Main);
+        MainWindowsConfiguration.MainForm = Main;
+        Scene Login = DialogManager.ShowLoginDialog();
     }
 
     /**

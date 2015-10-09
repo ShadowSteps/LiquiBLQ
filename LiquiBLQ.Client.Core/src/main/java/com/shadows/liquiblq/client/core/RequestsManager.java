@@ -54,13 +54,13 @@ public class RequestsManager {
         GetArtistByIdResponse ResponseObject = ReponseParser.ParseGetArtistByIdReponse(Response);
         return ResponseObject;
     }
-    public static JSONResponse doGetSongByIdRequest(String ApiUrl,UUID SessionKey,Integer UserId,UUID ArtistId) throws HttpRequestErrorException, CannotParseResponseException{
-        String Response = SongsRequestsHandler.getByIdRequest(ApiUrl, SessionKey, UserId, ArtistId);
+    public static JSONResponse doGetSongByIdRequest(String ApiUrl,UUID SessionKey,Integer UserId,UUID SongId) throws HttpRequestErrorException, CannotParseResponseException{
+        String Response = SongsRequestsHandler.getByIdRequest(ApiUrl, SessionKey, UserId, SongId);
         getSongByIdResponse ResponseObject = ReponseParser.ParseGetSongByIdReponse(Response);
         return ResponseObject;
     }
-    public static JSONResponse doGetAlbumByIdRequest(String ApiUrl,UUID SessionKey,Integer UserId,UUID ArtistId) throws HttpRequestErrorException, CannotParseResponseException{
-        String Response = AlbumRequestsHandler.getByIdRequest(ApiUrl, SessionKey, UserId, ArtistId);
+    public static JSONResponse doGetAlbumByIdRequest(String ApiUrl,UUID SessionKey,Integer UserId,UUID AlbumId) throws HttpRequestErrorException, CannotParseResponseException{
+        String Response = AlbumRequestsHandler.getByIdRequest(ApiUrl, SessionKey, UserId, AlbumId);
         GetAlbumByIdResponse ResponseObject = ReponseParser.ParseGetAlbumByIdReponse(Response);
         return ResponseObject;
     }

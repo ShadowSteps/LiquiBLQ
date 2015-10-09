@@ -3,12 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.shadows.liquiblq.client.windows.core.table.handlers;
+package com.shadows.liquiblq.client.windows.core.handlers;
 
+import com.shadows.liquiblq.client.windows.core.TableViewManager;
 import com.shadows.liquiblq.data.entitys.Album;
 import java.util.List;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TitledPane;
+import javafx.scene.layout.AnchorPane;
 
 /**
  *
@@ -16,14 +20,18 @@ import javafx.event.EventHandler;
  */
 public class ArtistInfoGetAlbumsClickHandler implements EventHandler<Event>{
     private final List<Album> Albums;
+    private final TableView table;
+    private final AnchorPane InfoPane;
     @Override
     
     public void handle(Event event) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        TableViewManager.CreateTableFromAlbums(this.table, Albums,InfoPane);
     }
 
-    public ArtistInfoGetAlbumsClickHandler(List<Album> Albums) {
+    public ArtistInfoGetAlbumsClickHandler(List<Album> Albums,TableView table,AnchorPane InfoPane) {
         this.Albums = Albums;
+        this.table = table;
+        this.InfoPane = InfoPane;
     }
     
 }

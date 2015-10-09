@@ -11,6 +11,7 @@ import com.shadows.liquiblq.client.core.http.exceptions.HttpRequestErrorExceptio
 import com.shadows.liquiblq.client.windows.config.AppConfig;
 import com.shadows.liquiblq.client.windows.config.ConfigurationManager;
 import com.shadows.liquiblq.client.windows.config.LoginCredentials;
+import com.shadows.liquiblq.client.windows.config.MainWindowsConfiguration;
  import com.shadows.liquiblq.client.windows.core.TableViewManager;
 import com.shadows.liquiblq.client.windows.core.validation.controls.AlertsManager;
 import com.shadows.liquiblq.client.windows.exceptions.ApplicationConfigurationException;
@@ -55,7 +56,9 @@ public class MainController implements Initializable {
     private TitledPane mainTablePanel;
     
     @Override
-    public void initialize(URL url, ResourceBundle rb) {                          
+    public void initialize(URL url, ResourceBundle rb) {    
+        MainWindowsConfiguration.InfoPanel = infoPanel;
+        MainWindowsConfiguration.MainTable = mainTable;
     }    
     
     @FXML
@@ -73,7 +76,7 @@ public class MainController implements Initializable {
                        LoginCredentials.getSessionKey(), 
                        LoginCredentials.GetUserId()
                 );           
-                TableViewManager.CrateTableFromArtists(mainTable, Response.getListOfArtists(),infoPanel);
+                TableViewManager.CreateTableFromArtists(mainTable, Response.getListOfArtists(),infoPanel);
            } catch (HttpRequestErrorException ex) {
                AlertsManager.ShowErrorAlert("Server not responding","Our attempt to make a request to the server has failed! Please try again later!");
            } catch (CannotParseResponseException ex) {
@@ -97,7 +100,7 @@ public class MainController implements Initializable {
                        LoginCredentials.getSessionKey(), 
                        LoginCredentials.GetUserId()
                 );           
-                TableViewManager.CrateTableFromAlbums(mainTable, Response.getListOfAlbums(),infoPanel);
+                TableViewManager.CreateTableFromAlbums(mainTable, Response.getListOfAlbums(),infoPanel);
            } catch (HttpRequestErrorException ex) {
                AlertsManager.ShowErrorAlert("Server not responding","Our attempt to make a request to the server has failed! Please try again later!");
            } catch (CannotParseResponseException ex) {
@@ -121,7 +124,7 @@ public class MainController implements Initializable {
                        LoginCredentials.getSessionKey(), 
                        LoginCredentials.GetUserId()
                 );           
-                TableViewManager.CrateTableFromSongs(mainTable, Response.getListOfSongs(),infoPanel);
+                TableViewManager.CreateTableFromSongs(mainTable, Response.getListOfSongs(),infoPanel);
            } catch (HttpRequestErrorException ex) {
                AlertsManager.ShowErrorAlert("Server not responding","Our attempt to make a request to the server has failed! Please try again later!");
            } catch (CannotParseResponseException ex) {

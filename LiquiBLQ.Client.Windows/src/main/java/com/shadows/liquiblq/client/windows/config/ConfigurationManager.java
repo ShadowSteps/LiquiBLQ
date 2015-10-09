@@ -25,4 +25,9 @@ public class ConfigurationManager {
             throw new ApplicationConfigurationException("Application was not configurated properly!", e);
         }
     }
+    public static String GetApiUrl() throws ApplicationConfigurationException{
+        AppConfig conf = ConfigurationManager.GetApplicationConfiguration();
+        String ApiUrl = conf.getApiUrl();
+        return ApiUrl;
+    }
 }
