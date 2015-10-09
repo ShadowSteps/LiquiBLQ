@@ -23,8 +23,10 @@ import com.shadows.liquiblq.client.windows.core.validation.utils.ValidationManag
 import com.shadows.liquiblq.client.windows.exceptions.ApplicationConfigurationException;
 import com.shadows.liquiblq.common.communication.json.LoginResponse;
 import com.shadows.liquiblq.common.communication.json.RegisterResponse;
+import javafx.stage.Window;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -121,8 +123,7 @@ public class LoginController implements Initializable{
                 try {
                     RegisterResponse Resp = (RegisterResponse)RequestsManager.doRegisterRequest(ApiUrl, RegisterEmail.getText(), RegisterPassword.getText(),RegisterName.getText());
                     AlertsManager.ShowInfoAlert("Register successfull!", "Welcome, you are registered as: "+Resp.getEmail());
-                    Stage stage = (Stage)registerButton.getScene().getWindow();                     
-                    stage.close();
+                    loginTabsPanel.getSelectionModel().select(0);
                 } catch (HttpRequestErrorException ex) {
                     AlertsManager.ShowErrorAlert("Server not responding","Our attempt to make a request to the server has failed! Please try again later!");
                 } catch (CannotParseResponseException ex) {
@@ -150,6 +151,9 @@ public class LoginController implements Initializable{
                     AlertsManager.ShowInfoAlert("Login successfull!", "Welcome, you are logged in as: "+Response.getEmail());
                     LoginCredentials.setLoginInfo(Response);
                     Stage stage = (Stage)loginButton.getScene().getWindow();
+                    Window Parent = stage.getOwner();
+                    AnchorPane Root = ((AnchorPane)Parent.getScene().getRoot());
+                    Root.getChildren().remove(Root.lookup("#LoginTextButton"));                    
                     stage.close();
                 } catch (HttpRequestErrorException ex) {
                     AlertsManager.ShowErrorAlert("Server not responding","Our attempt to make a request to the server has failed! Please try again later!");
@@ -161,5 +165,9 @@ public class LoginController implements Initializable{
             }
         }
         
+    }
+    @FXML
+    private void onCancelClick(){
+        Platform.exit();
     }
 }

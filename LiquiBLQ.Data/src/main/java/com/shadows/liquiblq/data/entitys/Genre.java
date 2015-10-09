@@ -1,6 +1,7 @@
 // default package
 // Generated 09-Oct-2015 13:21:36 by Hibernate Tools 4.3.1
 
+import com.shadows.liquiblq.data.entitys.Songs;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;

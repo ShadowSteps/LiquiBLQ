@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author mihail
  */
-public class artistResponse {
+public class artistResponse extends JSONResponse{
     public List<Artist> ListOfArtists;
     
     public void  setListofArtists(List<Artist> list){

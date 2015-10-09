@@ -13,7 +13,8 @@ public class LiquiBLQ extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {        
-        DialogManager.ShowMainDialog(stage);
+        Scene Main = DialogManager.ShowMainDialog(stage);
+        Scene Login = DialogManager.ShowLoginDialog(Main);
     }
 
     /**

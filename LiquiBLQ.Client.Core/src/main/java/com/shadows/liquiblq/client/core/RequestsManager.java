@@ -11,6 +11,8 @@ import com.shadows.liquiblq.client.core.parser.ReponseParser;
 import com.shadows.liquiblq.common.communication.json.JSONResponse;
 import com.shadows.liquiblq.common.communication.json.LoginResponse;
 import com.shadows.liquiblq.common.communication.json.RegisterResponse;
+import com.shadows.liquiblq.common.communication.json.artistResponse;
+import java.util.UUID;
 
 /**
  *
@@ -25,6 +27,11 @@ public class RequestsManager {
     public static JSONResponse doRegisterRequest(String ApiUrl,String Username,String Password,String Name) throws HttpRequestErrorException, CannotParseResponseException{
         String Response = UserRequestsHandler.registerRequest(ApiUrl, Username, Password, Name);
         RegisterResponse ResponseObject = ReponseParser.ParseRegisterReponse(Response);
+        return ResponseObject;
+    }
+    public static JSONResponse doGetAllArtistsRequest(String ApiUrl,UUID SessionKey,Integer UserId) throws HttpRequestErrorException, CannotParseResponseException{
+        String Response = ArtistRequestsHandler.getAllRequest(ApiUrl, SessionKey, UserId);
+        artistResponse ResponseObject = ReponseParser.ParseGetAllArtistsReponse(Response);
         return ResponseObject;
     }
 }

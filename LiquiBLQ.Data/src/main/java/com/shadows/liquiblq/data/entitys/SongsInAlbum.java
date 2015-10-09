@@ -1,3 +1,5 @@
+package com.shadows.liquiblq.data.entitys;
+
 // default package
 // Generated 09-Oct-2015 13:21:36 by Hibernate Tools 4.3.1
 

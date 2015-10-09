@@ -15,7 +15,7 @@ import java.util.UUID;
  * @author John
  */
 public class LoginCredentials {
-    public static LoginResponse LoginInfo;
+    private static LoginResponse LoginInfo;
     public static void setLoginInfo(LoginResponse Response){
         LoginInfo = Response;        
     }
@@ -24,13 +24,13 @@ public class LoginCredentials {
                 && LoginInfo.getSessionKey() != null
                 && LoginInfo.getId() != null;
     }
-    public Integer GetUserId() throws UserNotLoggedInException{
+    public static Integer GetUserId() throws UserNotLoggedInException{
         if (!isLoggedIn()){
             throw new UserNotLoggedInException();
         }
         return LoginInfo.getId();
     }
-    public UUID getSessionKey() throws UserNotLoggedInException{
+    public static UUID getSessionKey() throws UserNotLoggedInException{
         if (!isLoggedIn()){
             throw new UserNotLoggedInException();
         }

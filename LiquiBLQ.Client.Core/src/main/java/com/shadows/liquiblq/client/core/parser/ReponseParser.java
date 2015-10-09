@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shadows.liquiblq.client.core.http.exceptions.CannotParseResponseException;
 import com.shadows.liquiblq.common.communication.json.JSONResponse;
 import com.shadows.liquiblq.common.communication.json.RegisterResponse;
+import com.shadows.liquiblq.common.communication.json.artistResponse;
 import java.io.IOException;
 /**
  *
@@ -37,5 +38,7 @@ public class ReponseParser {
     public static RegisterResponse ParseRegisterReponse(String Reponse) throws CannotParseResponseException{        
         return (RegisterResponse)parse(Reponse, RegisterResponse.class);
     }
-    
+    public static artistResponse ParseGetAllArtistsReponse(String Reponse) throws CannotParseResponseException{        
+        return (artistResponse)parse(Reponse, artistResponse.class);
+    }
 }
