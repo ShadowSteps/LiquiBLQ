@@ -12,7 +12,11 @@ import java.util.List;
  *
  * @author mihail
  */
-public class artistResponse {
+public class artistResponse extends JSONResponse{
+
+    public artistResponse(List<Artist> ListOfArtists) {
+        this.ListOfArtists = ListOfArtists;
+    }
     public List<Artist> ListOfArtists;
     
     public void  setListofArtists(List<Artist> list){

@@ -124,7 +124,7 @@ public class UsersRepository {
             throw new EntityCannotBeFoundException("User was not found! Inner exception message: "+ex.getMessage());
         }
     }
-    public static Users GetUserById(UUID id) throws SessionFactoryConfigurationException, Exception{
+    public static Users GetUserById(int id) throws EntityCannotBeFoundException {
         try{
             SessionFactory factory = SessionFactoryContainer.getFactory();
             Session session = factory.openSession();
@@ -147,8 +147,8 @@ public class UsersRepository {
             finally {
                 session.disconnect();
             }  
-        }catch(Exception e){
-            throw(e);
+        }catch(Exception ex){
+            throw new EntityCannotBeFoundException("User was not found! Inner exception message: "+ex.getMessage());
         }
         return null;
     }
