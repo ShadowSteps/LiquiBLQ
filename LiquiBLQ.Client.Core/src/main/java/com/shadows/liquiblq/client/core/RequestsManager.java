@@ -46,4 +46,9 @@ public class RequestsManager {
         GetAllSongsResponse ResponseObject = ReponseParser.ParseGetAllSongsReponse(Response);
         return ResponseObject;
     }
+    public static JSONResponse doGetArtistByIdRequest(String ApiUrl,UUID SessionKey,Integer UserId,UUID ArtistId) throws HttpRequestErrorException, CannotParseResponseException{
+        String Response = ArtistRequestsHandler.getByIdRequest(ApiUrl, SessionKey, UserId, ArtistId);
+        GetAllSongsResponse ResponseObject = ReponseParser.ParseGetByIdArtistReponse(Response);
+        return ResponseObject;
+    }
 }

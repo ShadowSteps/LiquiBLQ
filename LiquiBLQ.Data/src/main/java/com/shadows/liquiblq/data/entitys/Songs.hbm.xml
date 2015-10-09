@@ -4,7 +4,7 @@
 <!-- Generated 09-Oct-2015 13:21:36 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="Songs" table="songs" optimistic-lock="version">
-        <id name="id" type="serializable">
+        <id name="id" type="uuid">
             <column name="id" />
             <generator class="assigned" />
         </id>

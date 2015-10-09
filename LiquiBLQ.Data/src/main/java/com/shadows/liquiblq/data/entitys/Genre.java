@@ -7,6 +7,7 @@ import com.shadows.liquiblq.data.entitys.Songs;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,19 +22,19 @@ import javax.persistence.Table;
 @Table(name = "genre")
 public class Genre implements java.io.Serializable {
 
-	private Serializable id;
+	private UUID id;
 	private String name;
 	private Set<Songs> songses = new HashSet<Songs>(0);
 
 	public Genre() {
 	}
 
-	public Genre(Serializable id, String name) {
+	public Genre(UUID id, String name) {
 		this.id = id;
 		this.name = name;
 	}
 
-	public Genre(Serializable id, String name, Set<Songs> songses) {
+	public Genre(UUID id, String name, Set<Songs> songses) {
 		this.id = id;
 		this.name = name;
 		this.songses = songses;
@@ -41,11 +42,11 @@ public class Genre implements java.io.Serializable {
 
 	@Id
 	@Column(name = "id", unique = true, nullable = false)
-	public Serializable getId() {
+	public UUID getId() {
 		return this.id;
 	}
 
-	public void setId(Serializable id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 

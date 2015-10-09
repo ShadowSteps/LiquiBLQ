@@ -16,6 +16,7 @@ import com.shadows.liquiblq.client.windows.core.validation.controls.AlertsManage
 import com.shadows.liquiblq.client.windows.exceptions.ApplicationConfigurationException;
 import com.shadows.liquiblq.client.windows.exceptions.UserNotLoggedInException;
 import com.shadows.liquiblq.common.communication.json.GetAllAlbumsResponse;
+import com.shadows.liquiblq.common.communication.json.GetAllSongsResponse;
 import com.shadows.liquiblq.common.communication.json.artistResponse;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -27,6 +28,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TitledPane;
 /**
  * FXML Controller class
  *
@@ -46,7 +48,12 @@ public class MainController implements Initializable {
     @FXML
     private AnchorPane MainPane;
     @FXML
-    private TableView mainTable;
+    private TableView mainTable;    
+    @FXML
+    private AnchorPane infoPanel;
+    @FXML
+    private TitledPane mainTablePanel;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {                          
     }    
@@ -66,7 +73,7 @@ public class MainController implements Initializable {
                        LoginCredentials.getSessionKey(), 
                        LoginCredentials.GetUserId()
                 );           
-                TableViewManager.CrateTableFromArtists(mainTable, Response.getListOfArtists());
+                TableViewManager.CrateTableFromArtists(mainTable, Response.getListOfArtists(),infoPanel);
            } catch (HttpRequestErrorException ex) {
                AlertsManager.ShowErrorAlert("Server not responding","Our attempt to make a request to the server has failed! Please try again later!");
            } catch (CannotParseResponseException ex) {
@@ -90,7 +97,7 @@ public class MainController implements Initializable {
                        LoginCredentials.getSessionKey(), 
                        LoginCredentials.GetUserId()
                 );           
-                TableViewManager.CrateTableFromAlbums(mainTable, Response.getListOfAlbums());
+                TableViewManager.CrateTableFromAlbums(mainTable, Response.getListOfAlbums(),infoPanel);
            } catch (HttpRequestErrorException ex) {
                AlertsManager.ShowErrorAlert("Server not responding","Our attempt to make a request to the server has failed! Please try again later!");
            } catch (CannotParseResponseException ex) {
@@ -105,6 +112,26 @@ public class MainController implements Initializable {
     }
     @FXML
     private void fetchAllSongs(){
-        
+         try {
+           AppConfig conf = ConfigurationManager.GetApplicationConfiguration();
+           String ApiUrl = conf.getApiUrl();
+           try {
+                GetAllSongsResponse Response = (GetAllSongsResponse)RequestsManager.doGetAllSongsRequest(
+                       ApiUrl, 
+                       LoginCredentials.getSessionKey(), 
+                       LoginCredentials.GetUserId()
+                );           
+                TableViewManager.CrateTableFromSongs(mainTable, Response.getListOfSongs(),infoPanel);
+           } catch (HttpRequestErrorException ex) {
+               AlertsManager.ShowErrorAlert("Server not responding","Our attempt to make a request to the server has failed! Please try again later!");
+           } catch (CannotParseResponseException ex) {
+               AlertsManager.ShowErrorAlert("Internal server error","The response of the server was invalid! Please try again later!");
+           } catch (UserNotLoggedInException ex) {
+                AlertsManager.ShowErrorAlert("Application error","User must be logged in to access options!");
+                Platform.exit();
+            }
+       } catch (ApplicationConfigurationException ex) {
+           AlertsManager.ShowErrorAlert("Invalid client configuration","Your client was not configured porperly!Please reinstall");
+       }
     }
 }
