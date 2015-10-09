@@ -149,4 +149,4 @@ WITH (
 )
 ;
 
-ALTER TABLE sessions RENAME "user"  TO "userId";
+ALTER TABLE sessions RENAME "user"  TO "user_id";

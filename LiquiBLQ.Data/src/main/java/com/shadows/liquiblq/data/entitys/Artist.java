@@ -1,3 +1,5 @@
+package com.shadows.liquiblq.data.entitys;
+
 // default package
 // Generated 09-Oct-2015 13:21:36 by Hibernate Tools 4.3.1
 
@@ -5,6 +7,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,7 +24,7 @@ import javax.persistence.TemporalType;
 @Table(name = "artist")
 public class Artist implements java.io.Serializable {
 
-	private Serializable id;
+	private UUID id;
 	private String name;
 	private String nickname;
 	private Date dateofbirth;
@@ -31,7 +34,7 @@ public class Artist implements java.io.Serializable {
 	public Artist() {
 	}
 
-	public Artist(Serializable id, String name, String nickname,
+	public Artist(UUID id, String name, String nickname,
 			Date dateofbirth) {
 		this.id = id;
 		this.name = name;
@@ -39,7 +42,7 @@ public class Artist implements java.io.Serializable {
 		this.dateofbirth = dateofbirth;
 	}
 
-	public Artist(Serializable id, String name, String nickname,
+	public Artist(UUID id, String name, String nickname,
 			Date dateofbirth, Set<ArtistsInAlbums> artistsInAlbumses) {
 		this.id = id;
 		this.name = name;
@@ -50,11 +53,11 @@ public class Artist implements java.io.Serializable {
 
 	@Id
 	@Column(name = "id", unique = true, nullable = false)
-	public Serializable getId() {
+	public UUID getId() {
 		return this.id;
 	}
 
-	public void setId(Serializable id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 

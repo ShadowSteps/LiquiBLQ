@@ -124,6 +124,34 @@ public class UsersRepository {
             throw new EntityCannotBeFoundException("User was not found! Inner exception message: "+ex.getMessage());
         }
     }
+    public static Users GetUserById(UUID id) throws SessionFactoryConfigurationException, Exception{
+        try{
+            SessionFactory factory = SessionFactoryContainer.getFactory();
+            Session session = factory.openSession();
+            Users results = null;
+            try {                
+                session.beginTransaction();
+                Criteria cr = session.createCriteria(Users.class);     
+                cr.add(Restrictions.eq("id", id));
+                List ListUsers = cr.list();
+                if (ListUsers.isEmpty()){
+                    throw new EntityCannotBeFoundException("User was not found!");
+                }
+                results = (Users)ListUsers.get(0);            
+                session.getTransaction().commit();                
+            }
+            catch(HibernateException Exp){
+                session.getTransaction().rollback();
+                throw new EntityCannotBeFoundException("User was not found! Inner Exception: "+Exp.getMessage());
+            }
+            finally {
+                session.disconnect();
+            }  
+        }catch(Exception e){
+            throw(e);
+        }
+        return null;
+    }
     public static Users GetUserByEmailAndPassword(String Email, String Password) throws EntityCannotBeFoundException{
         try {
             SessionFactory factory = SessionFactoryContainer.getFactory();

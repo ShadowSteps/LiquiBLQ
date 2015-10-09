@@ -3,11 +3,10 @@
 <hibernate-configuration>
   <session-factory name="EntityFactory">
     <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-    <property name="hibernate.connection.password">_pg123_</property>
-    <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/liquiBlq</property>
+    <property name="hibernate.connection.password">12345</property>
+    <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/linquiBlq</property>
     <property name="hibernate.connection.username">postgres</property>
     <property name="hibernate.default_schema">public</property>
-    
     <!-- SQL dialect -->
     <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
     <property name="hibernate.current_session_context_class">org.hibernate.context.internal.ThreadLocalSessionContext</property>
