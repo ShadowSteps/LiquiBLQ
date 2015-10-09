@@ -3,16 +3,11 @@ package com.shadows.liquiblq.data.entitys;
 // default package
 // Generated 09-Oct-2015 13:21:36 by Hibernate Tools 4.3.1
 
-import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -27,9 +22,7 @@ public class Artist implements java.io.Serializable {
 	private UUID id;
 	private String name;
 	private String nickname;
-	private Date dateofbirth;
-	private Set<ArtistsInAlbums> artistsInAlbumses = new HashSet<ArtistsInAlbums>(
-			0);
+	private Date dateofbirth;	
 
 	public Artist() {
 	}
@@ -42,17 +35,10 @@ public class Artist implements java.io.Serializable {
 		this.dateofbirth = dateofbirth;
 	}
 
-	public Artist(UUID id, String name, String nickname,
-			Date dateofbirth, Set<ArtistsInAlbums> artistsInAlbumses) {
-		this.id = id;
-		this.name = name;
-		this.nickname = nickname;
-		this.dateofbirth = dateofbirth;
-		this.artistsInAlbumses = artistsInAlbumses;
-	}
+	
 
 	@Id
-	@Column(name = "id", unique = true, nullable = false)
+	@Column(name = "id", unique = true, nullable = false, columnDefinition = "uuid")
 	public UUID getId() {
 		return this.id;
 	}
@@ -89,13 +75,5 @@ public class Artist implements java.io.Serializable {
 		this.dateofbirth = dateofbirth;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "artist")
-	public Set<ArtistsInAlbums> getArtistsInAlbumses() {
-		return this.artistsInAlbumses;
-	}
-
-	public void setArtistsInAlbumses(Set<ArtistsInAlbums> artistsInAlbumses) {
-		this.artistsInAlbumses = artistsInAlbumses;
-	}
-
+	
 }

@@ -11,30 +11,20 @@ import com.shadows.liquiblq.client.core.http.exceptions.HttpRequestErrorExceptio
 import com.shadows.liquiblq.client.windows.config.AppConfig;
 import com.shadows.liquiblq.client.windows.config.ConfigurationManager;
 import com.shadows.liquiblq.client.windows.config.LoginCredentials;
-import com.shadows.liquiblq.client.windows.core.DialogManager;
-import com.shadows.liquiblq.client.windows.core.TableViewManager;
+ import com.shadows.liquiblq.client.windows.core.TableViewManager;
 import com.shadows.liquiblq.client.windows.core.validation.controls.AlertsManager;
 import com.shadows.liquiblq.client.windows.exceptions.ApplicationConfigurationException;
-import com.shadows.liquiblq.client.windows.exceptions.UnableToOpenDialogException;
 import com.shadows.liquiblq.client.windows.exceptions.UserNotLoggedInException;
-import com.shadows.liquiblq.common.communication.json.LoginResponse;
 import com.shadows.liquiblq.common.communication.json.artistResponse;
-import java.io.IOException;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import javafx.stage.Window;
-import java.util.UUID;
 import javafx.scene.control.TableView;
 /**
  * FXML Controller class

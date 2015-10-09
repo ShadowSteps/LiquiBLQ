@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
-  <session-factory name="EntityFactory">
+  <session-factory>
     <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-    <property name="hibernate.connection.password">12345</property>
-    <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/linquiBlq</property>
+    <property name="hibernate.connection.password">_pg123_</property>
+    <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/liquiBlq</property>
     <property name="hibernate.connection.username">postgres</property>
     <property name="hibernate.default_schema">public</property>
     <!-- SQL dialect -->
@@ -15,5 +15,6 @@
     <!--Mapping-->
     <mapping class="com.shadows.liquiblq.data.entitys.Users"/>
     <mapping class="com.shadows.liquiblq.data.entitys.Sessions"/>
+    <mapping class="com.shadows.liquiblq.data.entitys.Artist"/>
   </session-factory>
 </hibernate-configuration>

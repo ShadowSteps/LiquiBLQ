@@ -15,14 +15,17 @@ import java.util.List;
 public class artistResponse extends JSONResponse{
 
     public artistResponse(List<Artist> ListOfArtists) {
-        this.ListOfArtists = ListOfArtists;
+        this.listOfArtists = ListOfArtists;
     }
-    public List<Artist> ListOfArtists;
+    public List<Artist> listOfArtists;
     
     public void  setListofArtists(List<Artist> list){
-        this.ListOfArtists=list;
+        this.listOfArtists=list;
     }
     public List<Artist> getListOfArtists(){
-        return  this.ListOfArtists;
+        return  this.listOfArtists;
+    }
+    public artistResponse(){
+        
     }
 }

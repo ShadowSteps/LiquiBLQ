@@ -4,7 +4,7 @@
 <!-- Generated 09-Oct-2015 13:21:36 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="Artist" table="artist" optimistic-lock="version">
-        <id name="id" type="serializable">
+        <id name="id" type="uuid">
             <column name="id" />
             <generator class="assigned" />
         </id>
@@ -17,11 +17,5 @@
         <property name="dateofbirth" type="timestamp">
             <column name="dateofbirth" length="29" not-null="true" />
         </property>
-        <set name="artistsInAlbumses" table="artists_in_albums" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="artist" not-null="true" />
-            </key>
-            <one-to-many class="ArtistsInAlbums" />
-        </set>
     </class>
 </hibernate-mapping>

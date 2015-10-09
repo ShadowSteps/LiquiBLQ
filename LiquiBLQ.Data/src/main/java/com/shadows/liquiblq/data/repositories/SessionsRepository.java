@@ -62,7 +62,7 @@ public class SessionsRepository {
         try{
             SessionFactory factory = SessionFactoryContainer.getFactory();
             Session session = factory.openSession();
-            Sessions results = null;
+            Sessions results;
             try {                
                 session.beginTransaction();
                 Criteria cr = session.createCriteria(Sessions.class);     
@@ -72,7 +72,8 @@ public class SessionsRepository {
                     throw new EntityCannotBeFoundException("Session was not found!");
                 }
                 results = (Sessions)ListUsers.get(0);            
-                session.getTransaction().commit();                
+                session.getTransaction().commit();   
+                return results;
             }
             catch(HibernateException Exp){
                 session.getTransaction().rollback();
@@ -81,9 +82,8 @@ public class SessionsRepository {
             finally {
                 session.disconnect();
             }  
-        }catch(Exception ex){
+        }catch(SessionFactoryConfigurationException | HibernateException  ex){
             throw new EntityCannotBeFoundException("User was not found! Inner exception message: "+ex.getMessage());
         }
-        return null;
     }
 }

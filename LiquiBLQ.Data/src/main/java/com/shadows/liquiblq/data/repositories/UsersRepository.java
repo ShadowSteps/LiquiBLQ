@@ -32,8 +32,7 @@ public class UsersRepository {
     public static List<Users> GetAllUsers() throws EntityCannotBeFoundException{
         try {
             SessionFactory factory = SessionFactoryContainer.getFactory();
-            Session session = factory.openSession();
-            List<Users> results = null;       
+            Session session = factory.openSession();           
             try {                
                 session.beginTransaction();
                 Criteria cr = session.createCriteria(Users.class);                    
@@ -138,7 +137,8 @@ public class UsersRepository {
                     throw new EntityCannotBeFoundException("User was not found!");
                 }
                 results = (Users)ListUsers.get(0);            
-                session.getTransaction().commit();                
+                session.getTransaction().commit();      
+                return results;
             }
             catch(HibernateException Exp){
                 session.getTransaction().rollback();
@@ -150,7 +150,6 @@ public class UsersRepository {
         }catch(Exception ex){
             throw new EntityCannotBeFoundException("User was not found! Inner exception message: "+ex.getMessage());
         }
-        return null;
     }
     public static Users GetUserByEmailAndPassword(String Email, String Password) throws EntityCannotBeFoundException{
         try {

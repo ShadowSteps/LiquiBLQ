@@ -11,8 +11,10 @@ import com.shadows.liquiblq.data.exceptions.SessionFactoryConfigurationException
 import com.shadows.liquiblq.data.utils.SessionFactoryContainer;
 import java.util.List;
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 
 /**
  *
@@ -24,15 +26,13 @@ public class ArtistsRepository {
         try {
             SessionFactory factory = SessionFactoryContainer.getFactory();
             Session session = factory.openSession(); 
-            List<Artist> Artists = null;
             try{
                 session.beginTransaction();
                 Criteria cr = session.createCriteria(Artist.class);     
-                Artists = cr.list();
+                List<Artist> Artists = cr.list();                
                 session.getTransaction().commit();
                 return Artists;
-
-            }catch(Exception e){
+            }catch(HibernateException e){
                 session.getTransaction().rollback();
                 throw e;
             }finally{
