@@ -5,7 +5,9 @@
  */
 package com.shadows.liquiblq.common.communication.json;
 
+import com.shadows.liquiblq.data.entitys.Album;
 import com.shadows.liquiblq.data.entitys.Songs;
+import java.util.List;
 
 /**
  *
@@ -13,8 +15,27 @@ import com.shadows.liquiblq.data.entitys.Songs;
  */
 public class getSongByIdResponse extends JSONResponse {
     public Songs Song;
-    
-    public getSongByIdResponse(Songs song){
-        this.Song = song;
+    public List<Album> albums;
+
+    public getSongByIdResponse(Songs Song, List<Album> albums) {
+        this.Song = Song;
+        this.albums = albums;
     }
+
+    public Songs getSong() {
+        return Song;
+    }
+
+    public void setSong(Songs Song) {
+        this.Song = Song;
+    }
+
+    public List<Album> getAlbums() {
+        return albums;
+    }
+
+    public void setAlbums(List<Album> albums) {
+        this.albums = albums;
+    }
+    
 }
