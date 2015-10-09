@@ -20,7 +20,7 @@ import org.hibernate.SessionFactory;
  */
 public class ArtistsRepository {
     
-    public List<Artist> GetAllArtists() throws EntityCannotBeFoundException{
+    public static List<Artist> GetAllArtists() throws EntityCannotBeFoundException{
         try {
             SessionFactory factory = SessionFactoryContainer.getFactory();
             Session session = factory.openSession(); 
