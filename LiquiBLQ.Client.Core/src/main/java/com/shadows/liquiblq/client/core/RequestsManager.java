@@ -8,12 +8,15 @@ package com.shadows.liquiblq.client.core;
 import com.shadows.liquiblq.client.core.http.exceptions.CannotParseResponseException;
 import com.shadows.liquiblq.client.core.http.exceptions.HttpRequestErrorException;
 import com.shadows.liquiblq.client.core.parser.ReponseParser;
+import com.shadows.liquiblq.common.communication.json.GetAlbumByIdResponse;
 import com.shadows.liquiblq.common.communication.json.GetAllAlbumsResponse;
 import com.shadows.liquiblq.common.communication.json.GetAllSongsResponse;
+import com.shadows.liquiblq.common.communication.json.GetArtistByIdResponse;
 import com.shadows.liquiblq.common.communication.json.JSONResponse;
 import com.shadows.liquiblq.common.communication.json.LoginResponse;
 import com.shadows.liquiblq.common.communication.json.RegisterResponse;
 import com.shadows.liquiblq.common.communication.json.artistResponse;
+import com.shadows.liquiblq.common.communication.json.getSongByIdResponse;
 import java.util.UUID;
 
 /**
@@ -44,6 +47,21 @@ public class RequestsManager {
     public static JSONResponse doGetAllSongsRequest(String ApiUrl,UUID SessionKey,Integer UserId) throws HttpRequestErrorException, CannotParseResponseException{
         String Response = SongsRequestsHandler.getAllRequest(ApiUrl, SessionKey, UserId);
         GetAllSongsResponse ResponseObject = ReponseParser.ParseGetAllSongsReponse(Response);
+        return ResponseObject;
+    }
+    public static JSONResponse doGetArtistByIdRequest(String ApiUrl,UUID SessionKey,Integer UserId,UUID ArtistId) throws HttpRequestErrorException, CannotParseResponseException{
+        String Response = ArtistRequestsHandler.getByIdRequest(ApiUrl, SessionKey, UserId, ArtistId);
+        GetArtistByIdResponse ResponseObject = ReponseParser.ParseGetArtistByIdReponse(Response);
+        return ResponseObject;
+    }
+    public static JSONResponse doGetSongByIdRequest(String ApiUrl,UUID SessionKey,Integer UserId,UUID ArtistId) throws HttpRequestErrorException, CannotParseResponseException{
+        String Response = SongsRequestsHandler.getByIdRequest(ApiUrl, SessionKey, UserId, ArtistId);
+        getSongByIdResponse ResponseObject = ReponseParser.ParseGetSongByIdReponse(Response);
+        return ResponseObject;
+    }
+    public static JSONResponse doGetAlbumByIdRequest(String ApiUrl,UUID SessionKey,Integer UserId,UUID ArtistId) throws HttpRequestErrorException, CannotParseResponseException{
+        String Response = AlbumRequestsHandler.getByIdRequest(ApiUrl, SessionKey, UserId, ArtistId);
+        GetAlbumByIdResponse ResponseObject = ReponseParser.ParseGetAlbumByIdReponse(Response);
         return ResponseObject;
     }
 }

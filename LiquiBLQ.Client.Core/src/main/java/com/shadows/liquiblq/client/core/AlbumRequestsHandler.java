@@ -18,4 +18,8 @@ public class AlbumRequestsHandler {
         String UrlParamanters = "SessionKey="+SessinKey.toString()+"&UserId="+UserId;
         return HttpRequestHandler.sendPost(ApiUrl+"album/getAll", UrlParamanters);
     }
+    public static String getByIdRequest(String ApiUrl,UUID SessinKey,Integer UserId,UUID Id) throws HttpRequestErrorException{
+        String UrlParamanters = "SessionKey="+SessinKey.toString()+"&UserId="+UserId;
+        return HttpRequestHandler.sendPost(ApiUrl+"album/getById/"+Id.toString(), UrlParamanters);
+    }
 }

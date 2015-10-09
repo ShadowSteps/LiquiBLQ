@@ -44,7 +44,7 @@ public class AlbumsRepository {
             throw new EntityCannotBeFoundException("Albums cannot be fetched! Inner exception message: "+ex.getMessage());
         }
     }
-    public static Album GetUserById(UUID id) throws EntityCannotBeFoundException {
+    public static Album GetAlbumById(UUID id) throws EntityCannotBeFoundException {
         try{
             SessionFactory factory = SessionFactoryContainer.getFactory();
             Session session = factory.openSession();

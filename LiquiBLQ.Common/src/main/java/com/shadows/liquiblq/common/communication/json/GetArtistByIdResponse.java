@@ -6,7 +6,7 @@
 package com.shadows.liquiblq.common.communication.json;
 
 import com.shadows.liquiblq.data.entitys.Album;
-import com.shadows.liquiblq.data.entitys.Genre;
+import com.shadows.liquiblq.data.entitys.Artist;
 import com.shadows.liquiblq.data.entitys.Songs;
 import java.util.List;
 
@@ -14,22 +14,21 @@ import java.util.List;
  *
  * @author toshiba
  */
-public class getSongByIdResponse extends JSONResponse {
-    public Songs Song;
-    public Genre songGenre;
+public class GetArtistByIdResponse extends JSONResponse {
+    public Artist artist;
     public List<Album> albums;
-    public getSongByIdResponse(Songs song, Genre genre,List<Album> albums ){
-        this.Song = song;
-        this.songGenre = genre;      
+
+    public GetArtistByIdResponse(Artist artist, List<Album> albums) {
+        this.artist = artist;
         this.albums = albums;
     }
 
-    public Songs getSong() {
-        return Song;
+    public Artist getArtist() {
+        return artist;
     }
 
-    public void setSong(Songs Song) {
-        this.Song = Song;
+    public void setArtist(Artist artist) {
+        this.artist = artist;
     }
 
     public List<Album> getAlbums() {
@@ -39,5 +38,7 @@ public class getSongByIdResponse extends JSONResponse {
     public void setAlbums(List<Album> albums) {
         this.albums = albums;
     }
+
+    
     
 }

@@ -16,6 +16,10 @@ import java.util.UUID;
 public class SongsRequestsHandler {
     public static String getAllRequest(String ApiUrl,UUID SessinKey,Integer UserId) throws HttpRequestErrorException{
         String UrlParamanters = "SessionKey="+SessinKey.toString()+"&UserId="+UserId;
-        return HttpRequestHandler.sendPost(ApiUrl+"songs/getAll", UrlParamanters);
+        return HttpRequestHandler.sendPost(ApiUrl+"Song/getAll", UrlParamanters);
+    }
+    public static String getByIdRequest(String ApiUrl,UUID SessinKey,Integer UserId,UUID SongId) throws HttpRequestErrorException{
+        String UrlParamanters = "SessionKey="+SessinKey.toString()+"&UserId="+UserId;
+        return HttpRequestHandler.sendPost(ApiUrl+"Song/getById/"+SongId.toString(), UrlParamanters);
     }
 }
