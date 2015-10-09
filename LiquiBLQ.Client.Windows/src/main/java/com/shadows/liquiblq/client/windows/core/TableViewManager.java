@@ -5,6 +5,7 @@
  */
 package com.shadows.liquiblq.client.windows.core;
 
+import com.shadows.liquiblq.data.entitys.Album;
 import com.shadows.liquiblq.data.entitys.Artist;
 import java.util.Date;
 import java.util.List;
@@ -21,6 +22,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
  */
 public class TableViewManager {
     private static final ObservableList<Artist> ArtistList =
+        FXCollections.observableArrayList();
+    private static final ObservableList<Album> AlbumsList =
         FXCollections.observableArrayList();
     public static void ClearTable(TableView Table){        
         Table.getColumns().clear();
@@ -49,5 +52,27 @@ public class TableViewManager {
             ArtistList.add(ArtistObject);
         }
         View.setItems(ArtistList);
+    }
+
+    public static void CrateTableFromAlbums(TableView mainTable, List<Album> listOfAlbums) {
+        ClearTable(mainTable);
+        AlbumsList.clear();
+        TableColumn IdColumn = new TableColumn("Id"),
+                NameColumn = new TableColumn("Name"),
+                DateColumn = new TableColumn("Date of destribution");
+        IdColumn.setCellValueFactory(
+            new PropertyValueFactory<Artist, UUID>("id")
+        );
+        NameColumn.setCellValueFactory(
+            new PropertyValueFactory<Artist, String>("name")
+        );
+        DateColumn.setCellValueFactory(
+            new PropertyValueFactory<Artist, Date>("date")
+        );
+        mainTable.getColumns().addAll(IdColumn,NameColumn,DateColumn);       
+        for (Album AlbumObject : listOfAlbums) {
+            AlbumsList.add(AlbumObject);
+        }
+        mainTable.setItems(AlbumsList);
     }
 }

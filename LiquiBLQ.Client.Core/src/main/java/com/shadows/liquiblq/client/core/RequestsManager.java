@@ -8,6 +8,8 @@ package com.shadows.liquiblq.client.core;
 import com.shadows.liquiblq.client.core.http.exceptions.CannotParseResponseException;
 import com.shadows.liquiblq.client.core.http.exceptions.HttpRequestErrorException;
 import com.shadows.liquiblq.client.core.parser.ReponseParser;
+import com.shadows.liquiblq.common.communication.json.GetAllAlbumsResponse;
+import com.shadows.liquiblq.common.communication.json.GetAllSongsResponse;
 import com.shadows.liquiblq.common.communication.json.JSONResponse;
 import com.shadows.liquiblq.common.communication.json.LoginResponse;
 import com.shadows.liquiblq.common.communication.json.RegisterResponse;
@@ -32,6 +34,16 @@ public class RequestsManager {
     public static JSONResponse doGetAllArtistsRequest(String ApiUrl,UUID SessionKey,Integer UserId) throws HttpRequestErrorException, CannotParseResponseException{
         String Response = ArtistRequestsHandler.getAllRequest(ApiUrl, SessionKey, UserId);
         artistResponse ResponseObject = ReponseParser.ParseGetAllArtistsReponse(Response);
+        return ResponseObject;
+    }
+    public static JSONResponse doGetAllAlbumsRequest(String ApiUrl,UUID SessionKey,Integer UserId) throws HttpRequestErrorException, CannotParseResponseException{
+        String Response = AlbumRequestsHandler.getAllRequest(ApiUrl, SessionKey, UserId);
+        GetAllAlbumsResponse ResponseObject = ReponseParser.ParseGetAllAlbumsReponse(Response);
+        return ResponseObject;
+    }
+    public static JSONResponse doGetAllSongsRequest(String ApiUrl,UUID SessionKey,Integer UserId) throws HttpRequestErrorException, CannotParseResponseException{
+        String Response = SongsRequestsHandler.getAllRequest(ApiUrl, SessionKey, UserId);
+        GetAllSongsResponse ResponseObject = ReponseParser.ParseGetAllSongsReponse(Response);
         return ResponseObject;
     }
 }

@@ -16,5 +16,10 @@
     <mapping class="com.shadows.liquiblq.data.entitys.Users"/>
     <mapping class="com.shadows.liquiblq.data.entitys.Sessions"/>
     <mapping class="com.shadows.liquiblq.data.entitys.Artist"/>
+    <mapping class="com.shadows.liquiblq.data.entitys.Album"/>
+    <mapping class="com.shadows.liquiblq.data.entitys.Songs"/>
+    <mapping class="com.shadows.liquiblq.data.entitys.Genre"/>
+    <mapping class="com.shadows.liquiblq.data.entitys.ArtistsInAlbums"/>
+    <mapping class="com.shadows.liquiblq.data.entitys.SongsInAlbum"/>
   </session-factory>
 </hibernate-configuration>
