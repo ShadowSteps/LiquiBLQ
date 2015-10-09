@@ -41,14 +41,7 @@ public class SongControllerTests {
 
     @Test
     public void FileRead() throws Exception{
-        int i;
-        InputStream instr = new InputStream();
-        while ((i = instr.read()) != -1) {
-            osstr.write(i);
-        }
-
-        instr.close();
-        osstr.close();
+      
     }
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:
