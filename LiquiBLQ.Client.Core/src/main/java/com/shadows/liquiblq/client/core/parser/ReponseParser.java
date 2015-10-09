@@ -11,11 +11,14 @@ import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shadows.liquiblq.client.core.http.exceptions.CannotParseResponseException;
+import com.shadows.liquiblq.common.communication.json.GetAlbumByIdResponse;
 import com.shadows.liquiblq.common.communication.json.GetAllAlbumsResponse;
 import com.shadows.liquiblq.common.communication.json.GetAllSongsResponse;
+import com.shadows.liquiblq.common.communication.json.GetArtistByIdResponse;
 import com.shadows.liquiblq.common.communication.json.JSONResponse;
 import com.shadows.liquiblq.common.communication.json.RegisterResponse;
 import com.shadows.liquiblq.common.communication.json.artistResponse;
+import com.shadows.liquiblq.common.communication.json.getSongByIdResponse;
 import java.io.IOException;
 /**
  *
@@ -48,5 +51,14 @@ public class ReponseParser {
     }
     public static GetAllSongsResponse ParseGetAllSongsReponse(String Reponse) throws CannotParseResponseException{        
         return (GetAllSongsResponse)parse(Reponse, GetAllSongsResponse.class);
+    }
+    public static GetAlbumByIdResponse ParseGetAlbumByIdReponse(String Reponse) throws CannotParseResponseException{        
+        return (GetAlbumByIdResponse)parse(Reponse, GetAlbumByIdResponse.class);
+    }
+    public static getSongByIdResponse ParseGetSongByIdReponse(String Reponse) throws CannotParseResponseException{        
+        return (getSongByIdResponse)parse(Reponse, getSongByIdResponse.class);
+    }
+    public static GetArtistByIdResponse ParseGetArtistByIdReponse(String Reponse) throws CannotParseResponseException{        
+        return (GetArtistByIdResponse)parse(Reponse, GetArtistByIdResponse.class);
     }
 }
