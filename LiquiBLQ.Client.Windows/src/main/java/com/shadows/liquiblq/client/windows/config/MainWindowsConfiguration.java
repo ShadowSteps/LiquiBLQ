@@ -17,6 +17,8 @@ import javafx.scene.layout.AnchorPane;
 public class MainWindowsConfiguration {
     public static Scene MainForm;
     public static TableView MainTable;
+    public static AnchorPane TableViewContainer;
+    public static TableView MainTableSongs;
     public static AnchorPane InfoPanel;
 
     public static Scene getMainForm() throws ApplicationConfigurationException {

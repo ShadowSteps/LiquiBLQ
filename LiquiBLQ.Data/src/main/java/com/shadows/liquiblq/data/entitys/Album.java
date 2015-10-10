@@ -3,16 +3,12 @@ package com.shadows.liquiblq.data.entitys;
 // default package
 // Generated 09-Oct-2015 13:21:36 by Hibernate Tools 4.3.1
 
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -27,10 +23,6 @@ public class Album implements java.io.Serializable {
 	private UUID id;
 	private Date date;
 	private String name;
-	private Set<ArtistsInAlbums> artistsInAlbumses = new HashSet<ArtistsInAlbums>(
-			0);
-	private Set<SongsInAlbum> songsInAlbums = new HashSet<SongsInAlbum>(0);
-
 	public Album() {
 	}
 
@@ -40,15 +32,6 @@ public class Album implements java.io.Serializable {
 		this.name = name;
 	}
 
-	public Album(UUID id, Date date, String name,
-			Set<ArtistsInAlbums> artistsInAlbumses,
-			Set<SongsInAlbum> songsInAlbums) {
-		this.id = id;
-		this.date = date;
-		this.name = name;
-		this.artistsInAlbumses = artistsInAlbumses;
-		this.songsInAlbums = songsInAlbums;
-	}
 
 	@Id
 	@Column(name = "id", unique = true, nullable = false, columnDefinition = "uuid")
@@ -79,22 +62,5 @@ public class Album implements java.io.Serializable {
 		this.name = name;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "album")
-	public Set<ArtistsInAlbums> getArtistsInAlbumses() {
-		return this.artistsInAlbumses;
-	}
-
-	public void setArtistsInAlbumses(Set<ArtistsInAlbums> artistsInAlbumses) {
-		this.artistsInAlbumses = artistsInAlbumses;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "album")
-	public Set<SongsInAlbum> getSongsInAlbums() {
-		return this.songsInAlbums;
-	}
-
-	public void setSongsInAlbums(Set<SongsInAlbum> songsInAlbums) {
-		this.songsInAlbums = songsInAlbums;
-	}
-
+	
 }

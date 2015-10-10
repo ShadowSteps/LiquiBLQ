@@ -53,10 +53,14 @@
                   <Button mnemonicParsing="false" onMouseClicked="#fetchAllAlbums" prefHeight="44.0" prefWidth="154.0" style="-fx-background-radius: 0;" text="Albums" GridPane.rowIndex="1" />
                </children>
             </GridPane>
-            <TitledPane  fx:id="mainTablePanel" animated="false" collapsible="false" prefHeight="582.0" prefWidth="214.0" style="-fx-background-radius: 0px; -fx-border-radius: 0px;" text="Table" GridPane.columnIndex="1">
-                <content>
-                    <TableView fx:id="mainTable" prefHeight="500.0" prefWidth="542.0" />
-                </content>
+            <TitledPane fx:id="mainTablePanel" animated="false" prefHeight="565.0" prefWidth="592.0" text="Table" GridPane.columnIndex="1">
+              <content>
+                <AnchorPane fx:id="mainTableContainer" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="mainTable" prefHeight="503.0" prefWidth="592.0" />
+                     </children>
+                  </AnchorPane>
+              </content>
             </TitledPane>
             
             <TitledPane animated="false" collapsible="false" prefHeight="582.0" prefWidth="214.0" style="-fx-background-radius: 0px; -fx-border-radius: 0px;" text="Information" GridPane.columnIndex="2">

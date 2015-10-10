@@ -18,7 +18,7 @@ import com.shadows.liquiblq.client.windows.exceptions.ApplicationConfigurationEx
 import com.shadows.liquiblq.client.windows.exceptions.UserNotLoggedInException;
 import com.shadows.liquiblq.common.communication.json.GetAllAlbumsResponse;
 import com.shadows.liquiblq.common.communication.json.GetAllSongsResponse;
-import com.shadows.liquiblq.common.communication.json.artistResponse;
+import com.shadows.liquiblq.common.communication.json.GetAllArtistsResponse;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import java.net.URL;
@@ -54,11 +54,22 @@ public class MainController implements Initializable {
     private AnchorPane infoPanel;
     @FXML
     private TitledPane mainTablePanel;
-    
+     @FXML
+    private TableView mainTableSongs;  
+     @FXML
+    private TitledPane mainTablePanelSongs;
+     @FXML
+    private TableView mainTableAlbums;  
+     @FXML
+    private TitledPane mainTablePanelAlbums;
+     @FXML
+     private AnchorPane mainTableContainer;
     @Override
     public void initialize(URL url, ResourceBundle rb) {    
         MainWindowsConfiguration.InfoPanel = infoPanel;
         MainWindowsConfiguration.MainTable = mainTable;
+        MainWindowsConfiguration.MainTableSongs = mainTableSongs;
+        MainWindowsConfiguration.TableViewContainer = mainTableContainer;
     }    
     
     @FXML
@@ -71,12 +82,12 @@ public class MainController implements Initializable {
            AppConfig conf = ConfigurationManager.GetApplicationConfiguration();
            String ApiUrl = conf.getApiUrl();
            try {
-                artistResponse Response = (artistResponse)RequestsManager.doGetAllArtistsRequest(
+                GetAllArtistsResponse Response = (GetAllArtistsResponse)RequestsManager.doGetAllArtistsRequest(
                        ApiUrl, 
                        LoginCredentials.getSessionKey(), 
                        LoginCredentials.GetUserId()
                 );           
-                TableViewManager.CreateTableFromArtists(mainTable, Response.getListOfArtists(),infoPanel);
+                TableViewManager.CreateTableFromArtists(Response.getListOfArtists());
            } catch (HttpRequestErrorException ex) {
                AlertsManager.ShowErrorAlert("Server not responding","Our attempt to make a request to the server has failed! Please try again later!");
            } catch (CannotParseResponseException ex) {
@@ -100,7 +111,7 @@ public class MainController implements Initializable {
                        LoginCredentials.getSessionKey(), 
                        LoginCredentials.GetUserId()
                 );           
-                TableViewManager.CreateTableFromAlbums(mainTable, Response.getListOfAlbums(),infoPanel);
+                TableViewManager.CreateTableFromAlbums(Response.getListOfAlbums());
            } catch (HttpRequestErrorException ex) {
                AlertsManager.ShowErrorAlert("Server not responding","Our attempt to make a request to the server has failed! Please try again later!");
            } catch (CannotParseResponseException ex) {
@@ -124,7 +135,7 @@ public class MainController implements Initializable {
                        LoginCredentials.getSessionKey(), 
                        LoginCredentials.GetUserId()
                 );           
-                TableViewManager.CreateTableFromSongs(mainTable, Response.getListOfSongs(),infoPanel);
+                TableViewManager.CreateTableFromSongs(Response.getListOfSongs());
            } catch (HttpRequestErrorException ex) {
                AlertsManager.ShowErrorAlert("Server not responding","Our attempt to make a request to the server has failed! Please try again later!");
            } catch (CannotParseResponseException ex) {

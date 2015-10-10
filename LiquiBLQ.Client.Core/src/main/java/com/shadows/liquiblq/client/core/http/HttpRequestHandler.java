@@ -83,7 +83,7 @@ public class HttpRequestHandler {
             }
             in.close();
             return response.toString();
-        } catch (Exception ex) {
+        } catch (IOException | InterruptedException | HttpRequestErrorException ex) {
             throw new HttpRequestErrorException(ex.getMessage());
         }
     }

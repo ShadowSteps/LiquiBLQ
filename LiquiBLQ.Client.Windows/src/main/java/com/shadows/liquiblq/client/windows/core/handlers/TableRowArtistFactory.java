@@ -18,20 +18,10 @@ import javafx.util.Callback;
  * @author John
  */
 public class TableRowArtistFactory implements Callback {
-    private final AnchorPane InformationPanel;
-    private final TableView table;
     @Override
     public Object call(Object param) {
         TableRow<Artist> row = new TableRow<>();
-        row.setOnMouseClicked(new ArtistSelectHandler(row,InformationPanel,table));        
+        row.setOnMouseClicked(new ArtistSelectHandler(row));        
         return row;
-    }
-
-    public TableRowArtistFactory(AnchorPane InformationPanel, TableView table) {
-        this.InformationPanel = InformationPanel;
-        this.table = table;
-    }
-
-    
-    
+    }        
 }

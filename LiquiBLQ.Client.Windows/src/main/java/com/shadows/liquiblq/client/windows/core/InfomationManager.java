@@ -5,6 +5,7 @@
  */
 package com.shadows.liquiblq.client.windows.core;
 
+import com.shadows.liquiblq.client.windows.config.MainWindowsConfiguration;
 import com.shadows.liquiblq.client.windows.core.handlers.AlbumInfoGetArtistsClickHandler;
 import com.shadows.liquiblq.client.windows.core.handlers.ArtistInfoGetAlbumsClickHandler;
 import com.shadows.liquiblq.client.windows.core.handlers.AlbumInfoGetSongsClickHandler;
@@ -27,32 +28,31 @@ import javafx.scene.text.Text;
  * @author John
  */
 public class InfomationManager {
-    public static void WriteInfoAboutArtist(AnchorPane InfoPanel,Artist artist,List<Album> Albums, TableView table){
+    public static void WriteInfoAboutArtist(Artist artist,List<Album> Albums){
         Double Margin = 27.0;
-        InfoPanel.getChildren().clear();
-        ((TitledPane)InfoPanel.getParent()).setText("Infomration about artist");
-        CreateText("Name: "+artist.getName(), InfoPanel, Margin);
-        CreateText("Nickname: "+artist.getNickname(), InfoPanel, Margin*2);
-        CreateText("Date of birth: "+artist.getDateofbirth(), InfoPanel, Margin*3);
-        CreateButton("View albums", new ArtistInfoGetAlbumsClickHandler(Albums,table, InfoPanel), InfoPanel, Margin*4);
+        MainWindowsConfiguration.InfoPanel.getChildren().clear();
+        CreateText("Name: "+artist.getName(), MainWindowsConfiguration.InfoPanel, Margin);
+        CreateText("Nickname: "+artist.getNickname(), MainWindowsConfiguration.InfoPanel, Margin*2);
+        CreateText("Date of birth: "+artist.getDateofbirth(), MainWindowsConfiguration.InfoPanel, Margin*3);
+        CreateButton("View albums", new ArtistInfoGetAlbumsClickHandler(Albums), Margin*4);
     }
     public static void WriteInfoAboutAlbum(AnchorPane InformationPanel, Album item,List<Artist> Artists,List<Songs> songs, TableView table) {
         Double Margin = 27.0;
         InformationPanel.getChildren().clear();
         CreateText("Name: "+item.getName(), InformationPanel, Margin);
         CreateText("Date of destribution: "+item.getDate(), InformationPanel, Margin*2);        
-        CreateButton("View songs", new AlbumInfoGetSongsClickHandler(songs, table, InformationPanel), InformationPanel, Margin*3);
-        CreateButton("View artists", new AlbumInfoGetArtistsClickHandler(Artists, table, InformationPanel), InformationPanel, Margin*3);
+        CreateButton("View songs", new AlbumInfoGetSongsClickHandler(songs), Margin*3);
+        CreateButton("View artists", new AlbumInfoGetArtistsClickHandler(Artists), Margin*5);
     }
 
-    public static void WriteInfoAboutSongs(AnchorPane InformationPanel, Songs item,List<Album> Albums, TableView table) {
+    public static void WriteInfoAboutSongs( Songs item,List<Album> Albums) {
         Double Margin = 27.0;
-        InformationPanel.getChildren().clear();
-        CreateText("Name: "+item.getName(), InformationPanel, Margin);
-        CreateText("Date of destrubution: "+item.getDate(), InformationPanel, Margin*2);
-        CreateText("Genre: "+item.getGenre(), InformationPanel, Margin*3);
-        CreateButton("View albums", new SongInfoGetAlbumsClickHandler(Albums, table, InformationPanel), InformationPanel, Margin*4);
-        CreateButton("Play song", new SongPlayClickHandler(item), InformationPanel, Margin*4);
+        MainWindowsConfiguration.InfoPanel.getChildren().clear();
+        CreateText("Name: "+item.getName(), MainWindowsConfiguration.InfoPanel, Margin);
+        CreateText("Date of destrubution: "+item.getDate(), MainWindowsConfiguration.InfoPanel, Margin*2);
+        CreateText("Genre: "+item.getGenre(), MainWindowsConfiguration.InfoPanel, Margin*3);
+        CreateButton("View albums", new SongInfoGetAlbumsClickHandler(Albums), Margin*4);
+        CreateButton("Play song", new SongPlayClickHandler(item), Margin*6);
     }
     public static void CreateText(String text,AnchorPane Parent,Double Top){
         Text textObject = new Text(text);
@@ -61,15 +61,15 @@ public class InfomationManager {
         textObject.setLayoutX(14.0);
         Parent.getChildren().add(textObject);
     }
-    public static void CreateButton(String Text,EventHandler ClickEvent,AnchorPane Parent,Double Top){
+    public static void CreateButton(String Text,EventHandler ClickEvent,Double Top){
         Button button = new Button(Text);
         button.setVisible(true);
         button.setLayoutX(14);
-        button.setPrefSize(Parent.getPrefWidth() - 28, 54);
+        button.setPrefSize(MainWindowsConfiguration.InfoPanel.getPrefWidth() - 28, 54);
         button.setLayoutY(Top);
         button.setOnMouseClicked(ClickEvent);
         button.setVisible(true);
-        Parent.getChildren().add(button);
+        MainWindowsConfiguration.InfoPanel.getChildren().add(button);
     }
 
     

@@ -5,6 +5,7 @@
  */
 package com.shadows.liquiblq.common.communication.json;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.shadows.liquiblq.data.entitys.Album;
 import com.shadows.liquiblq.data.entitys.Artist;
 import com.shadows.liquiblq.data.entitys.Songs;
@@ -14,6 +15,7 @@ import java.util.List;
  *
  * @author toshiba
  */
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) 
 public class GetArtistByIdResponse extends JSONResponse {
     public Artist artist;
     public List<Album> albums;
@@ -38,7 +40,8 @@ public class GetArtistByIdResponse extends JSONResponse {
     public void setAlbums(List<Album> albums) {
         this.albums = albums;
     }
-
+    public GetArtistByIdResponse(){
+    }
     
     
 }

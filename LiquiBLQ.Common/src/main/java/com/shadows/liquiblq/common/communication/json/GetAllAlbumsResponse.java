@@ -13,17 +13,18 @@ import java.util.List;
  * @author mihail
  */
 public class GetAllAlbumsResponse extends JSONResponse{
-
-    public GetAllAlbumsResponse(List<Album> ListOfAlbums) {
-        this.listOfAlbums = ListOfAlbums;
-    }
     public List<Album> listOfAlbums;
     
-    public void  setListofAlbums(List<Album> list){
-        this.listOfAlbums=list;
-    }
     public List<Album> getListOfAlbums(){
         return this.listOfAlbums;
+    }
+    
+    public void setListofAlbums(List<Album> list){
+        this.listOfAlbums = list;
+    }
+    
+    public GetAllAlbumsResponse(List<Album> ListOfAlbums) {
+        this.listOfAlbums = ListOfAlbums;
     }
     public GetAllAlbumsResponse(){
         

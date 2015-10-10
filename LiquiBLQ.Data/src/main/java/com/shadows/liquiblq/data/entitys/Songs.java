@@ -3,6 +3,7 @@ package com.shadows.liquiblq.data.entitys;
 // default package
 // Generated 09-Oct-2015 13:21:36 by Hibernate Tools 4.3.1
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -23,31 +24,28 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "songs")
-public class Songs {
+public class Songs implements Serializable {
 
 	private UUID id;
-	private Genre genre;
+	private UUID genre;
 	private String name;
 	private Date date;
-	private Set<SongsInAlbum> songsInAlbums = new HashSet<SongsInAlbum>(0);
-
 	public Songs() {
 	}
 
-	public Songs(UUID id, Genre genre, String name, Date date) {
+	public Songs(UUID id, UUID genre, String name, Date date) {
 		this.id = id;
 		this.genre = genre;
 		this.name = name;
 		this.date = date;
 	}
 
-	public Songs(UUID id, Genre genre, String name, Date date,
+	public Songs(UUID id, UUID genre, String name, Date date,
 			Set<SongsInAlbum> songsInAlbums) {
 		this.id = id;
 		this.genre = genre;
 		this.name = name;
 		this.date = date;
-		this.songsInAlbums = songsInAlbums;
 	}
 
 	@Id
@@ -60,13 +58,12 @@ public class Songs {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "genre", nullable = false)
-	public Genre getGenre() {
+        @Column(name = "genre",nullable = false)
+	public UUID getGenre() {
 		return this.genre;
 	}
 
-	public void setGenre(Genre genre) {
+	public void setGenre(UUID genre) {
 		this.genre = genre;
 	}
 
@@ -89,13 +86,5 @@ public class Songs {
 		this.date = date;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "songs")
-	public Set<SongsInAlbum> getSongsInAlbums() {
-		return this.songsInAlbums;
-	}
-
-	public void setSongsInAlbums(Set<SongsInAlbum> songsInAlbums) {
-		this.songsInAlbums = songsInAlbums;
-	}
 
 }

@@ -42,7 +42,7 @@ public class GenresRepository {
             throw new EntityCannotBeFoundException("Genre could not be loaded! "+ex.getMessage());
         }
     }
-    public static Genre GetGenreBySongId(UUID id ) throws EntityCannotBeFoundException{
+    public static Genre GetGenreBySongId(UUID id) throws EntityCannotBeFoundException{
         try {
             SessionFactory factory = SessionFactoryContainer.getFactory();
             Session session = factory.openSession(); 
@@ -50,7 +50,10 @@ public class GenresRepository {
                 session.beginTransaction();
                 Criteria cr = session.createCriteria(Genre.class);
                 cr.add(Restrictions.eq("id", id));
-                List<Genre> Genres = cr.list();                
+                List<Genre> Genres = cr.list();      
+                if (Genres.isEmpty()){
+                    throw new EntityCannotBeFoundException("Genre was not found!");
+                }
                 session.getTransaction().commit();
                 return Genres.get(0);
             }catch(HibernateException e){

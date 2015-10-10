@@ -8,6 +8,8 @@ package com.shadows.liquiblq.client.windows.core.handlers;
 import com.shadows.liquiblq.client.windows.core.InfomationManager;
 import com.shadows.liquiblq.client.windows.core.tasks.LoadAlbumtInfoTast;
 import com.shadows.liquiblq.data.entitys.Album;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.control.TableRow;
@@ -20,19 +22,20 @@ import javafx.scene.layout.AnchorPane;
  */
 public class AlbumSelectHandler implements EventHandler {   
     private final TableRow<Album> AlbumToHandle;
-    private final AnchorPane InformationPanel;
-    private final TableView table;
 
-    public AlbumSelectHandler(TableRow<Album> AlbumToHandle, AnchorPane InformationPanel, TableView table) {
+    public AlbumSelectHandler(TableRow<Album> AlbumToHandle) {
         this.AlbumToHandle = AlbumToHandle;
-        this.InformationPanel = InformationPanel;
-        this.table = table;
     }
     
     @Override
     public void handle(Event event) {
-        if (!AlbumToHandle.isEmpty()&&InformationPanel instanceof AnchorPane){
-            LoadAlbumtInfoTast task = new LoadAlbumtInfoTast(this.AlbumToHandle.getItem(), InformationPanel,table);
+        if (!AlbumToHandle.isEmpty()){
+            LoadAlbumtInfoTast task = new LoadAlbumtInfoTast(this.AlbumToHandle.getItem());
+            try {
+                task.call();
+            } catch (Exception ex) {
+                Logger.getLogger(AlbumSelectHandler.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
     

@@ -5,11 +5,12 @@
  */
 package com.shadows.liquiblq.webapi.tests;
 
+import com.shadows.liquiblq.common.communication.json.JSONResponse;
 import com.shadows.liquiblq.common.communication.json.LoginResponse;
 import com.shadows.liquiblq.data.exceptions.EntityCannotBeFoundException;
 import com.shadows.liquiblq.data.exceptions.SessionFactoryConfigurationException;
 import com.shadows.liquiblq.webapi.controllers.UsersController;
-import com.shadows.liquiblq.webapi.controllers.artistsController;
+import com.shadows.liquiblq.webapi.controllers.ArtistsController;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -21,9 +22,9 @@ import static org.junit.Assert.*;
  *
  * @author John
  */
-public class artistsControllerTests {
+public class ArtistsControllerTests {
     
-    public artistsControllerTests() {
+    public ArtistsControllerTests() {
     }
     
     @BeforeClass
@@ -49,9 +50,10 @@ public class artistsControllerTests {
     // public void hello() {}
     @Test
     public void TestGetAll() throws EntityCannotBeFoundException, SessionFactoryConfigurationException{
-        artistsController Controller = new artistsController();
+        ArtistsController Controller = new ArtistsController();
         UsersController UserController = new UsersController();
         LoginResponse Response = (LoginResponse)UserController.doLogin("asd", "asd");
-        Controller.GetAllARtists(Response.sessionKey, Response.id);
+        JSONResponse Resp = Controller.GetAllARtists(Response.sessionKey, Response.id);
+        Boolean Result = Boolean.TRUE;
     }
 }

@@ -28,13 +28,8 @@ import javafx.scene.layout.AnchorPane;
  */
 public class LoadArtistInfoTast extends Task<Object> {
     private final Artist artist;
-    private final AnchorPane InformationPanel;
-    private final TableView table;
-
-    public LoadArtistInfoTast(Artist artist, AnchorPane InformationPanel, TableView table) {
+    public LoadArtistInfoTast(Artist artist) {
         this.artist = artist;
-        this.InformationPanel = InformationPanel;
-        this.table = table;
     }
        
     
@@ -49,7 +44,7 @@ public class LoadArtistInfoTast extends Task<Object> {
                             LoginCredentials.GetUserId(),
                             this.artist.getId()
                     );            
-                InfomationManager.WriteInfoAboutArtist(InformationPanel, this.artist,Response.getAlbums(),table);
+                InfomationManager.WriteInfoAboutArtist( this.artist,Response.getAlbums());
             } catch (HttpRequestErrorException ex) {
                 AlertsManager.ShowErrorAlert("Server not responding","Our attempt to make a request to the server has failed! Please try again later!");
             } catch (CannotParseResponseException ex) {

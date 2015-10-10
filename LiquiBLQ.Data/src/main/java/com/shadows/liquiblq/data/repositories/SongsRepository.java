@@ -5,12 +5,17 @@
  */
 package com.shadows.liquiblq.data.repositories;
 
+import com.shadows.liquiblq.data.entitys.Album;
 import com.shadows.liquiblq.data.entitys.Artist;
+import com.shadows.liquiblq.data.entitys.ArtistsInAlbums;
 import com.shadows.liquiblq.data.entitys.Songs;
+import com.shadows.liquiblq.data.entitys.SongsInAlbum;
 import com.shadows.liquiblq.data.exceptions.EntityCannotBeFoundException;
 import com.shadows.liquiblq.data.exceptions.SessionFactoryConfigurationException;
 import com.shadows.liquiblq.data.utils.SessionFactoryContainer;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
@@ -65,6 +70,31 @@ public class SongsRepository {
             }
         } catch (SessionFactoryConfigurationException ex) {
             throw new EntityCannotBeFoundException("Songs cannot be fetched! Inner exception message: "+ex.getMessage());
+        }
+    }
+    public static List<Songs> GetSongsForAlbum(Album album) throws EntityCannotBeFoundException{
+        try {
+            SessionFactory factory = SessionFactoryContainer.getFactory();
+            Session session = factory.openSession(); 
+            try{
+                session.beginTransaction();
+                Criteria crAlbumInArtists = session.createCriteria(SongsInAlbum.class); 
+                crAlbumInArtists.add(Restrictions.eq("album", album));
+                List<SongsInAlbum> SongsInAlbumsList = crAlbumInArtists.list();
+                List<Songs> AList = new ArrayList<Songs>();
+                for (SongsInAlbum ArtistInAlbum : SongsInAlbumsList) {
+                    AList.add(ArtistInAlbum.getSongs());
+                }                           
+                session.getTransaction().commit();
+                return AList;
+            }catch(HibernateException e){
+                session.getTransaction().rollback();
+                throw e;
+            }finally{
+                 session.disconnect();
+            }
+        } catch (SessionFactoryConfigurationException ex) {
+            throw new EntityCannotBeFoundException("Artists could not be loaded! "+ex.getMessage());
         }
     }
 }

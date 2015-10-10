@@ -20,20 +20,17 @@ import javafx.scene.layout.AnchorPane;
  */
 public class SongsSelectHandler implements EventHandler {   
     private final TableRow<Songs> SongsToHandle;
-    private final AnchorPane InformationPanel;
-    private final TableView table;
 
-    public SongsSelectHandler(TableRow<Songs> SongsToHandle, AnchorPane InformationPanel, TableView table) {
+    public SongsSelectHandler(TableRow<Songs> SongsToHandle) {
         this.SongsToHandle = SongsToHandle;
-        this.InformationPanel = InformationPanel;
-        this.table = table;
     }
     
     
     @Override
     public void handle(Event event) {
-        if (!SongsToHandle.isEmpty()&&InformationPanel instanceof AnchorPane){
-            LoadSongtInfoTast task = new LoadSongtInfoTast(this.SongsToHandle.getItem(), InformationPanel,table);
+        if (!SongsToHandle.isEmpty()){
+            LoadSongtInfoTast task = new LoadSongtInfoTast(this.SongsToHandle.getItem());
+            task.run();
         }
     }
     

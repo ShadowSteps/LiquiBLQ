@@ -19,7 +19,7 @@ public class ArtistRequestsHandler {
         return HttpRequestHandler.sendPost(ApiUrl+"artists/getAll", UrlParamanters);
     }
     public static String getByIdRequest(String ApiUrl,UUID SessinKey,Integer UserId,UUID ArtistId) throws HttpRequestErrorException{
-        String UrlParamanters = "SessionKey="+SessinKey.toString()+"&UserId="+UserId;
-        return HttpRequestHandler.sendPost(ApiUrl+"artists/getById/"+ArtistId.toString(), UrlParamanters);
+        String UrlParamanters = "sessionKey="+SessinKey.toString()+"&UserId="+UserId;
+        return HttpRequestHandler.sendPost(ApiUrl+"artists/get/"+ArtistId.toString(), UrlParamanters);
     }
 }

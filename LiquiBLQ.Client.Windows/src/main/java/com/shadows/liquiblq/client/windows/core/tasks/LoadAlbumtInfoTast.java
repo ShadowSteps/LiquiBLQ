@@ -10,6 +10,7 @@ import com.shadows.liquiblq.client.core.http.exceptions.CannotParseResponseExcep
 import com.shadows.liquiblq.client.core.http.exceptions.HttpRequestErrorException;
 import com.shadows.liquiblq.client.windows.config.ConfigurationManager;
 import com.shadows.liquiblq.client.windows.config.LoginCredentials;
+import com.shadows.liquiblq.client.windows.config.MainWindowsConfiguration;
 import com.shadows.liquiblq.client.windows.core.InfomationManager;
 import com.shadows.liquiblq.client.windows.core.validation.controls.AlertsManager;
 import com.shadows.liquiblq.client.windows.exceptions.ApplicationConfigurationException;
@@ -29,18 +30,11 @@ import javafx.scene.layout.AnchorPane;
  */
 public class LoadAlbumtInfoTast extends Task<Object> {
     private final Album album;
-    private final AnchorPane InformationPanel;
-    private final TableView table;
-
-    public LoadAlbumtInfoTast(Album album, AnchorPane InformationPanel, TableView table) {
+    public LoadAlbumtInfoTast(Album album) {
         this.album = album;
-        this.InformationPanel = InformationPanel;
-        this.table = table;
-    }
-      
-    
+    }      
     @Override
-    protected Object call() throws Exception {
+    public Object call() throws Exception {
         try{
             try{
                 GetAlbumByIdResponse Response = (GetAlbumByIdResponse)RequestsManager
@@ -50,7 +44,7 @@ public class LoadAlbumtInfoTast extends Task<Object> {
                             LoginCredentials.GetUserId(),
                             this.album.getId()
                     );            
-                InfomationManager.WriteInfoAboutAlbum(InformationPanel, this.album,Response.getArtists(),Response.songs,table);
+                InfomationManager.WriteInfoAboutAlbum(MainWindowsConfiguration.InfoPanel, this.album,Response.artists,Response.songs,MainWindowsConfiguration.MainTable);
             } catch (UserNotLoggedInException ex) {
                 AlertsManager.ShowErrorAlert("Application error","User must be logged in to access options!");
                 Platform.exit();

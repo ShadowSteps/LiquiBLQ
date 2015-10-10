@@ -14,9 +14,6 @@ import com.shadows.liquiblq.client.windows.core.validation.controls.ValidationRe
 import com.shadows.liquiblq.client.windows.core.validation.exceptions.FieldTypeNotSupportedByValidatorException;
 import com.shadows.liquiblq.client.windows.core.validation.exceptions.ValidationFailedException;
 import com.shadows.liquiblq.client.windows.core.validation.listeners.TextFieldChangeListener;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.beans.value.ChangeListener;
 import javafx.scene.control.Control;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;

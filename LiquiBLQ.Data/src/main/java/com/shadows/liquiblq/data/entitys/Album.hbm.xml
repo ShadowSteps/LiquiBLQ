@@ -14,17 +14,5 @@
         <property name="name" type="string">
             <column name="name" length="55" not-null="true" />
         </property>
-        <set name="artistsInAlbumses" table="artists_in_albums" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="album" not-null="true" />
-            </key>
-            <one-to-many class="ArtistsInAlbums" />
-        </set>
-        <set name="songsInAlbums" table="songs_in_album" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="album" not-null="true" />
-            </key>
-            <one-to-many class="SongsInAlbum" />
-        </set>
     </class>
 </hibernate-mapping>

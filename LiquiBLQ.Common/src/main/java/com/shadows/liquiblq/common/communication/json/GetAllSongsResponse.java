@@ -14,9 +14,7 @@ import java.util.List;
  */
 public class GetAllSongsResponse extends JSONResponse{
 
-    public GetAllSongsResponse(List<Songs> ListOfSongs) {
-        this.listOfSongs = ListOfSongs;
-    }
+    
     public List<Songs> listOfSongs;
     
     public void  setListofSongs(List<Songs> list){
@@ -24,6 +22,9 @@ public class GetAllSongsResponse extends JSONResponse{
     }
     public List<Songs> getListOfSongs(){
         return this.listOfSongs;
+    }
+    public GetAllSongsResponse(List<Songs> ListOfSongs) {
+        this.listOfSongs = ListOfSongs;
     }
     public GetAllSongsResponse(){
         

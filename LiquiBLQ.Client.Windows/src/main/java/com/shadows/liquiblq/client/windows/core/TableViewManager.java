@@ -5,6 +5,7 @@
  */
 package com.shadows.liquiblq.client.windows.core;
 
+import com.shadows.liquiblq.client.windows.config.MainWindowsConfiguration;
 import com.shadows.liquiblq.client.windows.core.handlers.TableRowAlbumFactory;
 import com.shadows.liquiblq.client.windows.core.handlers.TableRowArtistFactory;
 import com.shadows.liquiblq.client.windows.core.handlers.TableRowSongsFactory;
@@ -34,12 +35,17 @@ public class TableViewManager {
         FXCollections.observableArrayList();
     private static final ObservableList<Songs> SongsList =
         FXCollections.observableArrayList();
-    public static void ClearTable(TableView Table){        
-        Table.getColumns().clear();
+    public static void ClearTable(){        
+        MainWindowsConfiguration.MainTable.getColumns().clear();
+        MainWindowsConfiguration.TableViewContainer.getChildren().remove(MainWindowsConfiguration.MainTable);
+        MainWindowsConfiguration.MainTable = new TableView();
+        MainWindowsConfiguration.MainTable.setPrefSize(592.0, 503.0); 
+        MainWindowsConfiguration.TableViewContainer.getChildren().add(MainWindowsConfiguration.MainTable);
     }
-    public static void CreateTableFromArtists(TableView View,List<Artist> ObjectList,AnchorPane InfoPane){
-        ClearTable(View);
+    public static void CreateTableFromArtists(List<Artist> ObjectList){
+        ClearTable();
         ArtistList.clear();
+        MainWindowsConfiguration.MainTable.setRowFactory(new TableRowArtistFactory());
         TableColumn IdColumn = new TableColumn("Id"),
                 NameColumn = new TableColumn("Name"),
                 NicknameColumn = new TableColumn("Nickname"),
@@ -56,18 +62,18 @@ public class TableViewManager {
         DateColumn.setCellValueFactory(
             new PropertyValueFactory<Artist, Date>("dateofbirth")
         );
-        View.getColumns().addAll(IdColumn,NameColumn,NicknameColumn,DateColumn);       
+        MainWindowsConfiguration.MainTable.getColumns().addAll(IdColumn,NameColumn,NicknameColumn,DateColumn);       
         for (Artist ArtistObject : ObjectList) {
             ArtistList.add(ArtistObject);
         }
-        View.setItems(ArtistList);
-        
-        View.setRowFactory(new TableRowArtistFactory(InfoPane,View));
+        MainWindowsConfiguration.MainTable.setItems(ArtistList);
+
     }
 
-    public static void CreateTableFromAlbums(TableView mainTable, List<Album> listOfAlbums,AnchorPane InfoPane) {
-        ClearTable(mainTable);
+    public static void CreateTableFromAlbums(List<Album> listOfAlbums) {
+        ClearTable();
         AlbumsList.clear();
+        MainWindowsConfiguration.MainTable.setRowFactory(new TableRowAlbumFactory());
         TableColumn IdColumn = new TableColumn("Id"),
                 NameColumn = new TableColumn("Name"),
                 DateColumn = new TableColumn("Date of destribution");
@@ -80,17 +86,19 @@ public class TableViewManager {
         DateColumn.setCellValueFactory(
             new PropertyValueFactory<Album, Date>("date")
         );
-        mainTable.getColumns().addAll(IdColumn,NameColumn,DateColumn);       
+        MainWindowsConfiguration.MainTable.getColumns().addAll(IdColumn,NameColumn,DateColumn);       
         for (Album AlbumObject : listOfAlbums) {
             AlbumsList.add(AlbumObject);
         }
-        mainTable.setItems(AlbumsList);
-        mainTable.setRowFactory(new TableRowAlbumFactory(InfoPane,mainTable));
+        MainWindowsConfiguration.MainTable.setItems(AlbumsList);
+
     }
 
-    public static void CreateTableFromSongs(TableView mainTable, List<Songs> listOfSongs,AnchorPane InfoPane) {
-        ClearTable(mainTable);
+    public static void CreateTableFromSongs(List<Songs> listOfSongs) {
+        ClearTable();
         SongsList.clear();
+        
+        MainWindowsConfiguration.MainTable.setRowFactory(new TableRowSongsFactory());            
         TableColumn IdColumn = new TableColumn("Id"),
                 NameColumn = new TableColumn("Name"),
                 GenreColumn = new TableColumn("Genre"),
@@ -107,11 +115,10 @@ public class TableViewManager {
         DateColumn.setCellValueFactory(
             new PropertyValueFactory<Songs, Date>("date")
         );
-        mainTable.getColumns().addAll(IdColumn,NameColumn,DateColumn);       
+        MainWindowsConfiguration.MainTable.getColumns().addAll(IdColumn,NameColumn,DateColumn);       
         for (Songs AlbumObject : listOfSongs) {
             SongsList.add(AlbumObject);
         }
-        mainTable.setItems(SongsList);
-        mainTable.setRowFactory(new TableRowSongsFactory(InfoPane,mainTable));
+        MainWindowsConfiguration.MainTable.setItems(SongsList);
     }
 }

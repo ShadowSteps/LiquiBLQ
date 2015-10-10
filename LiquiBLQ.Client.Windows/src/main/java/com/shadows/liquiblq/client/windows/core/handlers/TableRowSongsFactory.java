@@ -17,18 +17,11 @@ import javafx.util.Callback;
  * @author John
  */
 public class TableRowSongsFactory implements Callback {
-    private final AnchorPane InformationPanel;
-    private final TableView table;
     @Override
     public Object call(Object param) {
         TableRow<Songs> row = new TableRow<>();
-        row.setOnMouseClicked(new SongsSelectHandler(row,InformationPanel,table));
+        row.setOnMouseClicked(new SongsSelectHandler(row));
         return row;
-    }
-
-    public TableRowSongsFactory(AnchorPane InformationPanel, TableView table) {
-        this.InformationPanel = InformationPanel;
-        this.table = table;
     }
     
     

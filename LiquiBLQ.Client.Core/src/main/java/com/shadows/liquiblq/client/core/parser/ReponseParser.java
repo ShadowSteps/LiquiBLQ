@@ -17,7 +17,7 @@ import com.shadows.liquiblq.common.communication.json.GetAllSongsResponse;
 import com.shadows.liquiblq.common.communication.json.GetArtistByIdResponse;
 import com.shadows.liquiblq.common.communication.json.JSONResponse;
 import com.shadows.liquiblq.common.communication.json.RegisterResponse;
-import com.shadows.liquiblq.common.communication.json.artistResponse;
+import com.shadows.liquiblq.common.communication.json.GetAllArtistsResponse;
 import com.shadows.liquiblq.common.communication.json.getSongByIdResponse;
 import java.io.IOException;
 /**
@@ -43,8 +43,8 @@ public class ReponseParser {
     public static RegisterResponse ParseRegisterReponse(String Reponse) throws CannotParseResponseException{        
         return (RegisterResponse)parse(Reponse, RegisterResponse.class);
     }
-    public static artistResponse ParseGetAllArtistsReponse(String Reponse) throws CannotParseResponseException{        
-        return (artistResponse)parse(Reponse, artistResponse.class);
+    public static GetAllArtistsResponse ParseGetAllArtistsReponse(String Reponse) throws CannotParseResponseException{        
+        return (GetAllArtistsResponse)parse(Reponse, GetAllArtistsResponse.class);
     }
     public static GetAllAlbumsResponse ParseGetAllAlbumsReponse(String Reponse) throws CannotParseResponseException{        
         return (GetAllAlbumsResponse)parse(Reponse, GetAllAlbumsResponse.class);

@@ -28,13 +28,9 @@ import javafx.scene.layout.AnchorPane;
  */
 public class LoadSongtInfoTast extends Task<Object> {
     private final Songs song;
-    private final AnchorPane InformationPanel;
-    private final TableView table;
 
-    public LoadSongtInfoTast(Songs song, AnchorPane InformationPanel, TableView table) {
+    public LoadSongtInfoTast(Songs song) {
         this.song = song;
-        this.InformationPanel = InformationPanel;
-        this.table = table;
     }
     
     @Override
@@ -48,7 +44,7 @@ public class LoadSongtInfoTast extends Task<Object> {
                             LoginCredentials.GetUserId(),
                             this.song.getId()
                     );            
-                InfomationManager.WriteInfoAboutSongs(InformationPanel, this.song,Response.getAlbums(),table);
+                InfomationManager.WriteInfoAboutSongs(this.song,Response.getAlbums());
             } catch (UserNotLoggedInException ex) {
                 AlertsManager.ShowErrorAlert("Application error","User must be logged in to access options!");
                 Platform.exit();

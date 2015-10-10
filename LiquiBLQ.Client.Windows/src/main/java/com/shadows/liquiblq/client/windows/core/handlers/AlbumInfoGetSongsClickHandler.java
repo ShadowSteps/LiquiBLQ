@@ -5,6 +5,7 @@
  */
 package com.shadows.liquiblq.client.windows.core.handlers;
 
+import com.shadows.liquiblq.client.windows.config.MainWindowsConfiguration;
 import com.shadows.liquiblq.client.windows.core.TableViewManager;
 import com.shadows.liquiblq.data.entitys.Artist;
 import com.shadows.liquiblq.data.entitys.Songs;
@@ -21,18 +22,14 @@ import javafx.scene.layout.AnchorPane;
 public class AlbumInfoGetSongsClickHandler implements EventHandler<Event>{
 
     private final List<Songs> songs;
-    private final TableView table;
-    private final AnchorPane InfoPane;
     
     @Override    
     public void handle(Event event) {
-        TableViewManager.CreateTableFromSongs(this.table, songs,InfoPane);
+        TableViewManager.CreateTableFromSongs(songs);
     }
 
-    public AlbumInfoGetSongsClickHandler(List<Songs> songs,TableView table,AnchorPane InfoPane) {
+    public AlbumInfoGetSongsClickHandler(List<Songs> songs) {
         this.songs = songs;
-        this.table = table;
-        this.InfoPane = InfoPane;
     }
     
 }
