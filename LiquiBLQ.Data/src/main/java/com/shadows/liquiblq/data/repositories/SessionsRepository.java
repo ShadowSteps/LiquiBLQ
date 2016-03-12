@@ -5,7 +5,6 @@
  */
 package com.shadows.liquiblq.data.repositories;
 
-import com.shadows.liquiblq.common.utils.PasswordSecurityProvider;
 import com.shadows.liquiblq.data.entitys.Sessions;
 import com.shadows.liquiblq.data.entitys.Users;
 import com.shadows.liquiblq.data.exceptions.EntityCannotBeFoundException;
@@ -14,9 +13,6 @@ import com.shadows.liquiblq.data.exceptions.InvalidEntiryProvidedBeforeInsertExc
 import com.shadows.liquiblq.data.exceptions.SessionFactoryConfigurationException;
 import com.shadows.liquiblq.data.utils.SessionFactoryContainer;
 import com.shadows.liquiblq.data.utils.SessionsValidator;
-import com.shadows.liquiblq.data.utils.UsersValidator;
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;

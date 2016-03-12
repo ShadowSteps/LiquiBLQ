@@ -3,8 +3,8 @@
 <hibernate-configuration>
   <session-factory>
     <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-    <property name="hibernate.connection.password">_pg123_</property>
-    <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/liquiBlq</property>
+    <property name="hibernate.connection.password">_mk123_</property>
+    <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/LiquiBLQ</property>
     <property name="hibernate.connection.username">postgres</property>
     <property name="hibernate.default_schema">public</property>
     <!-- SQL dialect -->

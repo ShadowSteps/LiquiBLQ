@@ -17,6 +17,8 @@ import com.shadows.liquiblq.data.entitys.Users;
 import com.shadows.liquiblq.data.exceptions.SessionFactoryConfigurationException;
 import com.shadows.liquiblq.data.repositories.SessionsRepository;
 import java.util.UUID;
+import org.apache.log4j.Logger;
+import org.apache.log4j.xml.DOMConfigurator;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,6 +32,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/user")
 public class UsersController {
+    static{
+        System.out.println("Before log4j configuration");
+        DOMConfigurator.configure(UsersController.class.getResource("/log4j/log4j.xml"));
+        System.out.println("After log4j configuration");
+    }
+     
+    private static Logger logger = Logger.getLogger(UsersController.class);
+     
     @RequestMapping(value = "/register",method = RequestMethod.POST)
     public JSONResponse doRegister(@RequestParam("Email") String Email,@RequestParam("Password") String Password,@RequestParam("Name") String Name) throws SessionFactoryConfigurationException{
         try {
@@ -44,6 +54,7 @@ public class UsersController {
         try {
             Users User = UsersRepository.GetUserByEmailAndPassword(Email, Password);
             Sessions Session = SessionsRepository.GenerateSessionForUser(User);
+            logger.error("Loggin as "+User.getName()+"!");
             return new LoginResponse(Boolean.TRUE,(UUID)Session.getId(), Email, User.getId()); 
         }
         catch(EntityCannotBeFoundException | EntityCannotByCreatedException Exp){
