@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+ 
+<hibernate-configuration>
+    <session-factory>
+ 
+        <!-- Connection settings -->
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/liquiBlq</property>
+        <property name="hibernate.connection.username">postgres</property>
+        <property name="hibernate.connection.password">_pg123_</property>
+        <property name="hibernate.default_schema">public</property>
+        <property name="hibernate.current_session_context_class">org.hibernate.context.internal.ThreadLocalSessionContext</property>
+ 
+        <!-- SQL dialect -->
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+ 
+        <!-- Print executed SQL to stdout -->
+        <property name="show_sql">true</property>
+ 
+        <!-- Annotated entity classes -->
+        <mapping class="com.shadows.liquiblq.data.hibernate.entities.Album"/>
+        <mapping class="com.shadows.liquiblq.data.hibernate.entities.Artist"/>
+        <mapping class="com.shadows.liquiblq.data.hibernate.entities.ArtistsInAlbums"/>
+        <mapping class="com.shadows.liquiblq.data.hibernate.entities.Genre"/>
+        <mapping class="com.shadows.liquiblq.data.hibernate.entities.Sessions"/>
+        <mapping class="com.shadows.liquiblq.data.hibernate.entities.Songs"/>
+        <mapping class="com.shadows.liquiblq.data.hibernate.entities.SongsInAlbum"/>
+        <mapping class="com.shadows.liquiblq.data.hibernate.entities.Users"/>
+    </session-factory>
+</hibernate-configuration>
