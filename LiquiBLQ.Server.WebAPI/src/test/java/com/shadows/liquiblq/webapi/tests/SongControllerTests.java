@@ -10,16 +10,12 @@ import com.shadows.liquiblq.data.exceptions.EntityCannotBeFoundException;
 import com.shadows.liquiblq.data.exceptions.SessionFactoryConfigurationException;
 import com.shadows.liquiblq.webapi.controllers.SongsController;
 import com.shadows.liquiblq.webapi.controllers.UsersController;
-import com.shadows.liquiblq.webapi.utils.SongReader;
-import java.io.InputStream;
 import java.util.UUID;
-import javax.print.DocFlavor;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -55,7 +51,7 @@ public class SongControllerTests {
     public void SongsTest() throws EntityCannotBeFoundException, SessionFactoryConfigurationException{
         SongsController contoll = new SongsController();
         UsersController UserController = new UsersController();
-        LoginResponse Response = (LoginResponse)UserController.doLogin("asd", "asd");
+        LoginResponse Response = (LoginResponse)UserController.doLogin("asdasd", "asd");
         contoll.doGetById(UUID.fromString("139ff27e-62ce-4680-860f-0886af2e79c1"), Response.sessionKey, Response.id);
     }
     // TODO add test methods here.

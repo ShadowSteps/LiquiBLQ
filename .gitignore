@@ -7,4 +7,11 @@
 /LiquiBLQ.Server.WebAPI/target/
 /com.shadows.liquiblq.webapi.tests/nbproject/private/
 /LiquiBlq.Server.WebAPI.Tests/nbproject/private/
+<<<<<<< HEAD
 /LiquiBLQ.Data.Hibernate/target/
+=======
+/LiquiBLQ.Utils/nbproject/private/
+/LiquiBLQ.Utils/build/
+/LiquiBLQ.Utils/dist/
+/LiquiBlq.Common.Utils/target/
+>>>>>>> origin/master

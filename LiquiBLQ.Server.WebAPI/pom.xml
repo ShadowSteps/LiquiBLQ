@@ -43,6 +43,16 @@
             <type>jar</type>
         </dependency>
         <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>LiquiBLQ.Common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
+        <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
             <version>7.0</version>
@@ -80,7 +90,8 @@
             <groupId>jstl</groupId>  
             <artifactId>jstl</artifactId>  
             <version>${jstl.version}</version>  
-        </dependency>  
+        </dependency>
+          
     </dependencies>
 
     <build>

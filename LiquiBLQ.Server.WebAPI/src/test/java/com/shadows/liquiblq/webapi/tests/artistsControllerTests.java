@@ -52,7 +52,7 @@ public class ArtistsControllerTests {
     public void TestGetAll() throws EntityCannotBeFoundException, SessionFactoryConfigurationException{
         ArtistsController Controller = new ArtistsController();
         UsersController UserController = new UsersController();
-        LoginResponse Response = (LoginResponse)UserController.doLogin("asd", "asd");
+        LoginResponse Response = (LoginResponse)UserController.doLogin("asdasd", "asd");
         JSONResponse Resp = Controller.GetAllARtists(Response.sessionKey, Response.id);
         Boolean Result = Boolean.TRUE;
     }

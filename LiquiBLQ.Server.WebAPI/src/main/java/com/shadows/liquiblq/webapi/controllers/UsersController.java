@@ -17,6 +17,8 @@ import com.shadows.liquiblq.data.entitys.Users;
 import com.shadows.liquiblq.data.exceptions.SessionFactoryConfigurationException;
 import com.shadows.liquiblq.data.repositories.SessionsRepository;
 import java.util.UUID;
+import org.apache.log4j.Logger;
+import org.apache.log4j.xml.DOMConfigurator;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
