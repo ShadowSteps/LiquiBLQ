@@ -16,6 +16,6 @@ import com.shadows.liquiblq.data.interfaces.sets.base.IViewableSet;
  */
 public interface IUsersSet extends IViewableSet<Integer, User>,
         IManagableSet<Integer, UserData>{
-    public User GetByEmail(String Email);
-    public User GetByEmailAndPassword(String Email,String Password);
+    public User GetByEmail(String Email) throws Exception;
+    public User GetByEmailAndPassword(String Email,String Password) throws Exception;
 }
