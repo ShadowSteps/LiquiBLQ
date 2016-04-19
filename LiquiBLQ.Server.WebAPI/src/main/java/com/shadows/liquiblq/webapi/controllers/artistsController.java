@@ -9,12 +9,13 @@ import com.shadows.liquiblq.common.communication.json.ErrorResponse;
 import com.shadows.liquiblq.common.communication.json.GetArtistByIdResponse;
 import com.shadows.liquiblq.common.communication.json.JSONResponse;
 import com.shadows.liquiblq.common.communication.json.GetAllArtistsResponse;
-import com.shadows.liquiblq.data.entitys.Artist;
-import com.shadows.liquiblq.data.exceptions.EntityCannotBeFoundException;
-import com.shadows.liquiblq.data.repositories.AlbumsRepository;
-import com.shadows.liquiblq.data.repositories.ArtistsRepository;
+import com.shadows.liquiblq.data.interfaces.dto.Album;
+import com.shadows.liquiblq.data.interfaces.dto.Artist;
+import com.shadows.liquiblq.data.interfaces.dto.ArtistInAlbum;
+import com.shadows.liquiblq.webapi.controllers.base.BaseAPIController;
 import com.shadows.liquiblq.webapi.exceptions.RequestValidationException;
 import com.shadows.liquiblq.webapi.validation.RequestValidator;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,17 +31,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/artists")
-public class ArtistsController {
+public class ArtistsController extends BaseAPIController{
     @RequestMapping(value = "/get/{id}",method = RequestMethod.POST)
     public JSONResponse doGetById(@PathVariable UUID id, @RequestParam("sessionKey") UUID Session,@RequestParam("UserId") Integer UserId){
         try {
-            RequestValidator.validateRequest(Session, UserId);    
-            Artist artist = ArtistsRepository.GetArtistById(id);
-            return new GetArtistByIdResponse(artist,
-                    AlbumsRepository.GetAlbumsForArtist(artist)
-            );
+            Validator.ValidateRequest(Session, UserId);    
+            Artist artist = Context.getArtistsSet()
+                    .GetById(id);
+            List<ArtistInAlbum> artistInAlbums = Context.getArtistsInAlbumsSet()
+                    .GetByArtistId(id);
+            List<Album> albums = new ArrayList<>();
+            for (ArtistInAlbum artistInAlbum : artistInAlbums) {
+                Album album = Context.getAlbumsSet()
+                        .GetById(artistInAlbum.Album);
+                albums.add(album);
+            }
+            return new GetArtistByIdResponse(artist, albums);
         }
-        catch (EntityCannotBeFoundException | RequestValidationException  Exp) {
+        catch (Exception Exp) {
             return new ErrorResponse(Exp);
         }
     }
@@ -48,11 +56,12 @@ public class ArtistsController {
     @RequestMapping(value = "/getAll",method = RequestMethod.POST)
     public JSONResponse GetAllARtists(@RequestParam("SessionKey") UUID Session,@RequestParam("UserId") Integer UserId){        
         try {
-            RequestValidator.validateRequest(Session, UserId);    
-            List<Artist> Artists = ArtistsRepository.GetAllArtists();
+            Validator.ValidateRequest(Session, UserId);    
+            List<Artist> Artists = Context.getArtistsSet()
+                    .GetAll();
             return new GetAllArtistsResponse(Artists);
         }
-        catch (EntityCannotBeFoundException | RequestValidationException  Exp) {
+        catch (Exception Exp) {
             return new ErrorResponse(Exp);
         }
     }

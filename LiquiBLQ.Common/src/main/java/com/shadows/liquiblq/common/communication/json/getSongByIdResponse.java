@@ -5,44 +5,18 @@
  */
 package com.shadows.liquiblq.common.communication.json;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.shadows.liquiblq.data.entitys.Album;
-import com.shadows.liquiblq.data.entitys.Genre;
-import com.shadows.liquiblq.data.entitys.Songs;
+import com.shadows.liquiblq.data.interfaces.dto.Album;
+import com.shadows.liquiblq.data.interfaces.dto.Genre;
+import com.shadows.liquiblq.data.interfaces.dto.Song;
 import java.util.List;
 
-/**
- *
- * @author toshiba
- */
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) 
-public class getSongByIdResponse extends JSONResponse {
-    public Songs Song;
-    public Genre songGenre;
+public class GetSongByIdResponse extends JSONResponse {
+    public Song song;
+    public Genre genre;
     public List<Album> albums;
-    public getSongByIdResponse(Songs song, Genre genre,List<Album> albums ){
-        this.Song = song;
-        this.songGenre = genre;      
+    public GetSongByIdResponse(Song song, Genre genre,List<Album> albums ){
+        this.song = song;
+        this.genre = genre;      
         this.albums = albums;
-    }
-
-    public Songs getSong() {
-        return Song;
-    }
-
-    public void setSong(Songs Song) {
-        this.Song = Song;
-    }
-
-    public List<Album> getAlbums() {
-        return albums;
-    }
-
-    public void setAlbums(List<Album> albums) {
-        this.albums = albums;
-    }
-
-    public getSongByIdResponse() {
-    }
-    
+    }      
 }
