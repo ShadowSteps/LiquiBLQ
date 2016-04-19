@@ -5,11 +5,9 @@
  */
 package com.shadows.liquiblq.webapi.validation;
 
-import com.shadows.liquiblq.data.entitys.Sessions;
-import com.shadows.liquiblq.data.entitys.Users;
-import com.shadows.liquiblq.data.exceptions.EntityCannotBeFoundException;
-import com.shadows.liquiblq.data.repositories.SessionsRepository;
-import com.shadows.liquiblq.data.repositories.UsersRepository;
+import com.shadows.liquiblq.data.interfaces.ILiquiBlqContext;
+import com.shadows.liquiblq.data.interfaces.dto.Session;
+import com.shadows.liquiblq.data.interfaces.dto.User;
 import com.shadows.liquiblq.webapi.exceptions.RequestValidationException;
 import java.util.Objects;
 import java.util.UUID;
@@ -21,13 +19,18 @@ import java.util.UUID;
  *
  * @author mihail
  */
-public class RequestValidator {
+public class RequestValidator {   
+    public final ILiquiBlqContext Context;
+
+    public RequestValidator(ILiquiBlqContext Context) {
+        this.Context = Context;
+    }
     
-    public static void validateRequest(UUID sessKey,int user_id) throws RequestValidationException, EntityCannotBeFoundException{
-        Users user = UsersRepository.GetUserById(user_id);
-        Sessions Sess = SessionsRepository.GetSessionById(sessKey);
-        if(!Objects.equals(user.getId(), Sess.getUserId())){
-            throw new RequestValidationException("Seession_User does not match the user_Id!");
+    public void ValidateRequest(UUID sessKey,int user_id) throws Exception{
+        User user = Context.getUsersSet().GetById(user_id);
+        Session Sess = Context.getSessionsSet().GetById(sessKey);
+        if(!Objects.equals(user.Id, Sess.UserId)){
+            throw new RequestValidationException("Session.User does not match the user_id!");
         }
     }
 }

@@ -5,25 +5,27 @@
  */
 package com.shadows.liquiblq.webapi.controllers;
 
-import com.shadows.liquiblq.data.exceptions.EntityCannotBeFoundException;
 import com.shadows.liquiblq.common.communication.json.ErrorResponse;
 import com.shadows.liquiblq.common.communication.json.GetAlbumByIdResponse;
 import com.shadows.liquiblq.common.communication.json.GetAllAlbumsResponse;
 import com.shadows.liquiblq.common.communication.json.JSONResponse;
-import com.shadows.liquiblq.data.entitys.Album;
-import com.shadows.liquiblq.data.exceptions.SessionFactoryConfigurationException;
-import com.shadows.liquiblq.data.repositories.AlbumsRepository;
-import com.shadows.liquiblq.data.repositories.ArtistsRepository;
-import com.shadows.liquiblq.data.repositories.SongsRepository;
+import com.shadows.liquiblq.data.hibernate.exceptions.EntityCannotBeFoundException;
+import com.shadows.liquiblq.data.interfaces.dto.Album;
+import com.shadows.liquiblq.data.interfaces.dto.Artist;
+import com.shadows.liquiblq.data.interfaces.dto.ArtistInAlbum;
+import com.shadows.liquiblq.data.interfaces.dto.Song;
+import com.shadows.liquiblq.data.interfaces.dto.SongInAlbum;
+import com.shadows.liquiblq.webapi.controllers.base.BaseAPIController;
 import com.shadows.liquiblq.webapi.exceptions.RequestValidationException;
-import com.shadows.liquiblq.webapi.validation.RequestValidator;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -32,29 +34,46 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/album")
-public class AlbumController {
+public class AlbumController extends BaseAPIController{
     @RequestMapping(value = "/get/{id}",method = RequestMethod.POST)
     public  JSONResponse doGetById(@PathVariable UUID id, @RequestParam("sessionKey") UUID Session,@RequestParam("UserId") Integer UserId){
         try {
-            RequestValidator.validateRequest(Session, UserId);    
-            Album album = AlbumsRepository.GetAlbumById(id);
+            this.Validator.ValidateRequest(Session, UserId);    
+            Album album = Context.getAlbumsSet().GetById(id);
+            List<ArtistInAlbum> artistInAlbums = Context.getArtistsInAlbumsSet()
+                    .GetByAlbumId(id);
+            List<SongInAlbum> songInAlbums = Context.getSongsInAlbumsSet()
+                    .GetByAlbumId(id);
+            List<Artist> artists = new ArrayList<>();
+            List<Song> songs = new ArrayList<>();
+            for (SongInAlbum songInAlbum : songInAlbums) {
+                Song song = Context.getSongsSet()
+                        .GetById(songInAlbum.Song);
+                songs.add(song);
+            }
+            for (ArtistInAlbum artistInAlbum : artistInAlbums) {
+                Artist artist = Context.getArtistsSet()
+                        .GetById(artistInAlbum.Artist);
+                artists.add(artist);
+            }
             return new GetAlbumByIdResponse(
                 album,
-                ArtistsRepository.GetArtistsForAlbum(album),
-                SongsRepository.GetSongsForAlbum(album)
+                artists,
+                songs
             );
         }
-        catch (EntityCannotBeFoundException | RequestValidationException  Exp) {
+        catch (Exception Exp) {
             return new ErrorResponse(Exp);
         }
     }
     @RequestMapping(value = "/getAll",method = RequestMethod.POST)
-    public JSONResponse doGetAll() throws EntityCannotBeFoundException, SessionFactoryConfigurationException{
+    public JSONResponse doGetAll(@RequestParam("sessionKey") UUID Session,@RequestParam("UserId") Integer UserId) throws EntityCannotBeFoundException {
         try {
-            List<Album> Albums  = AlbumsRepository.GetAllAlbums();
+            this.Validator.ValidateRequest(Session, UserId);  
+            List<Album> Albums  = Context.getAlbumsSet().GetAll();
             return new GetAllAlbumsResponse(Albums);
         }
-        catch(EntityCannotBeFoundException Exp){
+        catch(Exception Exp){
             return new ErrorResponse(Exp);
         }
     }

@@ -7,7 +7,6 @@ package com.shadows.liquiblq.data.hibernate.sets;
 
 import com.shadows.liquiblq.data.hibernate.entities.Albums;
 import com.shadows.liquiblq.data.hibernate.entities.Songs;
-import com.shadows.liquiblq.data.hibernate.entities.Artists;
 import com.shadows.liquiblq.data.hibernate.entities.SongsInAlbums;
 import com.shadows.liquiblq.data.hibernate.exceptions.EntityCannotBeDeletedException;
 import com.shadows.liquiblq.data.hibernate.exceptions.EntityCannotBeFoundException;
@@ -17,6 +16,7 @@ import com.shadows.liquiblq.data.interfaces.dto.SongInAlbum;
 import com.shadows.liquiblq.data.interfaces.dto.data.SongInAlbumData;
 import com.shadows.liquiblq.data.interfaces.sets.ISongsInAlbumsSet;
 import java.util.List;
+import java.util.UUID;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -158,6 +158,38 @@ public class SongsInAlbumsSet extends BaseSet<SongsInAlbums, SongInAlbum> implem
             session.close();
         }
         return DTO;
+    }
+
+    @Override
+    public List<SongInAlbum> GetBySongId(UUID Id) {
+        Session session = factory.openSession();
+        Criteria cr = session.createCriteria(SongsInAlbums.class);
+        cr.add(Restrictions.eq("song",Id));
+        List<SongInAlbum> SongInAlbumDTOs;
+        try {
+            List<SongsInAlbums> SongInAlbumList = cr.list();
+            SongInAlbumDTOs = ConvertEntityArrayToDTOArray(SongInAlbumList);
+        }
+        finally{
+            session.close();
+        }
+        return SongInAlbumDTOs;
+    }
+
+    @Override
+    public List<SongInAlbum> GetByAlbumId(UUID Id) {
+        Session session = factory.openSession();
+        Criteria cr = session.createCriteria(SongsInAlbums.class);
+        cr.add(Restrictions.eq("album",Id));
+        List<SongInAlbum> SongInAlbumDTOs;
+        try {
+            List<SongsInAlbums> SongInAlbumList = cr.list();
+            SongInAlbumDTOs = ConvertEntityArrayToDTOArray(SongInAlbumList);
+        }
+        finally{
+            session.close();
+        }
+        return SongInAlbumDTOs;
     }
     
 }

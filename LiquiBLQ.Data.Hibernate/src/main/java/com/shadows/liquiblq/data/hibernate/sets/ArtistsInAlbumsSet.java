@@ -16,6 +16,7 @@ import com.shadows.liquiblq.data.interfaces.dto.ArtistInAlbum;
 import com.shadows.liquiblq.data.interfaces.dto.data.ArtistInAlbumData;
 import com.shadows.liquiblq.data.interfaces.sets.IArtistsInAlbumsSet;
 import java.util.List;
+import java.util.UUID;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -157,6 +158,38 @@ public class ArtistsInAlbumsSet extends BaseSet<ArtistsInAlbums, ArtistInAlbum> 
             session.close();
         }
         return DTO;
+    }
+
+    @Override
+    public List<ArtistInAlbum> GetByAlbumId(UUID Id) {
+        Session session = factory.openSession();
+        Criteria cr = session.createCriteria(ArtistsInAlbums.class);
+        cr.add(Restrictions.eq("album", Id));
+        List<ArtistInAlbum> ArtistInAlbumDTOs;
+        try {
+            List<ArtistsInAlbums> ArtistInAlbumList = cr.list();
+            ArtistInAlbumDTOs = ConvertEntityArrayToDTOArray(ArtistInAlbumList);
+        }
+        finally{
+            session.close();
+        }
+        return ArtistInAlbumDTOs;
+    }
+
+    @Override
+    public List<ArtistInAlbum> GetByArtistId(UUID Id) {
+        Session session = factory.openSession();
+        Criteria cr = session.createCriteria(ArtistsInAlbums.class);
+        cr.add(Restrictions.eq("artist", Id));
+        List<ArtistInAlbum> ArtistInAlbumDTOs;
+        try {
+            List<ArtistsInAlbums> ArtistInAlbumList = cr.list();
+            ArtistInAlbumDTOs = ConvertEntityArrayToDTOArray(ArtistInAlbumList);
+        }
+        finally{
+            session.close();
+        }
+        return ArtistInAlbumDTOs;
     }
     
 }

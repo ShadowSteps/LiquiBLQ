@@ -20,19 +20,12 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.2.5.RELEASE</version>
+        <version>1.3.3.RELEASE</version>
     </parent>
-    <dependencies>
-        <dependency>
-            <groupId>com.shadows</groupId>
-            <artifactId>LiquiBLQ.Data</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <type>jar</type>
-        </dependency>
+    <dependencies>        
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.10</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -45,12 +38,17 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>LiquiBLQ.Common</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0.0</version>
         </dependency>
+        
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
-            <version>1.2.17</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>LiquiBLQ.Data.Hibernate</artifactId>
+            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>javax</groupId>
@@ -78,22 +76,13 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>           
-        </dependency>
-        <dependency>  
-            <groupId>javax.servlet</groupId>  
-            <artifactId>javax.servlet-api</artifactId>  
-            <version>${javax.servlet.version}</version>  
-            <scope>provided</scope>
-        </dependency>
-        
+        </dependency>       
         <dependency>  
             <groupId>jstl</groupId>  
             <artifactId>jstl</artifactId>  
             <version>${jstl.version}</version>  
-        </dependency>
-          
+        </dependency>         
     </dependencies>
-
     <build>
         <plugins>
             <plugin>

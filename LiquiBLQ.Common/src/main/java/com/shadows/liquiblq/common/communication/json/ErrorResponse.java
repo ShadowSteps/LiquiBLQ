@@ -10,18 +10,10 @@ package com.shadows.liquiblq.common.communication.json;
  * @author John
  */
 public class ErrorResponse extends JSONResponse{
-    private final String ExceptionType;
-    private final String ExceptionMessage;
+    public final String ExceptionType;
+    public final String ExceptionMessage;
     public ErrorResponse(Exception Ex){
         this.ExceptionMessage = Ex.getMessage();
         this.ExceptionType = Ex.getClass().getName();
-    }
-    
-    public String getExceptionType() {
-        return ExceptionType;
-    }
-
-    public String getExceptionMessage() {
-        return ExceptionMessage;
-    }
+    }    
 }

@@ -5,28 +5,18 @@
  */
 package com.shadows.liquiblq.common.communication.json;
 
-import com.shadows.liquiblq.data.entitys.Songs;
+import com.shadows.liquiblq.data.interfaces.dto.Song;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
  * @author mihail
  */
-public class GetAllSongsResponse extends JSONResponse{
-
-    
-    public List<Songs> listOfSongs;
-    
-    public void  setListofSongs(List<Songs> list){
-        this.listOfSongs=list;
-    }
-    public List<Songs> getListOfSongs(){
-        return this.listOfSongs;
-    }
-    public GetAllSongsResponse(List<Songs> ListOfSongs) {
-        this.listOfSongs = ListOfSongs;
-    }
-    public GetAllSongsResponse(){
+public class GetAllSongsResponse extends JSONResponse{   
+    public List<Song> songs;
         
+    public GetAllSongsResponse(List<Song> ListOfSongs) {
+        this.songs = ListOfSongs;
     }
 }

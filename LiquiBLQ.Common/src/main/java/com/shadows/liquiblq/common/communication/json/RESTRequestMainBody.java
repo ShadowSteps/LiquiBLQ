@@ -12,28 +12,11 @@ import java.util.UUID;
  * @author John
  */
 public class RESTRequestMainBody extends JSONRequest{
-
     public RESTRequestMainBody() {
     }
 
     public RESTRequestMainBody(UUID sessionKey, Integer userId) {
         this.sessionKey = sessionKey;
-        this.userId = userId;
-    }
-
-    public UUID getSessionKey() {
-        return sessionKey;
-    }
-
-    public void setSessionKey(UUID sessionKey) {
-        this.sessionKey = sessionKey;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 

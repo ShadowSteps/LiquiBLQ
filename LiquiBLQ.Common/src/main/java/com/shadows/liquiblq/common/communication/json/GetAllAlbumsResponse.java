@@ -5,7 +5,8 @@
  */
 package com.shadows.liquiblq.common.communication.json;
 
-import com.shadows.liquiblq.data.entitys.Album;
+import com.shadows.liquiblq.data.interfaces.dto.Album;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,20 +14,9 @@ import java.util.List;
  * @author mihail
  */
 public class GetAllAlbumsResponse extends JSONResponse{
-    public List<Album> listOfAlbums;
-    
-    public List<Album> getListOfAlbums(){
-        return this.listOfAlbums;
-    }
-    
-    public void setListofAlbums(List<Album> list){
-        this.listOfAlbums = list;
-    }
-    
-    public GetAllAlbumsResponse(List<Album> ListOfAlbums) {
-        this.listOfAlbums = ListOfAlbums;
-    }
-    public GetAllAlbumsResponse(){
+    public List<Album> albums;
         
+    public GetAllAlbumsResponse(List<Album> ListOfAlbums) {
+        this.albums = ListOfAlbums;
     }
 }
