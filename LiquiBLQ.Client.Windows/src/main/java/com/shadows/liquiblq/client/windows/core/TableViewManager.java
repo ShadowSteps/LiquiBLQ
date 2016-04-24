@@ -9,6 +9,9 @@ import com.shadows.liquiblq.client.windows.config.MainWindowsConfiguration;
 import com.shadows.liquiblq.client.windows.core.handlers.TableRowAlbumFactory;
 import com.shadows.liquiblq.client.windows.core.handlers.TableRowArtistFactory;
 import com.shadows.liquiblq.client.windows.core.handlers.TableRowSongsFactory;
+import com.shadows.liquiblq.client.windows.core.models.AlbumTableViewModel;
+import com.shadows.liquiblq.client.windows.core.models.ArtistTableViewModel;
+import com.shadows.liquiblq.client.windows.core.models.SongTableViewModel;
 import com.shadows.liquiblq.data.interfaces.dto.Album;
 import com.shadows.liquiblq.data.interfaces.dto.Artist;
 import com.shadows.liquiblq.data.interfaces.dto.Song;
@@ -26,11 +29,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
  * @author John
  */
 public class TableViewManager {
-    private static final ObservableList<Artist> ArtistList =
+    private static final ObservableList<ArtistTableViewModel> ArtistList =
         FXCollections.observableArrayList();
-    private static final ObservableList<Album> AlbumsList =
+    private static final ObservableList<AlbumTableViewModel> AlbumsList =
         FXCollections.observableArrayList();
-    private static final ObservableList<Song> SongsList =
+    private static final ObservableList<SongTableViewModel> SongsList =
         FXCollections.observableArrayList();
     public static void ClearTable(){        
         MainWindowsConfiguration.MainTable.getColumns().clear();
@@ -48,20 +51,20 @@ public class TableViewManager {
                 NicknameColumn = new TableColumn("Nickname"),
                 DateColumn = new TableColumn("Date of Birth");
         IdColumn.setCellValueFactory(
-            new PropertyValueFactory<Artist, UUID>("id")
+            new PropertyValueFactory<ArtistTableViewModel, UUID>("Id")
         );
         NameColumn.setCellValueFactory(
-            new PropertyValueFactory<Artist, String>("name")
+            new PropertyValueFactory<ArtistTableViewModel, String>("Name")
         );
         NicknameColumn.setCellValueFactory(
-            new PropertyValueFactory<Artist, String>("nickname")
+            new PropertyValueFactory<ArtistTableViewModel, String>("Nickname")
         );
         DateColumn.setCellValueFactory(
-            new PropertyValueFactory<Artist, Date>("dateofbirth")
+            new PropertyValueFactory<ArtistTableViewModel, Date>("DateOfBirth")
         );
         MainWindowsConfiguration.MainTable.getColumns().addAll(IdColumn,NameColumn,NicknameColumn,DateColumn);       
         for (Artist ArtistObject : ObjectList) {
-            ArtistList.add(ArtistObject);
+            ArtistList.add(ArtistTableViewModel.FromDTO(ArtistObject));
         }
         MainWindowsConfiguration.MainTable.setItems(ArtistList);
 
@@ -75,17 +78,17 @@ public class TableViewManager {
                 NameColumn = new TableColumn("Name"),
                 DateColumn = new TableColumn("Date of destribution");
         IdColumn.setCellValueFactory(
-            new PropertyValueFactory<Album, UUID>("id")
+            new PropertyValueFactory<AlbumTableViewModel, UUID>("Id")
         );
         NameColumn.setCellValueFactory(
-            new PropertyValueFactory<Album, String>("name")
+            new PropertyValueFactory<AlbumTableViewModel, String>("Name")
         );
         DateColumn.setCellValueFactory(
-            new PropertyValueFactory<Album, Date>("date")
+            new PropertyValueFactory<AlbumTableViewModel, Date>("PublishDate")
         );
         MainWindowsConfiguration.MainTable.getColumns().addAll(IdColumn,NameColumn,DateColumn);       
         for (Album AlbumObject : listOfAlbums) {
-            AlbumsList.add(AlbumObject);
+            AlbumsList.add(AlbumTableViewModel.FromDTO(AlbumObject));
         }
         MainWindowsConfiguration.MainTable.setItems(AlbumsList);
 
@@ -101,20 +104,20 @@ public class TableViewManager {
                 GenreColumn = new TableColumn("Genre"),
                 DateColumn = new TableColumn("Date of destribution");
         IdColumn.setCellValueFactory(
-            new PropertyValueFactory<Song, UUID>("id")
+            new PropertyValueFactory<SongTableViewModel, UUID>("Id")
         );
         NameColumn.setCellValueFactory(
-            new PropertyValueFactory<Song, String>("name")
+            new PropertyValueFactory<SongTableViewModel, String>("Name")
         );
         GenreColumn.setCellValueFactory(
-            new PropertyValueFactory<Song, UUID>("genre")
+            new PropertyValueFactory<SongTableViewModel, String>("GenreName")
         );
         DateColumn.setCellValueFactory(
-            new PropertyValueFactory<Song, Date>("date")
+            new PropertyValueFactory<SongTableViewModel, Date>("PublishDate")
         );
         MainWindowsConfiguration.MainTable.getColumns().addAll(IdColumn,NameColumn,DateColumn);       
         for (Song AlbumObject : listOfSongs) {
-            SongsList.add(AlbumObject);
+            SongsList.add(SongTableViewModel.FromDTO(AlbumObject));
         }
         MainWindowsConfiguration.MainTable.setItems(SongsList);
     }

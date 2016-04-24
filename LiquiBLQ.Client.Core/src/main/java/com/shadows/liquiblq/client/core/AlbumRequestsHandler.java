@@ -15,7 +15,7 @@ import java.util.UUID;
  */
 public class AlbumRequestsHandler {
     public static String getAllRequest(String ApiUrl,UUID SessinKey,Integer UserId) throws HttpRequestErrorException{
-        String UrlParamanters = "SessionKey="+SessinKey.toString()+"&UserId="+UserId;
+        String UrlParamanters = "sessionKey="+SessinKey.toString()+"&UserId="+UserId;
         return HttpRequestHandler.sendPost(ApiUrl+"album/getAll", UrlParamanters);
     }
     public static String getByIdRequest(String ApiUrl,UUID SessinKey,Integer UserId,UUID Id) throws HttpRequestErrorException{

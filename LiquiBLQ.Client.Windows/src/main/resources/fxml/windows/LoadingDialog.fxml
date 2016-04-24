@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="77.0" prefWidth="434.0" style="-fx-background-color: #F1F1F1; -fx-border-style: solid; -fx-border-color: #cccccc; -fx-border-radius: 4px;" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.shadows.liquiblq.client.windows.controllers.LoadingDialogController">
+    <stylesheets>
+        <URL value="@/styles/windows/loadingdialog.css" />
+    </stylesheets>
+   <children>
+      <ImageView fitHeight="72.0" fitWidth="83.0" layoutX="9.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../img/bg-loading-boobs-outbg.gif" />
+         </image></ImageView>
+      <Label layoutX="100.0" layoutY="27.0" text="Loading, please wait for the procces to finish...">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

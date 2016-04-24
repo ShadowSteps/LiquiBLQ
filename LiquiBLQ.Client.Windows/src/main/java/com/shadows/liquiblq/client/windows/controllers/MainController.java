@@ -12,6 +12,7 @@ import com.shadows.liquiblq.client.windows.config.AppConfig;
 import com.shadows.liquiblq.client.windows.config.ConfigurationManager;
 import com.shadows.liquiblq.client.windows.config.LoginCredentials;
 import com.shadows.liquiblq.client.windows.config.MainWindowsConfiguration;
+import com.shadows.liquiblq.client.windows.core.MainControllerTasksManager;
  import com.shadows.liquiblq.client.windows.core.TableViewManager;
 import com.shadows.liquiblq.client.windows.core.validation.controls.AlertsManager;
 import com.shadows.liquiblq.client.windows.exceptions.ApplicationConfigurationException;
@@ -64,6 +65,8 @@ public class MainController implements Initializable {
     private TitledPane mainTablePanelAlbums;
      @FXML
      private AnchorPane mainTableContainer;
+     
+    private MainControllerTasksManager taskManager = new MainControllerTasksManager();
     @Override
     public void initialize(URL url, ResourceBundle rb) {    
         MainWindowsConfiguration.InfoPanel = infoPanel;
@@ -104,18 +107,13 @@ public class MainController implements Initializable {
     private void fetchAllAlbums(){
         try {
            AppConfig conf = ConfigurationManager.GetApplicationConfiguration();
-           String ApiUrl = conf.getApiUrl();
+           String ApiUrl = conf.getApiUrl();           
            try {
-                GetAllAlbumsResponse Response = (GetAllAlbumsResponse)RequestsManager.doGetAllAlbumsRequest(
-                       ApiUrl, 
-                       LoginCredentials.getSessionKey(), 
-                       LoginCredentials.GetUserId()
-                );           
-                TableViewManager.CreateTableFromAlbums(Response.albums);
-           } catch (HttpRequestErrorException ex) {
-               AlertsManager.ShowErrorAlert("Server not responding","Our attempt to make a request to the server has failed! Please try again later!");
-           } catch (CannotParseResponseException ex) {
-               AlertsManager.ShowErrorAlert("Internal server error","The response of the server was invalid! Please try again later!");
+                taskManager.RunGetAllAlbumsTask(
+                        ApiUrl, 
+                        LoginCredentials.getSessionKey(), 
+                        LoginCredentials.GetUserId()
+                );
            } catch (UserNotLoggedInException ex) {
                 AlertsManager.ShowErrorAlert("Application error","User must be logged in to access options!");
                 Platform.exit();

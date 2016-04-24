@@ -21,6 +21,7 @@ import javafx.stage.StageStyle;
  * @author John
  */
 public class DialogManager {
+    private static Stage LoadingDialog = null;
     public static Scene ShowDialog(Stage stage,String DialogViewName,String Title) throws IOException{
         Parent root = FXMLLoader.load(LiquiBLQ.class.getResource(DialogViewName));        
         Scene scene = new Scene(root);
@@ -48,5 +49,18 @@ public class DialogManager {
         dialog.initModality(Modality.WINDOW_MODAL);
         dialog.initOwner(MainWindowsConfiguration.MainForm.getWindow());      
         return ShowDialog(dialog, "/fxml/windows/SongPlay.fxml", "LiquiBLQ - Playsong");    
+    }
+    public static void ShowLoadingDialog() throws IOException{
+        LoadingDialog = new Stage();
+        LoadingDialog.initStyle(StageStyle.UNDECORATED);       
+        LoadingDialog.initModality(Modality.WINDOW_MODAL);
+        LoadingDialog.initOwner(MainWindowsConfiguration.MainForm.getWindow());      
+        ShowDialog(LoadingDialog, "/fxml/windows/LoadingDialog.fxml", "Loading....");                
+    }
+     public static void CloseLoadingDialog(){
+        if (LoadingDialog!= null){
+            LoadingDialog.close();
+            LoadingDialog = null;
+        }            
     }
 }

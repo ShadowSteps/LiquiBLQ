@@ -13,7 +13,12 @@ import com.shadows.liquiblq.common.communication.json.GetArtistByIdResponse;
 import com.shadows.liquiblq.common.communication.json.GetSongByIdResponse;
 import com.shadows.liquiblq.common.communication.json.LoginResponse;
 import com.shadows.liquiblq.common.communication.json.RegisterResponse;
+import com.shadows.liquiblq.data.interfaces.dto.Album;
 import com.shadows.liquiblq.data.interfaces.dto.Artist;
+import com.shadows.liquiblq.data.interfaces.dto.Genre;
+import com.shadows.liquiblq.data.interfaces.dto.Song;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
@@ -62,12 +67,12 @@ public class ReponseParserTest {
     public void testParseGetAllArtistsReponse() throws Exception {
         System.out.println("ParseGetAllArtistsReponse");
         UUID Rand = UUID.randomUUID();
-        String Reponse = "{\"artists\":[{\"Id\":\""+Rand+"\",\"Name\":\"Test\",\"Nickname\":\"Test Nickname\",\"DateOfBirth\":\"2016-01-01T12:01:01.000+0200\"}]}";
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+        Date date = new Date();
+        String Reponse = "{\"artists\":[{\"Id\":\""+Rand+"\",\"Name\":\"Test\",\"Nickname\":\"Test Nickname\",\"DateOfBirth\":\""+format.format(date)+"\"}]}";
         GetAllArtistsResponse expResult = new GetAllArtistsResponse();
-        Artist a = new Artist();
-        Calendar c = Calendar.getInstance();
-        c.set(2016, 0, 1, 12, 1, 1);
-        a.DateOfBirth = c.getTime();        
+        Artist a = new Artist();     
+        a.DateOfBirth = date;        
         a.Id = Rand;
         a.Name = "Test";
         a.Nickname = "Test Nickname";
@@ -79,51 +84,120 @@ public class ReponseParserTest {
     @Test
     public void testParseGetAllAlbumsReponse() throws Exception {
         System.out.println("ParseGetAllAlbumsReponse");
-        String Reponse = "";
-        GetAllAlbumsResponse expResult = null;
+        UUID Rand = UUID.randomUUID();
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+        Date date = new Date();        
+        String Reponse = "{\"albums\":[{\"Id\":\""+Rand+"\",\"Name\":\"Test\",\"PublishDate\":\""+format.format(date)+"\"}]}";
+        GetAllAlbumsResponse expResult = new GetAllAlbumsResponse();
+        Album a = new Album();
+        a.Id = Rand;
+        a.Name = "Test";
+        a.PublishDate = date;
+        expResult.albums.add(a);
         GetAllAlbumsResponse result = ReponseParser.ParseGetAllAlbumsReponse(Reponse);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+        assertEquals(expResult, result);        
     }
 
     @Test
     public void testParseGetAllSongsReponse() throws Exception {
         System.out.println("ParseGetAllSongsReponse");
-        String Reponse = "";
-        GetAllSongsResponse expResult = null;
+        UUID Rand = UUID.randomUUID();
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+        Date date = new Date();        
+        String Reponse = "{\"songs\":[{\"Id\":\""+Rand+"\",\"Name\":\"Test\",\"PublishDate\":\""+format.format(date)+"\",\"Genre\":\""+Rand+"\"}]}";
+        GetAllSongsResponse expResult = new GetAllSongsResponse();
+        Song s = new Song();
+        s.Genre = Rand;
+        s.Id = Rand;
+        s.Name = "Test";
+        s.PublishDate = date;
+        expResult.songs.add(s);
         GetAllSongsResponse result = ReponseParser.ParseGetAllSongsReponse(Reponse);
         assertEquals(expResult, result);
-        fail("The test case is a prototype.");
     }
 
     @Test
     public void testParseGetAlbumByIdReponse() throws Exception {
         System.out.println("ParseGetAlbumByIdReponse");
-        String Reponse = "";
-        GetAlbumByIdResponse expResult = null;
+        UUID Rand = UUID.randomUUID();
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+        Date date = new Date();        
+        String Reponse = "{\"album\":{\"Id\":\""+Rand+"\",\"Name\":\"Test\",\"PublishDate\":\""+format.format(date)+"\"},"
+                + "\"artists\":[{\"Id\":\""+Rand+"\",\"Name\":\"Test\",\"Nickname\":\"Test Nickname\",\"DateOfBirth\":\""+format.format(date)+"\"}],"
+                + "\"songs\":[{\"Id\":\""+Rand+"\",\"Name\":\"Test\",\"PublishDate\":\""+format.format(date)+"\",\"Genre\":\""+Rand+"\"}]}";
+        Album a = new Album();
+        a.Id = Rand;
+        a.Name = "Test";
+        a.PublishDate = date;
+        Artist ar = new Artist();     
+        ar.DateOfBirth = date;        
+        ar.Id = Rand;
+        ar.Name = "Test";
+        ar.Nickname = "Test Nickname";
+        Song s = new Song();
+        s.Genre = Rand;
+        s.Id = Rand;
+        s.Name = "Test";
+        s.PublishDate = date;
+        GetAlbumByIdResponse expResult = new GetAlbumByIdResponse();
+        expResult.album = a;
+        expResult.artists.add(ar);
+        expResult.songs.add(s);
         GetAlbumByIdResponse result = ReponseParser.ParseGetAlbumByIdReponse(Reponse);
         assertEquals(expResult, result);
-        fail("The test case is a prototype.");
     }
 
     @Test
     public void testParseGetSongByIdReponse() throws Exception {
         System.out.println("ParseGetSongByIdReponse");
-        String Reponse = "";
-        GetSongByIdResponse expResult = null;
+        UUID Rand = UUID.randomUUID();
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+        Date date = new Date();        
+        String Reponse = "{\"song\":{\"Id\":\""+Rand+"\",\"Name\":\"Test\",\"PublishDate\":\""+format.format(date)+"\",\"Genre\":\""+Rand+"\"},"
+                + "\"genre\":{\"Id\":\""+Rand+"\",\"Name\":\"Test\"},"
+                + "\"albums\":[{\"Id\":\""+Rand+"\",\"Name\":\"Test\",\"PublishDate\":\""+format.format(date)+"\"}]}";
+        Song s = new Song();
+        s.Genre = Rand;
+        s.Id = Rand;
+        s.Name = "Test";
+        s.PublishDate = date;
+        Album a = new Album();
+        a.Id = Rand;
+        a.Name = "Test";
+        a.PublishDate = date;
+        Genre g = new Genre();
+        g.Id = Rand;
+        g.Name = "Test";
+        GetSongByIdResponse expResult = new GetSongByIdResponse();
+        expResult.song = s;
+        expResult.albums.add(a);
+        expResult.genre = g;
         GetSongByIdResponse result = ReponseParser.ParseGetSongByIdReponse(Reponse);
         assertEquals(expResult, result);
-        fail("The test case is a prototype.");
     }
 
     @Test
     public void testParseGetArtistByIdReponse() throws Exception {
         System.out.println("ParseGetArtistByIdReponse");
-        String Reponse = "";
-        GetArtistByIdResponse expResult = null;
+        UUID Rand = UUID.randomUUID();
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+        Date date = new Date();        
+        String Reponse = "{\"artist\":{\"Id\":\""+Rand+"\",\"Name\":\"Test\",\"Nickname\":\"Test Nickname\",\"DateOfBirth\":\""+format.format(date)+"\"},"               
+                + "\"albums\":[{\"Id\":\""+Rand+"\",\"Name\":\"Test\",\"PublishDate\":\""+format.format(date)+"\"}]}";
+        Album a = new Album();
+        a.Id = Rand;
+        a.Name = "Test";
+        a.PublishDate = date;
+        Artist ar = new Artist();     
+        ar.DateOfBirth = date;        
+        ar.Id = Rand;
+        ar.Name = "Test";
+        ar.Nickname = "Test Nickname";
+        GetArtistByIdResponse expResult = new GetArtistByIdResponse();
+        expResult.albums.add(a);
+        expResult.artist = ar;
         GetArtistByIdResponse result = ReponseParser.ParseGetArtistByIdReponse(Reponse);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+        assertEquals(expResult, result);        
     }
     
 }
