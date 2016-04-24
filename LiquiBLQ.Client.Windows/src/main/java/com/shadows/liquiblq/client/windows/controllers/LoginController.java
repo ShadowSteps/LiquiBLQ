@@ -122,7 +122,7 @@ public class LoginController implements Initializable{
                 String ApiUrl = conf.getApiUrl();
                 try {
                     RegisterResponse Resp = (RegisterResponse)RequestsManager.doRegisterRequest(ApiUrl, RegisterEmail.getText(), RegisterPassword.getText(),RegisterName.getText());
-                    AlertsManager.ShowInfoAlert("Register successfull!", "Welcome, you are registered as: "+Resp.getEmail());
+                    AlertsManager.ShowInfoAlert("Register successfull!", "Welcome, you are registered as: "+Resp.email);
                     loginTabsPanel.getSelectionModel().select(0);
                 } catch (HttpRequestErrorException ex) {
                     AlertsManager.ShowErrorAlert("Server not responding","Our attempt to make a request to the server has failed! Please try again later!");
@@ -148,7 +148,7 @@ public class LoginController implements Initializable{
                 String ApiUrl = conf.getApiUrl();
                 try {
                     LoginResponse Response = (LoginResponse)RequestsManager.doLoginRequest(ApiUrl, LoginEmail.getText(), LoginPassword.getText());  
-                    AlertsManager.ShowInfoAlert("Login successfull!", "Welcome, you are logged in as: "+Response.getEmail());
+                    AlertsManager.ShowInfoAlert("Login successfull!", "Welcome, you are logged in as: "+Response.email);
                     LoginCredentials.setLoginInfo(Response);
                     Stage stage = (Stage)loginButton.getScene().getWindow();
                     Window Parent = stage.getOwner();

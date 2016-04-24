@@ -5,23 +5,20 @@
  */
 package com.shadows.liquiblq.client.windows.core.handlers;
 
-import com.shadows.liquiblq.client.windows.core.InfomationManager;
 import com.shadows.liquiblq.client.windows.core.tasks.LoadSongtInfoTast;
-import com.shadows.liquiblq.data.entitys.Songs;
+import com.shadows.liquiblq.data.interfaces.dto.Song;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
-import javafx.scene.layout.AnchorPane;
 
 /**
  *
  * @author John
  */
 public class SongsSelectHandler implements EventHandler {   
-    private final TableRow<Songs> SongsToHandle;
+    private final TableRow<Song> SongsToHandle;
 
-    public SongsSelectHandler(TableRow<Songs> SongsToHandle) {
+    public SongsSelectHandler(TableRow<Song> SongsToHandle) {
         this.SongsToHandle = SongsToHandle;
     }
     

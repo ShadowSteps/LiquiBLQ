@@ -8,14 +8,13 @@ package com.shadows.liquiblq.client.windows.controllers;
 
 import com.shadows.liquiblq.client.windows.config.ConfigurationManager;
 import com.shadows.liquiblq.client.windows.exceptions.ApplicationConfigurationException;
-import com.shadows.liquiblq.data.entitys.Songs;
+import com.shadows.liquiblq.data.interfaces.dto.Song;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
-import javax.swing.JLayer;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
 
@@ -33,8 +32,8 @@ public class SongPlayController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         
     }    
-    public void PlaySong(Songs songToPlay) throws ApplicationConfigurationException{
-        String song = ConfigurationManager.GetApiUrl()+"Song/Play/"+songToPlay.getId().toString();
+    public void PlaySong(Song songToPlay) throws ApplicationConfigurationException{
+        String song = ConfigurationManager.GetApiUrl()+"Song/Play/"+songToPlay.Id.toString();
         Player mp3player = null;
         BufferedInputStream in = null;
         try {

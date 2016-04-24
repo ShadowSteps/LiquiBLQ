@@ -5,16 +5,13 @@
  */
 package com.shadows.liquiblq.client.windows.core.handlers;
 
-import com.shadows.liquiblq.client.windows.core.InfomationManager;
 import com.shadows.liquiblq.client.windows.core.tasks.LoadAlbumtInfoTast;
-import com.shadows.liquiblq.data.entitys.Album;
+import com.shadows.liquiblq.data.interfaces.dto.Album;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
-import javafx.scene.layout.AnchorPane;
 
 /**
  *

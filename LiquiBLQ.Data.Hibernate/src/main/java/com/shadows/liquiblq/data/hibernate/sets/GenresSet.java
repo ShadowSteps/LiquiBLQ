@@ -33,11 +33,13 @@ public class GenresSet extends BaseSet<Genres, Genre> implements IGenresSet {
     @Override
     public List<Genre> GetAll() throws Exception {
         Session session = factory.openSession();
+        session.beginTransaction();
         Criteria cr = session.createCriteria(Genres.class);
         List<Genre> DTOs;
         try {
             List<Genres> List = cr.list();
             DTOs = ConvertEntityArrayToDTOArray(List);
+            session.getTransaction().commit();
         } finally {
             session.close();
         }
@@ -47,6 +49,7 @@ public class GenresSet extends BaseSet<Genres, Genre> implements IGenresSet {
     @Override
     public Genre GetById(UUID Id) throws Exception {
         Session session = factory.openSession();
+        session.beginTransaction();
         Criteria cr = session.createCriteria(Genres.class);
         cr.add(Restrictions.eq("id", Id));
         Genre DTO;
@@ -57,6 +60,7 @@ public class GenresSet extends BaseSet<Genres, Genre> implements IGenresSet {
             }
             Genres entity = List.get(0);            
             DTO = ConvertEntityToDTO(entity);
+            session.getTransaction().commit();
         } finally {
             session.close();
         }
@@ -69,9 +73,12 @@ public class GenresSet extends BaseSet<Genres, Genre> implements IGenresSet {
         entity.setName(Data.Name);
         UUID Id;
         Session session = factory.openSession();
+        session.beginTransaction();
         try {
             Id = (UUID) session.save(entity);
+            session.getTransaction().commit();
         } catch (Exception exp) {
+            session.getTransaction().rollback();
             throw new EntityCannotByCreatedException("Could not save Genre data! See inner exception!", exp);
         } finally {
             session.close();
@@ -82,6 +89,7 @@ public class GenresSet extends BaseSet<Genres, Genre> implements IGenresSet {
     @Override
     public void Edit(UUID Key, GenreData Data) throws Exception {
         Session session = factory.openSession();
+        session.beginTransaction();
         Criteria cr = session.createCriteria(Genres.class);
         cr.add(Restrictions.eq("id", Key));
         try {
@@ -92,7 +100,9 @@ public class GenresSet extends BaseSet<Genres, Genre> implements IGenresSet {
             Genres entity = List.get(0);  
             entity.setName(Data.Name);
             session.update(entity);
+            session.getTransaction().commit();
         } catch (HibernateException exp) {
+            session.getTransaction().rollback();
             throw new EntityCannotBeEditedException("Genre could not be updated! See inner exception!", exp);
         } finally {
             session.close();
@@ -102,6 +112,7 @@ public class GenresSet extends BaseSet<Genres, Genre> implements IGenresSet {
     @Override
     public void Delete(UUID Key) throws Exception {
         Session session = factory.openSession();
+        session.beginTransaction();
         Criteria cr = session.createCriteria(Genres.class);
         cr.add(Restrictions.eq("id", Key));
         try {
@@ -111,7 +122,9 @@ public class GenresSet extends BaseSet<Genres, Genre> implements IGenresSet {
             }
             Genres entity = List.get(0);            
             session.delete(entity);
+            session.getTransaction().commit();
         } catch (HibernateException exp) {
+            session.getTransaction().rollback();
             throw new EntityCannotBeDeletedException("Genres could not be deleted! See inner exception!", exp);
         } finally {
             session.close();

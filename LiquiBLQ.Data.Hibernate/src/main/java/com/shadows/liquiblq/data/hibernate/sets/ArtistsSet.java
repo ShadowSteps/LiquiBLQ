@@ -40,11 +40,13 @@ public class ArtistsSet extends BaseSet<Artists, Artist> implements IArtistsSet{
     @Override
     public List<Artist> GetAll() throws Exception {
         Session session = factory.openSession();
+        session.beginTransaction();
         Criteria cr = session.createCriteria(Artists.class);
         List<Artist> ArtistDTOs;
         try {
             List<Artists> ArtistList = cr.list();
             ArtistDTOs = ConvertEntityArrayToDTOArray(ArtistList);
+            session.getTransaction().commit();
         }
         finally{
             session.close();
@@ -55,6 +57,7 @@ public class ArtistsSet extends BaseSet<Artists, Artist> implements IArtistsSet{
     @Override
     public Artist GetById(UUID Id) throws Exception {
         Session session = factory.openSession();
+        session.beginTransaction();
         Criteria cr = session.createCriteria(Artists.class);
         cr.add(Restrictions.eq("id", Id));
         Artist DTO;
@@ -64,6 +67,7 @@ public class ArtistsSet extends BaseSet<Artists, Artist> implements IArtistsSet{
                 throw new EntityCannotBeFoundException("Artist not found!");
             Artists artist = ArtistList.get(0);            
             DTO = ConvertEntityToDTO(artist);
+            session.getTransaction().commit();
         }
         finally{
             session.close();
@@ -79,10 +83,13 @@ public class ArtistsSet extends BaseSet<Artists, Artist> implements IArtistsSet{
         artists.setNickname(Data.Nickname);
         UUID Id;
         Session session = factory.openSession();
+        session.beginTransaction();
         try {
             Id = (UUID)session.save(artists);
+            session.getTransaction().commit();
         }
         catch(Exception exp){
+            session.getTransaction().rollback();
             throw new EntityCannotByCreatedException("Could not save Artist data! See inner exception!", exp);
         }
         finally {
@@ -94,6 +101,7 @@ public class ArtistsSet extends BaseSet<Artists, Artist> implements IArtistsSet{
     @Override
     public void Edit(UUID Key, ArtistData Data) throws Exception {
         Session session = factory.openSession();
+        session.beginTransaction();
         Criteria cr = session.createCriteria(Artists.class);
         cr.add(Restrictions.eq("id", Key));
         try {
@@ -105,8 +113,10 @@ public class ArtistsSet extends BaseSet<Artists, Artist> implements IArtistsSet{
             artists.setName(Data.Name);
             artists.setNickname(Data.Nickname);
             session.update(artists);
+            session.getTransaction().commit();
         }
         catch(HibernateException exp){
+            session.getTransaction().rollback();
             throw new EntityCannotBeEditedException("Artist could not be updated! See inner exception!",exp);
         }
         finally{
@@ -117,6 +127,7 @@ public class ArtistsSet extends BaseSet<Artists, Artist> implements IArtistsSet{
     @Override
     public void Delete(UUID Key) throws Exception {
         Session session = factory.openSession();
+        session.beginTransaction();
         Criteria cr = session.createCriteria(Artists.class);
         cr.add(Restrictions.eq("id", Key));
         try {
@@ -125,8 +136,10 @@ public class ArtistsSet extends BaseSet<Artists, Artist> implements IArtistsSet{
                 throw new EntityCannotBeFoundException("Artists not found!");
             Artists artist = ArtistsList.get(0);            
             session.delete(artist);
+            session.getTransaction().commit();
         }
         catch(HibernateException exp){
+            session.getTransaction().rollback();
             throw new EntityCannotBeDeletedException("Artists could not be deleted! See inner exception!",exp);
         }
         finally{

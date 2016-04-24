@@ -12,24 +12,19 @@ import com.shadows.liquiblq.client.windows.core.InfomationManager;
 import com.shadows.liquiblq.client.windows.core.validation.controls.AlertsManager;
 import com.shadows.liquiblq.client.windows.exceptions.ApplicationConfigurationException;
 import com.shadows.liquiblq.client.windows.exceptions.UserNotLoggedInException;
-import com.shadows.liquiblq.common.communication.json.GetAlbumByIdResponse;
-import com.shadows.liquiblq.common.communication.json.GetAllSongsResponse;
-import com.shadows.liquiblq.common.communication.json.getSongByIdResponse;
-import com.shadows.liquiblq.data.entitys.Album;
-import com.shadows.liquiblq.data.entitys.Songs;
+import com.shadows.liquiblq.common.communication.json.GetSongByIdResponse;
+import com.shadows.liquiblq.data.interfaces.dto.Song;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
-import javafx.scene.control.TableView;
-import javafx.scene.layout.AnchorPane;
 
 /**
  *
  * @author John
  */
 public class LoadSongtInfoTast extends Task<Object> {
-    private final Songs song;
+    private final Song song;
 
-    public LoadSongtInfoTast(Songs song) {
+    public LoadSongtInfoTast(Song song) {
         this.song = song;
     }
     
@@ -37,14 +32,14 @@ public class LoadSongtInfoTast extends Task<Object> {
     protected Object call() throws Exception {
         try{
             try{
-                getSongByIdResponse Response = (getSongByIdResponse)RequestsManager
+                GetSongByIdResponse Response = (GetSongByIdResponse)RequestsManager
                     .doGetSongByIdRequest(
                             ConfigurationManager.GetApiUrl(),
                             LoginCredentials.getSessionKey(), 
                             LoginCredentials.GetUserId(),
-                            this.song.getId()
+                            this.song.Id
                     );            
-                InfomationManager.WriteInfoAboutSongs(this.song,Response.getAlbums());
+                InfomationManager.WriteInfoAboutSongs(this.song,Response.albums);
             } catch (UserNotLoggedInException ex) {
                 AlertsManager.ShowErrorAlert("Application error","User must be logged in to access options!");
                 Platform.exit();

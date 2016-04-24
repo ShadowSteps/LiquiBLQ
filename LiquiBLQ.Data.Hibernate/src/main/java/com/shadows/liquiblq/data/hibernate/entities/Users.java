@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -48,7 +49,11 @@ public class Users implements java.io.Serializable {
 
 	@Id
 	@Column(name = "id", unique = true, nullable = false, columnDefinition = "serial")
-        @GeneratedValue(strategy = GenerationType.IDENTITY)                
+        @SequenceGenerator(name="users_id_seq",
+                       sequenceName="users_id_seq",
+                       allocationSize=1)
+        @GeneratedValue(strategy = GenerationType.SEQUENCE,
+                    generator="users_id_seq")
 	public Integer getId() {
 		return this.id;
 	}
@@ -57,7 +62,7 @@ public class Users implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "email", nullable = false, length = 55)
+	@Column(name = "email", nullable = false)
 	public String getEmail() {
 		return this.email;
 	}
@@ -66,7 +71,7 @@ public class Users implements java.io.Serializable {
 		this.email = email;
 	}
 
-	@Column(name = "password", nullable = false, length = 64)
+	@Column(name = "password", nullable = false)
 	public String getPassword() {
 		return this.password;
 	}
@@ -75,7 +80,7 @@ public class Users implements java.io.Serializable {
 		this.password = password;
 	}
 
-	@Column(name = "salt", nullable = false, length = 5)
+	@Column(name = "salt", nullable = false)
 	public String getSalt() {
 		return this.salt;
 	}
@@ -84,7 +89,7 @@ public class Users implements java.io.Serializable {
 		this.salt = salt;
 	}
 
-	@Column(name = "name", length = 50)
+	@Column(name = "name")
 	public String getName() {
 		return this.name;
 	}
@@ -93,8 +98,8 @@ public class Users implements java.io.Serializable {
 		this.name = name;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "date_registered", nullable = false, length = 29)
+	@Temporal(TemporalType.TIMESTAMP)        
+	@Column(name = "date_registered", nullable = false, length = 29, insertable = false)
 	public Date getDateRegistered() {
 		return this.dateRegistered;
 	}

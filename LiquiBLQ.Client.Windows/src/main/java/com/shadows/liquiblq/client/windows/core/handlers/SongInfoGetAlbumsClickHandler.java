@@ -5,15 +5,11 @@
  */
 package com.shadows.liquiblq.client.windows.core.handlers;
 
-import com.shadows.liquiblq.client.windows.config.MainWindowsConfiguration;
 import com.shadows.liquiblq.client.windows.core.TableViewManager;
-import com.shadows.liquiblq.data.entitys.Album;
-import com.shadows.liquiblq.data.entitys.Songs;
+import com.shadows.liquiblq.data.interfaces.dto.Album;
 import java.util.List;
 import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.scene.control.TableView;
-import javafx.scene.layout.AnchorPane;
 
 /**
  *

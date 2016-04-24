@@ -7,7 +7,6 @@ package com.shadows.liquiblq.client.windows.config;
 
 import com.shadows.liquiblq.client.windows.exceptions.UserNotLoggedInException;
 import com.shadows.liquiblq.common.communication.json.LoginResponse;
-import com.shadows.liquiblq.common.communication.json.RESTRequestMainBody;
 import java.util.UUID;
 
 /**
@@ -21,19 +20,19 @@ public class LoginCredentials {
     }
     public static boolean isLoggedIn(){
         return LoginInfo != null
-                && LoginInfo.getSessionKey() != null
-                && LoginInfo.getId() != null;
+                && LoginInfo.sessionKey != null
+                && LoginInfo.id != null;
     }
     public static Integer GetUserId() throws UserNotLoggedInException{
         if (!isLoggedIn()){
             throw new UserNotLoggedInException();
         }
-        return LoginInfo.getId();
+        return LoginInfo.id;
     }
     public static UUID getSessionKey() throws UserNotLoggedInException{
         if (!isLoggedIn()){
             throw new UserNotLoggedInException();
         }
-        return LoginInfo.getSessionKey();
+        return LoginInfo.sessionKey;
     }
 }

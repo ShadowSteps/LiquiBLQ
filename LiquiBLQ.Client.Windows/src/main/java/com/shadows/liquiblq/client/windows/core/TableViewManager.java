@@ -9,20 +9,17 @@ import com.shadows.liquiblq.client.windows.config.MainWindowsConfiguration;
 import com.shadows.liquiblq.client.windows.core.handlers.TableRowAlbumFactory;
 import com.shadows.liquiblq.client.windows.core.handlers.TableRowArtistFactory;
 import com.shadows.liquiblq.client.windows.core.handlers.TableRowSongsFactory;
-import com.shadows.liquiblq.data.entitys.Album;
-import com.shadows.liquiblq.data.entitys.Artist;
-import com.shadows.liquiblq.data.entitys.Songs;
+import com.shadows.liquiblq.data.interfaces.dto.Album;
+import com.shadows.liquiblq.data.interfaces.dto.Artist;
+import com.shadows.liquiblq.data.interfaces.dto.Song;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 
 /**
  *
@@ -33,7 +30,7 @@ public class TableViewManager {
         FXCollections.observableArrayList();
     private static final ObservableList<Album> AlbumsList =
         FXCollections.observableArrayList();
-    private static final ObservableList<Songs> SongsList =
+    private static final ObservableList<Song> SongsList =
         FXCollections.observableArrayList();
     public static void ClearTable(){        
         MainWindowsConfiguration.MainTable.getColumns().clear();
@@ -94,7 +91,7 @@ public class TableViewManager {
 
     }
 
-    public static void CreateTableFromSongs(List<Songs> listOfSongs) {
+    public static void CreateTableFromSongs(List<Song> listOfSongs) {
         ClearTable();
         SongsList.clear();
         
@@ -104,19 +101,19 @@ public class TableViewManager {
                 GenreColumn = new TableColumn("Genre"),
                 DateColumn = new TableColumn("Date of destribution");
         IdColumn.setCellValueFactory(
-            new PropertyValueFactory<Songs, UUID>("id")
+            new PropertyValueFactory<Song, UUID>("id")
         );
         NameColumn.setCellValueFactory(
-            new PropertyValueFactory<Songs, String>("name")
+            new PropertyValueFactory<Song, String>("name")
         );
         GenreColumn.setCellValueFactory(
-            new PropertyValueFactory<Songs, UUID>("genre")
+            new PropertyValueFactory<Song, UUID>("genre")
         );
         DateColumn.setCellValueFactory(
-            new PropertyValueFactory<Songs, Date>("date")
+            new PropertyValueFactory<Song, Date>("date")
         );
         MainWindowsConfiguration.MainTable.getColumns().addAll(IdColumn,NameColumn,DateColumn);       
-        for (Songs AlbumObject : listOfSongs) {
+        for (Song AlbumObject : listOfSongs) {
             SongsList.add(AlbumObject);
         }
         MainWindowsConfiguration.MainTable.setItems(SongsList);

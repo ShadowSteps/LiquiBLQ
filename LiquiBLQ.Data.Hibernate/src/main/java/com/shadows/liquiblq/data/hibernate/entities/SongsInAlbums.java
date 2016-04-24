@@ -6,9 +6,12 @@ package com.shadows.liquiblq.data.hibernate.entities;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -20,7 +23,7 @@ public class SongsInAlbums implements java.io.Serializable {
 
 	private int id;
 	private Albums album;
-	private Songs songs;
+	private Songs song;
 
 	public SongsInAlbums() {
 	}
@@ -28,11 +31,16 @@ public class SongsInAlbums implements java.io.Serializable {
 	public SongsInAlbums(int id, Albums album, Songs songs) {
 		this.id = id;
 		this.album = album;
-		this.songs = songs;
+		this.song = songs;
 	}
 
 	@Id
-	@Column(name = "id", unique = true, nullable = false)
+	@Column(name = "id", unique = true, nullable = false, columnDefinition = "serial")
+        @SequenceGenerator(name="songs_in_album_id_seq",
+                       sequenceName="songs_in_album_id_seq",
+                       allocationSize=1)
+        @GeneratedValue(strategy = GenerationType.SEQUENCE,
+                    generator="songs_in_album_id_seq")
 	public int getId() {
 		return this.id;
 	}
@@ -53,12 +61,12 @@ public class SongsInAlbums implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "song", nullable = false)
-	public Songs getSongs() {
-		return this.songs;
+	public Songs getSong() {
+		return this.song;
 	}
 
-	public void setSongs(Songs songs) {
-		this.songs = songs;
+	public void setSong(Songs songs) {
+		this.song = songs;
 	}
 
 }

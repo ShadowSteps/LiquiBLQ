@@ -32,7 +32,7 @@ public class SongsInAlbumsSet extends BaseSet<SongsInAlbums, SongInAlbum> implem
     protected SongInAlbum ConvertEntityToDTO(SongsInAlbums entity) {
         SongInAlbum artistInAlbum = new SongInAlbum();
         artistInAlbum.Album = entity.getAlbum().getId();
-        artistInAlbum.Song = entity.getSongs().getId();
+        artistInAlbum.Song = entity.getSong().getId();
         artistInAlbum.Id = entity.getId();
         return artistInAlbum;
     }
@@ -40,6 +40,7 @@ public class SongsInAlbumsSet extends BaseSet<SongsInAlbums, SongInAlbum> implem
     @Override
     public Integer Add(SongInAlbumData Data) throws Exception {
         Session session = factory.openSession();        
+        session.beginTransaction();
         Integer Id;
         try {               
             List<Songs> songsList = session
@@ -58,10 +59,12 @@ public class SongsInAlbumsSet extends BaseSet<SongsInAlbums, SongInAlbum> implem
             Albums album = albumsList.get(0);        
             SongsInAlbums songInAlbum = new SongsInAlbums();
             songInAlbum.setAlbum(album);
-            songInAlbum.setSongs(song);
+            songInAlbum.setSong(song);
             Id = (Integer)session.save(songInAlbum);
+            session.getTransaction().commit();
         }
         catch(HibernateException | EntityCannotBeFoundException exp){
+            session.getTransaction().rollback();
             throw new EntityCannotByCreatedException("Could not save SongInAlbum data! See inner exception!", exp);
         }
         finally {
@@ -73,6 +76,7 @@ public class SongsInAlbumsSet extends BaseSet<SongsInAlbums, SongInAlbum> implem
     @Override
     public void Edit(Integer Key, SongInAlbumData Data) throws Exception {
         Session session = factory.openSession();        
+        session.beginTransaction();
         Criteria cr = session.createCriteria(SongsInAlbums.class);
         cr.add(Restrictions.eq("id", Key));
         try {           
@@ -95,10 +99,12 @@ public class SongsInAlbumsSet extends BaseSet<SongsInAlbums, SongInAlbum> implem
                 throw new EntityCannotBeFoundException("Album not found!");
             Albums album = albumsList.get(0);                    
             songInAlbum.setAlbum(album);
-            songInAlbum.setSongs(song);
+            songInAlbum.setSong(song);
             session.update(songInAlbum);
+            session.getTransaction().commit();
         }
         catch(HibernateException | EntityCannotBeFoundException exp){
+            session.getTransaction().rollback();
             throw new EntityCannotByCreatedException("Could not save SongInAlbum data! See inner exception!", exp);
         }
         finally {
@@ -109,6 +115,7 @@ public class SongsInAlbumsSet extends BaseSet<SongsInAlbums, SongInAlbum> implem
     @Override
     public void Delete(Integer Key) throws Exception {
         Session session = factory.openSession();
+        session.beginTransaction();
         Criteria cr = session.createCriteria(SongsInAlbums.class);
         cr.add(Restrictions.eq("id", Key));
         try {
@@ -117,8 +124,10 @@ public class SongsInAlbumsSet extends BaseSet<SongsInAlbums, SongInAlbum> implem
                 throw new EntityCannotBeFoundException("SongsInAlbums not found!");
             SongsInAlbums songInAlbum = songsInAlbumList.get(0);            
             session.delete(songInAlbum);
+            session.getTransaction().commit();
         }
         catch(HibernateException exp){
+            session.getTransaction().rollback();
             throw new EntityCannotBeDeletedException("SongsInAlbums could not be deleted! See inner exception!",exp);
         }
         finally{
@@ -129,11 +138,13 @@ public class SongsInAlbumsSet extends BaseSet<SongsInAlbums, SongInAlbum> implem
     @Override
     public List<SongInAlbum> GetAll() throws Exception {
         Session session = factory.openSession();
+        session.beginTransaction();
         Criteria cr = session.createCriteria(SongsInAlbums.class);
         List<SongInAlbum> SongInAlbumDTOs;
         try {
             List<SongsInAlbums> SongInAlbumList = cr.list();
             SongInAlbumDTOs = ConvertEntityArrayToDTOArray(SongInAlbumList);
+            session.getTransaction().commit();
         }
         finally{
             session.close();
@@ -144,7 +155,8 @@ public class SongsInAlbumsSet extends BaseSet<SongsInAlbums, SongInAlbum> implem
     @Override
     public SongInAlbum GetById(Integer Id) throws Exception {
         Session session = factory.openSession();
-        Criteria cr = session.createCriteria(SongInAlbum.class);
+        session.beginTransaction();
+        Criteria cr = session.createCriteria(SongsInAlbums.class);
         cr.add(Restrictions.eq("id", Id));
         SongInAlbum DTO;
         try {
@@ -153,6 +165,7 @@ public class SongsInAlbumsSet extends BaseSet<SongsInAlbums, SongInAlbum> implem
                 throw new EntityCannotBeFoundException("SongsInAlbums not found!");
             SongsInAlbums songsInAlbum = SongInAlbumList.get(0);            
             DTO = ConvertEntityToDTO(songsInAlbum);
+            session.getTransaction().commit();
         }
         finally{
             session.close();
@@ -163,12 +176,14 @@ public class SongsInAlbumsSet extends BaseSet<SongsInAlbums, SongInAlbum> implem
     @Override
     public List<SongInAlbum> GetBySongId(UUID Id) {
         Session session = factory.openSession();
+        session.beginTransaction();
         Criteria cr = session.createCriteria(SongsInAlbums.class);
-        cr.add(Restrictions.eq("song",Id));
+        cr.add(Restrictions.eq("song.id",Id));
         List<SongInAlbum> SongInAlbumDTOs;
         try {
             List<SongsInAlbums> SongInAlbumList = cr.list();
             SongInAlbumDTOs = ConvertEntityArrayToDTOArray(SongInAlbumList);
+            session.getTransaction().commit();
         }
         finally{
             session.close();
@@ -179,12 +194,14 @@ public class SongsInAlbumsSet extends BaseSet<SongsInAlbums, SongInAlbum> implem
     @Override
     public List<SongInAlbum> GetByAlbumId(UUID Id) {
         Session session = factory.openSession();
+        session.beginTransaction();
         Criteria cr = session.createCriteria(SongsInAlbums.class);
-        cr.add(Restrictions.eq("album",Id));
+        cr.add(Restrictions.eq("album.id",Id));
         List<SongInAlbum> SongInAlbumDTOs;
         try {
             List<SongsInAlbums> SongInAlbumList = cr.list();
             SongInAlbumDTOs = ConvertEntityArrayToDTOArray(SongInAlbumList);
+            session.getTransaction().commit();
         }
         finally{
             session.close();

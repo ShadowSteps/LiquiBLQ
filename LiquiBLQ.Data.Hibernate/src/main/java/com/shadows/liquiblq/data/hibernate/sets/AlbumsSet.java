@@ -37,10 +37,13 @@ public class AlbumsSet extends BaseSet<Albums,Album> implements IAlbumsSet {
         albums.setName(Data.Name);
         UUID Id;
         Session session = factory.openSession();
-        try {
+        session.beginTransaction();
+        try {            
             Id = (UUID)session.save(albums);
+            session.getTransaction().commit();
         }
         catch(Exception exp){
+            session.getTransaction().rollback();
             throw new EntityCannotByCreatedException("Could not save Album data! See inner exception!", exp);
         }
         finally {
@@ -52,6 +55,7 @@ public class AlbumsSet extends BaseSet<Albums,Album> implements IAlbumsSet {
     @Override
     public void Edit(UUID Key,AlbumData Data) throws EntityCannotBeFoundException, EntityCannotBeEditedException {
         Session session = factory.openSession();
+        session.beginTransaction();
         Criteria cr = session.createCriteria(Albums.class);
         cr.add(Restrictions.eq("id", Key));
         try {
@@ -62,8 +66,10 @@ public class AlbumsSet extends BaseSet<Albums,Album> implements IAlbumsSet {
             album.setDate(Data.PublishDate);
             album.setName(Data.Name);
             session.update(album);
+            session.getTransaction().commit();
         }
         catch(HibernateException exp){
+            session.getTransaction().rollback();
             throw new EntityCannotBeEditedException("Album could not be updated! See inner exception!",exp);
         }
         finally{
@@ -74,6 +80,7 @@ public class AlbumsSet extends BaseSet<Albums,Album> implements IAlbumsSet {
     @Override
     public void Delete(UUID Key) throws EntityCannotBeFoundException, EntityCannotBeDeletedException {
         Session session = factory.openSession();
+        session.beginTransaction();
         Criteria cr = session.createCriteria(Albums.class);
         cr.add(Restrictions.eq("id", Key));
         try {
@@ -82,8 +89,10 @@ public class AlbumsSet extends BaseSet<Albums,Album> implements IAlbumsSet {
                 throw new EntityCannotBeFoundException("Album not found!");
             Albums album = AlbumList.get(0);            
             session.delete(album);
+            session.getTransaction().commit();
         }
         catch(HibernateException exp){
+            session.getTransaction().rollback();
             throw new EntityCannotBeDeletedException("Album could not be deleted! See inner exception!",exp);
         }
         finally{
@@ -94,11 +103,13 @@ public class AlbumsSet extends BaseSet<Albums,Album> implements IAlbumsSet {
     @Override
     public List<Album> GetAll() {
         Session session = factory.openSession();
+        session.beginTransaction();
         Criteria cr = session.createCriteria(Albums.class);
         List<Album> AlbumDTOs;
         try {
             List<Albums> AlbumList = cr.list();
             AlbumDTOs = ConvertEntityArrayToDTOArray(AlbumList);
+            session.getTransaction().commit();
         }
         finally{
             session.close();
@@ -109,6 +120,7 @@ public class AlbumsSet extends BaseSet<Albums,Album> implements IAlbumsSet {
     @Override
     public Album GetById(UUID Id) throws EntityCannotBeFoundException {
         Session session = factory.openSession();
+        session.beginTransaction();
         Criteria cr = session.createCriteria(Albums.class);
         cr.add(Restrictions.eq("id", Id));
         Album DTO;
@@ -118,6 +130,7 @@ public class AlbumsSet extends BaseSet<Albums,Album> implements IAlbumsSet {
                 throw new EntityCannotBeFoundException("Album not found!");
             Albums album = AlbumList.get(0);            
             DTO = ConvertEntityToDTO(album);
+            session.getTransaction().commit();
         }
         finally{
             session.close();

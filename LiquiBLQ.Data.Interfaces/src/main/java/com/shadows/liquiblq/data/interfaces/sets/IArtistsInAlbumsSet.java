@@ -18,6 +18,6 @@ import java.util.UUID;
  */
 public interface IArtistsInAlbumsSet extends IManagableSet<Integer, ArtistInAlbumData>,
         IViewableSet<Integer, ArtistInAlbum>{
-    public List<ArtistInAlbum> GetByAlbumId(UUID Id);
-    public List<ArtistInAlbum> GetByArtistId(UUID Id);
+    public List<ArtistInAlbum> GetByAlbumId(UUID Id) throws Exception;
+    public List<ArtistInAlbum> GetByArtistId(UUID Id) throws Exception;
 }

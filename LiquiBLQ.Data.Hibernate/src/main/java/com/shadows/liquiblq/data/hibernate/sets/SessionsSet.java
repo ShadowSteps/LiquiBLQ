@@ -34,11 +34,13 @@ public class SessionsSet extends BaseSet<Sessions, com.shadows.liquiblq.data.int
     @Override
     public List<com.shadows.liquiblq.data.interfaces.dto.Session> GetAll() throws Exception {
         Session session = factory.openSession();
+        session.beginTransaction();
         Criteria cr = session.createCriteria(Sessions.class);
         List<com.shadows.liquiblq.data.interfaces.dto.Session> DTOs;
         try {
             List<Sessions> List = cr.list();
             DTOs = ConvertEntityArrayToDTOArray(List);
+            session.getTransaction().commit();
         } finally {
             session.close();
         }
@@ -48,6 +50,7 @@ public class SessionsSet extends BaseSet<Sessions, com.shadows.liquiblq.data.int
     @Override
     public com.shadows.liquiblq.data.interfaces.dto.Session GetById(UUID Id) throws Exception {
         Session session = factory.openSession();
+        session.beginTransaction();
         Criteria cr = session.createCriteria(Sessions.class);
         cr.add(Restrictions.eq("id", Id));
         com.shadows.liquiblq.data.interfaces.dto.Session DTO;
@@ -58,6 +61,7 @@ public class SessionsSet extends BaseSet<Sessions, com.shadows.liquiblq.data.int
             }
             Sessions entity = List.get(0);            
             DTO = ConvertEntityToDTO(entity);
+            session.getTransaction().commit();
         } finally {
             session.close();
         }
@@ -71,9 +75,12 @@ public class SessionsSet extends BaseSet<Sessions, com.shadows.liquiblq.data.int
         entity.setUserId(Data.UserId);
         UUID Id;
         Session session = factory.openSession();
+        session.beginTransaction();
         try {
             Id = (UUID) session.save(entity);
+            session.getTransaction().commit();
         } catch (Exception exp) {
+            session.getTransaction().rollback();
             throw new EntityCannotByCreatedException("Could not save Session data! See inner exception!", exp);
         } finally {
             session.close();
@@ -84,6 +91,7 @@ public class SessionsSet extends BaseSet<Sessions, com.shadows.liquiblq.data.int
     @Override
     public void Edit(UUID Key, SessionData Data) throws Exception {
         Session session = factory.openSession();
+        session.beginTransaction();
         Criteria cr = session.createCriteria(Sessions.class);
         cr.add(Restrictions.eq("id", Key));
         try {
@@ -95,7 +103,9 @@ public class SessionsSet extends BaseSet<Sessions, com.shadows.liquiblq.data.int
             entity.setActive(Data.IsActive);
             entity.setUserId(Data.UserId);
             session.update(entity);
+            session.getTransaction().commit();
         } catch (HibernateException exp) {
+            session.getTransaction().rollback();
             throw new EntityCannotBeEditedException("Session could not be updated! See inner exception!", exp);
         } finally {
             session.close();
@@ -105,6 +115,7 @@ public class SessionsSet extends BaseSet<Sessions, com.shadows.liquiblq.data.int
     @Override
     public void Delete(UUID Key) throws Exception {
         Session session = factory.openSession();
+        session.beginTransaction();
         Criteria cr = session.createCriteria(Sessions.class);
         cr.add(Restrictions.eq("id", Key));
         try {
@@ -114,7 +125,9 @@ public class SessionsSet extends BaseSet<Sessions, com.shadows.liquiblq.data.int
             }
             Sessions entity = List.get(0);            
             session.delete(entity);
+            session.getTransaction().commit();
         } catch (HibernateException exp) {
+            session.getTransaction().rollback();
             throw new EntityCannotBeDeletedException("Sessions could not be deleted! See inner exception!", exp);
         } finally {
             session.close();

@@ -11,6 +11,7 @@ import com.shadows.liquiblq.data.interfaces.dto.Artist;
 import com.shadows.liquiblq.data.interfaces.dto.Song;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -26,5 +27,42 @@ public class GetAlbumByIdResponse extends JSONResponse {
         this.album = albumObj;
         this.artists = artists;
         this.songs = songs;
-    }          
+    }    
+
+    public GetAlbumByIdResponse() {
+        this.artists = new ArrayList<>();
+        this.songs = new ArrayList<>();
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 53 * hash + Objects.hashCode(this.album);
+        hash = 53 * hash + Objects.hashCode(this.artists);
+        hash = 53 * hash + Objects.hashCode(this.songs);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final GetAlbumByIdResponse other = (GetAlbumByIdResponse) obj;
+        if (!Objects.equals(this.album, other.album)) {
+            return false;
+        }
+        if (!Objects.equals(this.artists, other.artists)) {
+            return false;
+        }
+        if (!Objects.equals(this.songs, other.songs)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 }

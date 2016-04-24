@@ -15,12 +15,9 @@ import com.shadows.liquiblq.client.windows.core.validation.controls.AlertsManage
 import com.shadows.liquiblq.client.windows.exceptions.ApplicationConfigurationException;
 import com.shadows.liquiblq.client.windows.exceptions.UserNotLoggedInException;
 import com.shadows.liquiblq.common.communication.json.GetArtistByIdResponse;
-import com.shadows.liquiblq.data.entitys.Artist;
+import com.shadows.liquiblq.data.interfaces.dto.Artist;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
-import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
-import javafx.scene.layout.AnchorPane;
 
 /**
  *
@@ -42,9 +39,9 @@ public class LoadArtistInfoTast extends Task<Object> {
                             ConfigurationManager.GetApiUrl(),
                             LoginCredentials.getSessionKey(), 
                             LoginCredentials.GetUserId(),
-                            this.artist.getId()
+                            this.artist.Id
                     );            
-                InfomationManager.WriteInfoAboutArtist( this.artist,Response.getAlbums());
+                InfomationManager.WriteInfoAboutArtist( this.artist,Response.albums);
             } catch (HttpRequestErrorException ex) {
                 AlertsManager.ShowErrorAlert("Server not responding","Our attempt to make a request to the server has failed! Please try again later!");
             } catch (CannotParseResponseException ex) {

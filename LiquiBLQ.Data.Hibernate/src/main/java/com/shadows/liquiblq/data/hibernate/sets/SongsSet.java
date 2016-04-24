@@ -9,8 +9,6 @@ import com.shadows.liquiblq.data.hibernate.sets.base.BaseSet;
 import com.shadows.liquiblq.data.interfaces.dto.Song;
 import com.shadows.liquiblq.data.interfaces.dto.data.SongData;
 import com.shadows.liquiblq.data.interfaces.sets.ISongsSet;
-import java.time.Instant;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import org.hibernate.Criteria;
@@ -37,11 +35,13 @@ public class SongsSet extends BaseSet<Songs, Song> implements ISongsSet {
     @Override
     public List<Song> GetAll() throws Exception {
         Session session = factory.openSession();
+        session.beginTransaction();
         Criteria cr = session.createCriteria(Songs.class);
         List<Song> DTOs;
         try {
             List<Songs> List = cr.list();
             DTOs = ConvertEntityArrayToDTOArray(List);
+            session.getTransaction().commit();
         } finally {
             session.close();
         }
@@ -51,6 +51,7 @@ public class SongsSet extends BaseSet<Songs, Song> implements ISongsSet {
     @Override
     public Song GetById(UUID Id) throws Exception {
         Session session = factory.openSession();
+        session.beginTransaction();
         Criteria cr = session.createCriteria(Songs.class);
         cr.add(Restrictions.eq("id", Id));
         Song DTO;
@@ -61,6 +62,7 @@ public class SongsSet extends BaseSet<Songs, Song> implements ISongsSet {
             }
             Songs entity = List.get(0);            
             DTO = ConvertEntityToDTO(entity);
+            session.getTransaction().commit();
         } finally {
             session.close();
         }
@@ -75,9 +77,12 @@ public class SongsSet extends BaseSet<Songs, Song> implements ISongsSet {
         entity.setName(Data.Name);
         UUID Id;
         Session session = factory.openSession();
+        session.beginTransaction();
         try {
             Id = (UUID) session.save(entity);
+            session.getTransaction().commit();
         } catch (Exception exp) {
+            session.getTransaction().rollback();
             throw new EntityCannotByCreatedException("Could not save Song data! See inner exception!", exp);
         } finally {
             session.close();
@@ -88,6 +93,7 @@ public class SongsSet extends BaseSet<Songs, Song> implements ISongsSet {
     @Override
     public void Edit(UUID Key, SongData Data) throws Exception {
         Session session = factory.openSession();
+        session.beginTransaction();
         Criteria cr = session.createCriteria(Songs.class);
         cr.add(Restrictions.eq("id", Key));
         try {
@@ -100,7 +106,9 @@ public class SongsSet extends BaseSet<Songs, Song> implements ISongsSet {
             entity.setGenre(Data.Genre);
             entity.setName(Data.Name);
             session.update(entity);
+            session.getTransaction().commit();
         } catch (HibernateException exp) {
+            session.getTransaction().rollback();
             throw new EntityCannotBeEditedException("Song could not be updated! See inner exception!", exp);
         } finally {
             session.close();
@@ -110,6 +118,7 @@ public class SongsSet extends BaseSet<Songs, Song> implements ISongsSet {
     @Override
     public void Delete(UUID Key) throws Exception {
         Session session = factory.openSession();
+        session.beginTransaction();
         Criteria cr = session.createCriteria(Songs.class);
         cr.add(Restrictions.eq("id", Key));
         try {
@@ -119,7 +128,9 @@ public class SongsSet extends BaseSet<Songs, Song> implements ISongsSet {
             }
             Songs entity = List.get(0);            
             session.delete(entity);
+            session.getTransaction().commit();
         } catch (HibernateException exp) {
+            session.getTransaction().rollback();
             throw new EntityCannotBeDeletedException("Songs could not be deleted! See inner exception!", exp);
         } finally {
             session.close();

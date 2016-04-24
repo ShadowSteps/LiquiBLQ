@@ -6,7 +6,7 @@
 package com.shadows.liquiblq.client.windows.core.handlers;
 
 import com.shadows.liquiblq.client.windows.core.DialogManager;
-import com.shadows.liquiblq.data.entitys.Songs;
+import com.shadows.liquiblq.data.interfaces.dto.Song;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,8 +18,8 @@ import javafx.event.EventHandler;
  * @author John
  */
 public class SongPlayClickHandler implements EventHandler<Event> {
-    private Songs song;
-    public SongPlayClickHandler(Songs item) {
+    private Song song;
+    public SongPlayClickHandler(Song item) {
         this.song = item;
     }
 

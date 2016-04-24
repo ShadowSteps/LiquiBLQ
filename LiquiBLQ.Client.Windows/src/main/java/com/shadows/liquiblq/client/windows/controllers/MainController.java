@@ -87,7 +87,7 @@ public class MainController implements Initializable {
                        LoginCredentials.getSessionKey(), 
                        LoginCredentials.GetUserId()
                 );           
-                TableViewManager.CreateTableFromArtists(Response.getListOfArtists());
+                TableViewManager.CreateTableFromArtists(Response.artists);
            } catch (HttpRequestErrorException ex) {
                AlertsManager.ShowErrorAlert("Server not responding","Our attempt to make a request to the server has failed! Please try again later!");
            } catch (CannotParseResponseException ex) {
@@ -111,7 +111,7 @@ public class MainController implements Initializable {
                        LoginCredentials.getSessionKey(), 
                        LoginCredentials.GetUserId()
                 );           
-                TableViewManager.CreateTableFromAlbums(Response.getListOfAlbums());
+                TableViewManager.CreateTableFromAlbums(Response.albums);
            } catch (HttpRequestErrorException ex) {
                AlertsManager.ShowErrorAlert("Server not responding","Our attempt to make a request to the server has failed! Please try again later!");
            } catch (CannotParseResponseException ex) {
@@ -135,7 +135,7 @@ public class MainController implements Initializable {
                        LoginCredentials.getSessionKey(), 
                        LoginCredentials.GetUserId()
                 );           
-                TableViewManager.CreateTableFromSongs(Response.getListOfSongs());
+                TableViewManager.CreateTableFromSongs(Response.songs);
            } catch (HttpRequestErrorException ex) {
                AlertsManager.ShowErrorAlert("Server not responding","Our attempt to make a request to the server has failed! Please try again later!");
            } catch (CannotParseResponseException ex) {

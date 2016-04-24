@@ -11,15 +11,13 @@ import com.shadows.liquiblq.client.windows.core.handlers.ArtistInfoGetAlbumsClic
 import com.shadows.liquiblq.client.windows.core.handlers.AlbumInfoGetSongsClickHandler;
 import com.shadows.liquiblq.client.windows.core.handlers.SongInfoGetAlbumsClickHandler;
 import com.shadows.liquiblq.client.windows.core.handlers.SongPlayClickHandler;
-import com.shadows.liquiblq.data.entitys.Album;
-import com.shadows.liquiblq.data.entitys.Artist;
-import com.shadows.liquiblq.data.entitys.ArtistsInAlbums;
-import com.shadows.liquiblq.data.entitys.Songs;
+import com.shadows.liquiblq.data.interfaces.dto.Album;
+import com.shadows.liquiblq.data.interfaces.dto.Artist;
+import com.shadows.liquiblq.data.interfaces.dto.Song;
 import java.util.List;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 
@@ -31,26 +29,26 @@ public class InfomationManager {
     public static void WriteInfoAboutArtist(Artist artist,List<Album> Albums){
         Double Margin = 27.0;
         MainWindowsConfiguration.InfoPanel.getChildren().clear();
-        CreateText("Name: "+artist.getName(), MainWindowsConfiguration.InfoPanel, Margin);
-        CreateText("Nickname: "+artist.getNickname(), MainWindowsConfiguration.InfoPanel, Margin*2);
-        CreateText("Date of birth: "+artist.getDateofbirth(), MainWindowsConfiguration.InfoPanel, Margin*3);
+        CreateText("Name: "+artist.Name, MainWindowsConfiguration.InfoPanel, Margin);
+        CreateText("Nickname: "+artist.Nickname, MainWindowsConfiguration.InfoPanel, Margin*2);
+        CreateText("Date of birth: "+artist.DateOfBirth, MainWindowsConfiguration.InfoPanel, Margin*3);
         CreateButton("View albums", new ArtistInfoGetAlbumsClickHandler(Albums), Margin*4);
     }
-    public static void WriteInfoAboutAlbum(AnchorPane InformationPanel, Album item,List<Artist> Artists,List<Songs> songs, TableView table) {
+    public static void WriteInfoAboutAlbum(AnchorPane InformationPanel, Album item,List<Artist> Artists,List<Song> songs, TableView table) {
         Double Margin = 27.0;
         InformationPanel.getChildren().clear();
-        CreateText("Name: "+item.getName(), InformationPanel, Margin);
-        CreateText("Date of destribution: "+item.getDate(), InformationPanel, Margin*2);        
+        CreateText("Name: "+item.Name, InformationPanel, Margin);
+        CreateText("Date of destribution: "+item.PublishDate, InformationPanel, Margin*2);        
         CreateButton("View songs", new AlbumInfoGetSongsClickHandler(songs), Margin*3);
         CreateButton("View artists", new AlbumInfoGetArtistsClickHandler(Artists), Margin*5);
     }
 
-    public static void WriteInfoAboutSongs( Songs item,List<Album> Albums) {
+    public static void WriteInfoAboutSongs(Song item,List<Album> Albums) {
         Double Margin = 27.0;
         MainWindowsConfiguration.InfoPanel.getChildren().clear();
-        CreateText("Name: "+item.getName(), MainWindowsConfiguration.InfoPanel, Margin);
-        CreateText("Date of destrubution: "+item.getDate(), MainWindowsConfiguration.InfoPanel, Margin*2);
-        CreateText("Genre: "+item.getGenre(), MainWindowsConfiguration.InfoPanel, Margin*3);
+        CreateText("Name: "+item.Name, MainWindowsConfiguration.InfoPanel, Margin);
+        CreateText("Date of destrubution: "+item.PublishDate, MainWindowsConfiguration.InfoPanel, Margin*2);
+        CreateText("Genre: "+item.Genre, MainWindowsConfiguration.InfoPanel, Margin*3);
         CreateButton("View albums", new SongInfoGetAlbumsClickHandler(Albums), Margin*4);
         CreateButton("Play song", new SongPlayClickHandler(item), Margin*6);
     }

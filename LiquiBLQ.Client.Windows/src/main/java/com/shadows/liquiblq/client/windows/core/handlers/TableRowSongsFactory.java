@@ -5,11 +5,8 @@
  */
 package com.shadows.liquiblq.client.windows.core.handlers;
 
-import com.shadows.liquiblq.data.entitys.Album;
-import com.shadows.liquiblq.data.entitys.Songs;
+import com.shadows.liquiblq.data.interfaces.dto.Song;
 import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
-import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 
 /**
@@ -19,7 +16,7 @@ import javafx.util.Callback;
 public class TableRowSongsFactory implements Callback {
     @Override
     public Object call(Object param) {
-        TableRow<Songs> row = new TableRow<>();
+        TableRow<Song> row = new TableRow<>();
         row.setOnMouseClicked(new SongsSelectHandler(row));
         return row;
     }

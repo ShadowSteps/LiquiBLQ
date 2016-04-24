@@ -7,17 +7,14 @@ package com.shadows.liquiblq.client.windows.core;
 
 import com.shadows.liquiblq.client.windows.LiquiBLQ;
 import com.shadows.liquiblq.client.windows.config.MainWindowsConfiguration;
-import com.shadows.liquiblq.data.entitys.Songs;
+import com.shadows.liquiblq.data.interfaces.dto.Song;
 import java.io.IOException;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.stage.WindowEvent;
 
 /**
  *
@@ -45,7 +42,7 @@ public class DialogManager {
         dialog.initOwner(MainWindowsConfiguration.MainForm.getWindow());      
         return ShowDialog(dialog, "/fxml/windows/Login.fxml", "LiquiBLQ - Login/Register");                
     }
-    public static Scene ShowPlaySongDialog(Songs song) throws IOException{
+    public static Scene ShowPlaySongDialog(Song song) throws IOException{
         Stage dialog = new Stage();
         dialog.initStyle(StageStyle.UNDECORATED);       
         dialog.initModality(Modality.WINDOW_MODAL);

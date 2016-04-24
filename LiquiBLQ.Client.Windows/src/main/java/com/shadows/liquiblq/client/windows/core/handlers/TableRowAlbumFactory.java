@@ -5,10 +5,8 @@
  */
 package com.shadows.liquiblq.client.windows.core.handlers;
 
-import com.shadows.liquiblq.data.entitys.Album;
+import com.shadows.liquiblq.data.interfaces.dto.Album;
 import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
-import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 
 /**

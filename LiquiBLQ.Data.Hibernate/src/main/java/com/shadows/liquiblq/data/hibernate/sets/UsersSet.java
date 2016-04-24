@@ -37,11 +37,13 @@ public class UsersSet extends BaseSet<Users, User> implements IUsersSet {
     @Override
     public List<User> GetAll() throws Exception {
         Session session = factory.openSession();
+        session.beginTransaction();
         Criteria cr = session.createCriteria(Users.class);
         List<User> DTOs;
         try {
             List<Users> List = cr.list();
             DTOs = ConvertEntityArrayToDTOArray(List);
+            session.getTransaction().commit();
         } finally {
             session.close();
         }
@@ -51,6 +53,7 @@ public class UsersSet extends BaseSet<Users, User> implements IUsersSet {
     @Override
     public User GetById(Integer Id) throws Exception {
         Session session = factory.openSession();
+        session.beginTransaction();
         Criteria cr = session.createCriteria(Users.class);
         cr.add(Restrictions.eq("id", Id));
         User DTO;
@@ -61,6 +64,7 @@ public class UsersSet extends BaseSet<Users, User> implements IUsersSet {
             }
             Users entity = List.get(0);            
             DTO = ConvertEntityToDTO(entity);
+            session.getTransaction().commit();
         } finally {
             session.close();
         }
@@ -76,9 +80,12 @@ public class UsersSet extends BaseSet<Users, User> implements IUsersSet {
         entity.setName(Data.Name);
         Integer Id;
         Session session = factory.openSession();
+        session.beginTransaction();
         try {
             Id = (Integer) session.save(entity);
+            session.getTransaction().commit();
         } catch (Exception exp) {
+            session.getTransaction().rollback();
             throw new EntityCannotByCreatedException("Could not save User data! See inner exception!", exp);
         } finally {
             session.close();
@@ -89,6 +96,7 @@ public class UsersSet extends BaseSet<Users, User> implements IUsersSet {
     @Override
     public void Edit(Integer Key, UserData Data) throws Exception {
         Session session = factory.openSession();
+        session.beginTransaction();
         Criteria cr = session.createCriteria(Users.class);
         cr.add(Restrictions.eq("id", Key));
         try {
@@ -102,7 +110,9 @@ public class UsersSet extends BaseSet<Users, User> implements IUsersSet {
             entity.setSalt(Data.Salt);
             entity.setName(Data.Name);
             session.update(entity);
+            session.getTransaction().commit();
         } catch (HibernateException exp) {
+            session.getTransaction().rollback();
             throw new EntityCannotBeEditedException("User could not be updated! See inner exception!", exp);
         } finally {
             session.close();
@@ -112,6 +122,7 @@ public class UsersSet extends BaseSet<Users, User> implements IUsersSet {
     @Override
     public void Delete(Integer Key) throws Exception {
         Session session = factory.openSession();
+        session.beginTransaction();
         Criteria cr = session.createCriteria(Users.class);
         cr.add(Restrictions.eq("id", Key));
         try {
@@ -122,6 +133,7 @@ public class UsersSet extends BaseSet<Users, User> implements IUsersSet {
             Users entity = List.get(0);            
             session.delete(entity);
         } catch (HibernateException exp) {
+            session.getTransaction().rollback();
             throw new EntityCannotBeDeletedException("Users could not be deleted! See inner exception!", exp);
         } finally {
             session.close();
@@ -131,6 +143,7 @@ public class UsersSet extends BaseSet<Users, User> implements IUsersSet {
     @Override
     public User GetByEmail(String Email) throws EntityCannotBeFoundException {
         Session session = factory.openSession();
+        session.beginTransaction();
         Criteria cr = session.createCriteria(Users.class);
         cr.add(Restrictions.eq("email", Email));
         User DTO;
@@ -141,6 +154,7 @@ public class UsersSet extends BaseSet<Users, User> implements IUsersSet {
             }
             Users entity = List.get(0);            
             DTO = ConvertEntityToDTO(entity);
+            session.getTransaction().commit();
         } finally {
             session.close();
         }
@@ -150,6 +164,7 @@ public class UsersSet extends BaseSet<Users, User> implements IUsersSet {
     @Override
     public User GetByEmailAndPassword(String Email, String Password) throws EntityCannotBeFoundException {
         Session session = factory.openSession();
+        session.beginTransaction();
         Criteria cr = session.createCriteria(Users.class);
         cr.add(Restrictions.eq("email", Email));
         cr.add(Restrictions.eq("password", Password));
@@ -161,6 +176,7 @@ public class UsersSet extends BaseSet<Users, User> implements IUsersSet {
             }
             Users entity = List.get(0);            
             DTO = ConvertEntityToDTO(entity);
+            session.getTransaction().commit();
         } finally {
             session.close();
         }

@@ -6,7 +6,7 @@
 package com.shadows.liquiblq.client.windows.core.handlers;
 
 import com.shadows.liquiblq.client.windows.core.tasks.LoadArtistInfoTast;
-import com.shadows.liquiblq.data.entitys.Artist;
+import com.shadows.liquiblq.data.interfaces.dto.Artist;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.control.TableRow;
