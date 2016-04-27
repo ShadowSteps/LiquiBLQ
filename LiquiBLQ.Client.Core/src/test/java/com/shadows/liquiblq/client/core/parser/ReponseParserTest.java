@@ -6,11 +6,15 @@
 package com.shadows.liquiblq.client.core.parser;
 
 import com.shadows.liquiblq.common.communication.json.GetAlbumByIdResponse;
+import com.shadows.liquiblq.common.communication.json.GetAlbumsOfArtistResponse;
+import com.shadows.liquiblq.common.communication.json.GetAlbumsOfSongResponse;
 import com.shadows.liquiblq.common.communication.json.GetAllAlbumsResponse;
 import com.shadows.liquiblq.common.communication.json.GetAllArtistsResponse;
 import com.shadows.liquiblq.common.communication.json.GetAllSongsResponse;
 import com.shadows.liquiblq.common.communication.json.GetArtistByIdResponse;
+import com.shadows.liquiblq.common.communication.json.GetArtistsInAlbumResponse;
 import com.shadows.liquiblq.common.communication.json.GetSongByIdResponse;
+import com.shadows.liquiblq.common.communication.json.GetSongsInAlbumResponse;
 import com.shadows.liquiblq.common.communication.json.LoginResponse;
 import com.shadows.liquiblq.common.communication.json.RegisterResponse;
 import com.shadows.liquiblq.data.interfaces.dto.Album;
@@ -199,5 +203,6 @@ public class ReponseParserTest {
         GetArtistByIdResponse result = ReponseParser.ParseGetArtistByIdReponse(Reponse);
         assertEquals(expResult, result);        
     }
+    
     
 }

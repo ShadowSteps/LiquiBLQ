@@ -22,4 +22,12 @@ public class AlbumRequestsHandler {
         String UrlParamanters = "sessionKey="+SessinKey.toString()+"&UserId="+UserId;
         return HttpRequestHandler.sendPost(ApiUrl+"album/get/"+Id.toString(), UrlParamanters);
     }
+    public static String getByArtistIdRequest(String ApiUrl,UUID SessinKey,Integer UserId,UUID Id) throws HttpRequestErrorException{
+        String UrlParamanters = "sessionKey="+SessinKey.toString()+"&UserId="+UserId;
+        return HttpRequestHandler.sendPost(ApiUrl+"album/getByArtist/"+Id.toString(), UrlParamanters);
+    }
+    public static String getBySongIdRequest(String ApiUrl,UUID SessinKey,Integer UserId,UUID Id) throws HttpRequestErrorException{
+        String UrlParamanters = "sessionKey="+SessinKey.toString()+"&UserId="+UserId;
+        return HttpRequestHandler.sendPost(ApiUrl+"album/getBySong/"+Id.toString(), UrlParamanters);
+    }
 }

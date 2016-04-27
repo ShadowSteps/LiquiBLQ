@@ -8,14 +8,13 @@ package com.shadows.liquiblq.webapi.controllers;
 import com.shadows.liquiblq.common.communication.json.ErrorResponse;
 import com.shadows.liquiblq.common.communication.json.GetAllSongsResponse;
 import com.shadows.liquiblq.common.communication.json.GetSongByIdResponse;
+import com.shadows.liquiblq.common.communication.json.GetSongsInAlbumResponse;
 import com.shadows.liquiblq.common.communication.json.JSONResponse;
 import com.shadows.liquiblq.data.interfaces.dto.Album;
 import com.shadows.liquiblq.data.interfaces.dto.Genre;
 import com.shadows.liquiblq.data.interfaces.dto.Song;
 import com.shadows.liquiblq.data.interfaces.dto.SongInAlbum;
 import com.shadows.liquiblq.webapi.controllers.base.BaseAPIController;
-import com.shadows.liquiblq.webapi.exceptions.RequestValidationException;
-import com.shadows.liquiblq.webapi.validation.RequestValidator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -53,6 +52,42 @@ public class SongsController extends BaseAPIController{
             return new ErrorResponse(Exp);
         }
     }
+    
+    @RequestMapping(value = "/play/{id}",method = RequestMethod.POST)
+    public String doPlayById(@PathVariable("id") UUID id,@RequestParam("sessionKey") UUID Session,@RequestParam("UserId") Integer UserId){
+        try {
+            Validator.ValidateRequest(Session, UserId);    
+            Song song = Context.getSongsSet().GetById(id);
+            String BaseDir = 
+        }
+        catch (Exception Exp) {
+            return new ErrorResponse(Exp);
+        }
+    }
+    
+    @RequestMapping(value = "/getByAlbum/{id}",method = RequestMethod.POST)
+    public  JSONResponse doGetBySongId(@PathVariable UUID id, @RequestParam("sessionKey") UUID Session,@RequestParam("UserId") Integer UserId){
+        try {
+            this.Validator.ValidateRequest(Session, UserId);    
+            Album album = Context.getAlbumsSet().GetById(id);
+            List<SongInAlbum> songsInAlbum = Context.getSongsInAlbumsSet()
+                    .GetByAlbumId(id);            
+            List<Song> songs = new ArrayList<>();            
+            for (SongInAlbum songInAlbum : songsInAlbum) {
+                Song song = Context.getSongsSet()
+                        .GetById(songInAlbum.Song);
+                songs.add(song);
+            }
+            return new GetSongsInAlbumResponse(
+                songs,
+                album
+            );
+        }
+        catch (Exception Exp) {
+            return new ErrorResponse(Exp);
+        }
+    }
+    
     @RequestMapping(value = "/getAll",method = RequestMethod.POST)
     public JSONResponse doGetAll(@RequestParam("sessionKey") UUID Session,@RequestParam("UserId") Integer UserId) {
         try {

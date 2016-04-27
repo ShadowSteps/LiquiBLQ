@@ -22,4 +22,8 @@ public class ArtistRequestsHandler {
         String UrlParamanters = "sessionKey="+SessinKey.toString()+"&UserId="+UserId;
         return HttpRequestHandler.sendPost(ApiUrl+"artists/get/"+ArtistId.toString(), UrlParamanters);
     }
+    public static String getByAlbumIdRequest(String ApiUrl,UUID SessinKey,Integer UserId,UUID ArtistId) throws HttpRequestErrorException{
+        String UrlParamanters = "sessionKey="+SessinKey.toString()+"&UserId="+UserId;
+        return HttpRequestHandler.sendPost(ApiUrl+"artists/getByAlbum/"+ArtistId.toString(), UrlParamanters);
+    }
 }

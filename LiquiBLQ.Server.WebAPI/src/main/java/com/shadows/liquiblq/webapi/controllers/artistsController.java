@@ -6,12 +6,16 @@
 package com.shadows.liquiblq.webapi.controllers;
 
 import com.shadows.liquiblq.common.communication.json.ErrorResponse;
+import com.shadows.liquiblq.common.communication.json.GetAlbumsOfSongResponse;
 import com.shadows.liquiblq.common.communication.json.GetArtistByIdResponse;
 import com.shadows.liquiblq.common.communication.json.JSONResponse;
 import com.shadows.liquiblq.common.communication.json.GetAllArtistsResponse;
+import com.shadows.liquiblq.common.communication.json.GetArtistsInAlbumResponse;
 import com.shadows.liquiblq.data.interfaces.dto.Album;
 import com.shadows.liquiblq.data.interfaces.dto.Artist;
 import com.shadows.liquiblq.data.interfaces.dto.ArtistInAlbum;
+import com.shadows.liquiblq.data.interfaces.dto.Song;
+import com.shadows.liquiblq.data.interfaces.dto.SongInAlbum;
 import com.shadows.liquiblq.webapi.controllers.base.BaseAPIController;
 import com.shadows.liquiblq.webapi.exceptions.RequestValidationException;
 import com.shadows.liquiblq.webapi.validation.RequestValidator;
@@ -47,6 +51,29 @@ public class ArtistsController extends BaseAPIController{
                 albums.add(album);
             }
             return new GetArtistByIdResponse(artist, albums);
+        }
+        catch (Exception Exp) {
+            return new ErrorResponse(Exp);
+        }
+    }
+    
+    @RequestMapping(value = "/getByAlbum/{id}",method = RequestMethod.POST)
+    public  JSONResponse doGetBySongId(@PathVariable UUID id, @RequestParam("sessionKey") UUID Session,@RequestParam("UserId") Integer UserId){
+        try {
+            this.Validator.ValidateRequest(Session, UserId);    
+            Album album = Context.getAlbumsSet().GetById(id);
+            List<ArtistInAlbum> artistsInAlbum = Context.getArtistsInAlbumsSet()
+                    .GetByAlbumId(id);            
+            List<Artist> artists = new ArrayList<>();            
+            for (ArtistInAlbum artistInAlbum : artistsInAlbum) {
+                Artist artist = Context.getArtistsSet()
+                        .GetById(artistInAlbum.Artist);
+                artists.add(artist);
+            }
+            return new GetArtistsInAlbumResponse(
+                artists,
+                album
+            );
         }
         catch (Exception Exp) {
             return new ErrorResponse(Exp);

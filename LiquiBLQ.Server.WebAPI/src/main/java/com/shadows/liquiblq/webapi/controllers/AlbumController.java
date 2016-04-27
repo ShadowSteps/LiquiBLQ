@@ -7,7 +7,10 @@ package com.shadows.liquiblq.webapi.controllers;
 
 import com.shadows.liquiblq.common.communication.json.ErrorResponse;
 import com.shadows.liquiblq.common.communication.json.GetAlbumByIdResponse;
+import com.shadows.liquiblq.common.communication.json.GetAlbumsOfArtistResponse;
+import com.shadows.liquiblq.common.communication.json.GetAlbumsOfSongResponse;
 import com.shadows.liquiblq.common.communication.json.GetAllAlbumsResponse;
+import com.shadows.liquiblq.common.communication.json.GetSongsInAlbumResponse;
 import com.shadows.liquiblq.common.communication.json.JSONResponse;
 import com.shadows.liquiblq.data.hibernate.exceptions.EntityCannotBeFoundException;
 import com.shadows.liquiblq.data.interfaces.dto.Album;
@@ -66,6 +69,53 @@ public class AlbumController extends BaseAPIController{
             return new ErrorResponse(Exp);
         }
     }
+    
+    @RequestMapping(value = "/getByArtist/{id}",method = RequestMethod.POST)
+    public  JSONResponse doGetByArtistId(@PathVariable UUID id, @RequestParam("sessionKey") UUID Session,@RequestParam("UserId") Integer UserId){
+        try {
+            this.Validator.ValidateRequest(Session, UserId);    
+            Artist artist = Context.getArtistsSet().GetById(id);
+            List<ArtistInAlbum> artistInAlbums = Context.getArtistsInAlbumsSet()
+                    .GetByArtistId(id);            
+            List<Album> albums = new ArrayList<>();            
+            for (ArtistInAlbum artistInAlbum : artistInAlbums) {
+                Album album = Context.getAlbumsSet()
+                        .GetById(artistInAlbum.Album);
+                albums.add(album);
+            }
+            return new GetAlbumsOfArtistResponse(
+                albums,
+                artist
+            );
+        }
+        catch (Exception Exp) {
+            return new ErrorResponse(Exp);
+        }
+    }
+    
+    @RequestMapping(value = "/getBySong/{id}",method = RequestMethod.POST)
+    public  JSONResponse doGetBySongId(@PathVariable UUID id, @RequestParam("sessionKey") UUID Session,@RequestParam("UserId") Integer UserId){
+        try {
+            this.Validator.ValidateRequest(Session, UserId);    
+            Song song = Context.getSongsSet().GetById(id);
+            List<SongInAlbum> songsInAlbum = Context.getSongsInAlbumsSet()
+                    .GetBySongId(id);            
+            List<Album> albums = new ArrayList<>();            
+            for (SongInAlbum songInAlbum : songsInAlbum) {
+                Album album = Context.getAlbumsSet()
+                        .GetById(songInAlbum.Album);
+                albums.add(album);
+            }
+            return new GetAlbumsOfSongResponse(
+                albums,
+                song
+            );
+        }
+        catch (Exception Exp) {
+            return new ErrorResponse(Exp);
+        }
+    }
+    
     @RequestMapping(value = "/getAll",method = RequestMethod.POST)
     public JSONResponse doGetAll(@RequestParam("sessionKey") UUID Session,@RequestParam("UserId") Integer UserId) throws EntityCannotBeFoundException {
         try {

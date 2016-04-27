@@ -11,13 +11,17 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shadows.liquiblq.client.core.http.exceptions.CannotParseResponseException;
 import com.shadows.liquiblq.common.communication.json.GetAlbumByIdResponse;
+import com.shadows.liquiblq.common.communication.json.GetAlbumsOfArtistResponse;
+import com.shadows.liquiblq.common.communication.json.GetAlbumsOfSongResponse;
 import com.shadows.liquiblq.common.communication.json.GetAllAlbumsResponse;
 import com.shadows.liquiblq.common.communication.json.GetAllSongsResponse;
 import com.shadows.liquiblq.common.communication.json.GetArtistByIdResponse;
 import com.shadows.liquiblq.common.communication.json.JSONResponse;
 import com.shadows.liquiblq.common.communication.json.RegisterResponse;
 import com.shadows.liquiblq.common.communication.json.GetAllArtistsResponse;
+import com.shadows.liquiblq.common.communication.json.GetArtistsInAlbumResponse;
 import com.shadows.liquiblq.common.communication.json.GetSongByIdResponse;
+import com.shadows.liquiblq.common.communication.json.GetSongsInAlbumResponse;
 import java.io.IOException;
 /**
  *
@@ -59,5 +63,17 @@ public class ReponseParser {
     }
     public static GetArtistByIdResponse ParseGetArtistByIdReponse(String Reponse) throws CannotParseResponseException{        
         return (GetArtistByIdResponse)parse(Reponse, GetArtistByIdResponse.class);
+    }
+    public static GetSongsInAlbumResponse ParseGetSongsInAlbumResponse(String Reponse) throws CannotParseResponseException{        
+        return (GetSongsInAlbumResponse)parse(Reponse, GetSongsInAlbumResponse.class);
+    }
+    public static GetAlbumsOfArtistResponse ParseGetAlbumsOfArtistResponse(String Reponse) throws CannotParseResponseException{        
+        return (GetAlbumsOfArtistResponse)parse(Reponse, GetAlbumsOfArtistResponse.class);
+    }
+    public static GetAlbumsOfSongResponse ParseGetAlbumsOfSongResponse(String Reponse) throws CannotParseResponseException{        
+        return (GetAlbumsOfSongResponse)parse(Reponse, GetAlbumsOfSongResponse.class);
+    }
+    public static GetArtistsInAlbumResponse ParseGetArtistsInAlbumResponse(String Reponse) throws CannotParseResponseException{        
+        return (GetArtistsInAlbumResponse)parse(Reponse, GetArtistsInAlbumResponse.class);
     }
 }

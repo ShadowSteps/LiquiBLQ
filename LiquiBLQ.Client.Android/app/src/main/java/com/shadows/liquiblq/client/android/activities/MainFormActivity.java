@@ -11,21 +11,41 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.shadows.liquiblq.client.android.R;
+import com.shadows.liquiblq.client.android.activities.event_listeners.OnAlbumGetArtistsClickListener;
+import com.shadows.liquiblq.client.android.activities.event_listeners.OnAlbumGetSongsClickListener;
 import com.shadows.liquiblq.client.android.activities.event_listeners.OnAlbumModelClickListener;
+import com.shadows.liquiblq.client.android.activities.event_listeners.OnArtistGetAlbumsClickListener;
+import com.shadows.liquiblq.client.android.activities.event_listeners.OnArtistModelClickListener;
+import com.shadows.liquiblq.client.android.activities.event_listeners.OnSongGetAlbumsClickListener;
+import com.shadows.liquiblq.client.android.activities.event_listeners.OnSongModelClickListener;
 import com.shadows.liquiblq.client.android.activities.models.AlbumListItemModel;
+import com.shadows.liquiblq.client.android.activities.models.ArtistListItemModel;
+import com.shadows.liquiblq.client.android.activities.models.SongListItemModel;
+import com.shadows.liquiblq.client.android.config.Formats;
 import com.shadows.liquiblq.client.android.config.LoginSession;
-import com.shadows.liquiblq.client.android.core.UIHandlers.GetAlbumsUIHandler;
+import com.shadows.liquiblq.client.android.core.UIHandlers.GetAlbumsOfArtistUIHandler;
+import com.shadows.liquiblq.client.android.core.UIHandlers.GetAlbumsOfSongUIHandler;
+import com.shadows.liquiblq.client.android.core.UIHandlers.GetAllAlbumsUIHandler;
+import com.shadows.liquiblq.client.android.core.UIHandlers.GetAllArtistsUIHandler;
+import com.shadows.liquiblq.client.android.core.UIHandlers.GetAllSongsUIHandler;
+import com.shadows.liquiblq.client.android.core.UIHandlers.GetArtistsInAlbumUIHandler;
+import com.shadows.liquiblq.client.android.core.UIHandlers.GetSongsInAlbumUIHandler;
 import com.shadows.liquiblq.client.android.core.managers.ActivityManager;
 import com.shadows.liquiblq.client.android.core.managers.AlertManager;
+import com.shadows.liquiblq.client.android.core.managers.DrawerManager;
 import com.shadows.liquiblq.client.android.core.tasks.TasksManager;
 import com.shadows.liquiblq.data.interfaces.dto.Album;
+import com.shadows.liquiblq.data.interfaces.dto.Artist;
+import com.shadows.liquiblq.data.interfaces.dto.Song;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -43,7 +63,13 @@ public class MainFormActivity extends AppCompatActivity
     private DrawerLayout drawer;
     private DrawerLayout albumDrawer;
 
-    private GetAlbumsUIHandler albumsHandler;
+    private GetAllAlbumsUIHandler albumsHandler;
+    private GetAllArtistsUIHandler artistsHandler;
+    private GetAllSongsUIHandler songsHandler;
+    private GetAlbumsOfSongUIHandler albumsOfSongHandler = new GetAlbumsOfSongUIHandler(this);
+    private GetAlbumsOfArtistUIHandler albumsOfArtistHandler = new GetAlbumsOfArtistUIHandler(this);
+    private GetSongsInAlbumUIHandler songsInAlbumHandler = new GetSongsInAlbumUIHandler(this);
+    private GetArtistsInAlbumUIHandler artistsInAlbumHandler = new GetArtistsInAlbumUIHandler(this);
     private TasksManager manager;
 
     private void InitializeControls() {
@@ -52,7 +78,9 @@ public class MainFormActivity extends AppCompatActivity
         UserHeader = (TextView)findViewById(R.id.userHeader);
         TableHeader = (TextView)findViewById(R.id.tableHeader);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        albumsHandler = new GetAlbumsUIHandler(this);
+        albumsHandler = new GetAllAlbumsUIHandler(this);
+        artistsHandler = new GetAllArtistsUIHandler(this);
+        songsHandler = new GetAllSongsUIHandler(this);
         manager = new TasksManager(getResources().getString(R.string.api_url));
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -80,7 +108,11 @@ public class MainFormActivity extends AppCompatActivity
         }
     }
 
-
+    private void CloseInfoPanel(){
+        if (drawer.getChildCount() > 2){
+            drawer.removeViewAt(2);
+        }
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
@@ -128,6 +160,10 @@ public class MainFormActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         }
+        if (drawer.isDrawerOpen(Gravity.RIGHT)) {
+            drawer.closeDrawer(Gravity.RIGHT);
+        }
+        CloseInfoPanel();
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -138,9 +174,9 @@ public class MainFormActivity extends AppCompatActivity
         if (id == R.id.nav_albums) {
             manager.StartGetAllAlbumsTask(albumsHandler,LoginSession.sessionKey,LoginSession.UserId);
         } else if (id == R.id.nav_artists) {
-
+            manager.StartGetAllArtistsTask(artistsHandler, LoginSession.sessionKey,LoginSession.UserId);
         } else if (id == R.id.nav_songs) {
-
+            manager.StartGetAllSongsTask(songsHandler, LoginSession.sessionKey, LoginSession.UserId);
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -156,6 +192,7 @@ public class MainFormActivity extends AppCompatActivity
             albumModels.add(new AlbumListItemModel(a.Name,a.Id,a.PublishDate));
         }
         myarrayAdapter.notifyDataSetChanged();
+        CloseInfoPanel();
     }
 
     public void SetTableHeader(String text){
@@ -163,14 +200,91 @@ public class MainFormActivity extends AppCompatActivity
     }
 
     public void SelectAlbum(int position){
+        NavigationView newNav = DrawerManager.ShowInfoPanel(this,R.layout.nav_header_album_info,R.menu.album_menu);
         AlbumListItemModel model = (AlbumListItemModel)ObjectsList.getItemAtPosition(position);
         UUID AlbumId = model.Id;
         if (!drawer.isDrawerOpen(Gravity.RIGHT)) {
-            drawer.openDrawer(Gravity.RIGHT);
-            TextView NameHolder = ((TextView)findViewById(R.id.album_info_name));
-            TextView DateHolder = ((TextView)findViewById(R.id.album_info_date));
-            NameHolder.setText("Name: "+model.Name);
-            DateHolder.setText("Date: "+model.PublishDate);
+            int children = drawer.getChildCount();
+            if (children > 2){
+                drawer.removeViewsInLayout(2, children - 2);
+            }
+            drawer.addView(newNav);
+            TextView NameHolder = ((TextView)newNav.getHeaderView(0).findViewById(R.id.album_info_name));
+            TextView DateHolder = ((TextView)newNav.getHeaderView(0).findViewById(R.id.album_info_date));
+            MenuItem artistsButton = newNav.getMenu().findItem(R.id.nav_album_artists);
+            MenuItem songsButton = newNav.getMenu().findItem(R.id.nav_album_songs);
+            NameHolder.setText("Album name: " + model.Name);
+            DateHolder.setText("Date published: "+ Formats.Date.format(model.PublishDate));
+            artistsButton.setOnMenuItemClickListener(new OnAlbumGetArtistsClickListener(manager, AlbumId, this.artistsInAlbumHandler));
+            songsButton.setOnMenuItemClickListener(new OnAlbumGetSongsClickListener(manager, AlbumId, this.songsInAlbumHandler));
+        }
+    }
+
+    public void LoadArtists(List<Artist> artists) {
+        List<ArtistListItemModel> albumModels = new ArrayList<>();
+        ArrayAdapter<ArtistListItemModel> myarrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, albumModels);
+        ObjectsList.setAdapter(myarrayAdapter);
+        ObjectsList.setTextFilterEnabled(true);
+        ObjectsList.setOnItemClickListener(new OnArtistModelClickListener(this));
+        for (Artist a : artists){
+            albumModels.add(new ArtistListItemModel(a.Name,a.Id,a.DateOfBirth,a.Nickname));
+        }
+        myarrayAdapter.notifyDataSetChanged();
+        CloseInfoPanel();
+    }
+
+    public void SelectArtist(int position) {
+        NavigationView newNav = DrawerManager.ShowInfoPanel(this,R.layout.nav_header_artist_info,R.menu.artist_menu);
+        ArtistListItemModel model = (ArtistListItemModel)ObjectsList.getItemAtPosition(position);
+        UUID ArtistId = model.Id;
+        if (!drawer.isDrawerOpen(Gravity.RIGHT)) {
+            int children = drawer.getChildCount();
+            if (children > 2){
+                drawer.removeViewsInLayout(3, children - 2);
+            }
+            drawer.addView(newNav);
+            TextView NameHolder = ((TextView)newNav.getHeaderView(0).findViewById(R.id.artist_info_name));
+            TextView NicknameHolder = ((TextView)newNav.getHeaderView(0).findViewById(R.id.artist_info_nickname));
+            TextView DateHolder = ((TextView)newNav.getHeaderView(0).findViewById(R.id.artist_info_date));
+            MenuItem albumsButton = newNav.getMenu().findItem(R.id.nav_artist_albums);
+            NameHolder.setText("Artist name: "+model.Name);
+            NicknameHolder.setText("Nickname: "+ model.Nickname);
+            DateHolder.setText("Date of birth: "+ Formats.Date.format(model.DateOfBirth));
+            albumsButton.setOnMenuItemClickListener(new OnArtistGetAlbumsClickListener(manager, ArtistId, albumsOfArtistHandler));
+        }
+    }
+
+    public void LoadSongs(List<Song> songs) {
+        List<SongListItemModel> albumModels = new ArrayList<>();
+        ArrayAdapter<SongListItemModel> myarrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, albumModels);
+        ObjectsList.setAdapter(myarrayAdapter);
+        ObjectsList.setTextFilterEnabled(true);
+        ObjectsList.setOnItemClickListener(new OnSongModelClickListener(this));
+        for (Song s : songs){
+            albumModels.add(new SongListItemModel(s.Name,s.Id,s.PublishDate,s.Genre));
+        }
+        myarrayAdapter.notifyDataSetChanged();
+        CloseInfoPanel();
+    }
+
+    public void SelectSong(int position) {
+        NavigationView newNav = DrawerManager.ShowInfoPanel(this,R.layout.nav_header_song_info,R.menu.song_menu);
+        SongListItemModel model = (SongListItemModel)ObjectsList.getItemAtPosition(position);
+        UUID SongId = model.Id;
+        if (!drawer.isDrawerOpen(Gravity.RIGHT)) {
+            int children = drawer.getChildCount();
+            if (children > 2){
+                drawer.removeViewsInLayout(3, children - 2);
+            }
+            drawer.addView(newNav);
+            TextView NameHolder = ((TextView)newNav.getHeaderView(0).findViewById(R.id.song_info_name));
+            TextView Genre = ((TextView)newNav.getHeaderView(0).findViewById(R.id.song_info_genre));
+            TextView DateHolder = ((TextView)newNav.getHeaderView(0).findViewById(R.id.song_info_date));
+            MenuItem albumsButton = newNav.getMenu().findItem(R.id.nav_song_albums);
+            NameHolder.setText("Song name: "+model.Name);
+            Genre.setText("Genre: "+ model.Genre);
+            DateHolder.setText("Date published: "+ Formats.Date.format(model.DatePublished));
+            albumsButton.setOnMenuItemClickListener(new OnSongGetAlbumsClickListener(manager, SongId, albumsOfSongHandler));
         }
     }
 }

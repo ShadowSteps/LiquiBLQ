@@ -22,4 +22,8 @@ public class SongsRequestsHandler {
         String UrlParamanters = "sessionKey="+SessinKey.toString()+"&UserId="+UserId;
         return HttpRequestHandler.sendPost(ApiUrl+"Song/get/"+SongId.toString(), UrlParamanters);
     }
+    public static String getByAlbumIdRequest(String ApiUrl,UUID SessinKey,Integer UserId,UUID SongId) throws HttpRequestErrorException{
+        String UrlParamanters = "sessionKey="+SessinKey.toString()+"&UserId="+UserId;
+        return HttpRequestHandler.sendPost(ApiUrl+"Song/getByAlbum/"+SongId.toString(), UrlParamanters);
+    }
 }

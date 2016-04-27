@@ -7,5 +7,6 @@ import java.text.SimpleDateFormat;
  * Created by John on 25.4.2016 г..
  */
 public class Formats {
-    public static DateFormat Date = new SimpleDateFormat("dd MM yyyy");
+    public static DateFormat Date = new SimpleDateFormat("dd.MM.yyyy");
+    public static DateFormat Year = new SimpleDateFormat("yyyy");
 }

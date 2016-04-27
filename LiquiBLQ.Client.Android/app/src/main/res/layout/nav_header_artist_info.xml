@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/nav_artist_info"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/side_nav_bar"
@@ -12,16 +13,24 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <TextView
+        android:id="@+id/artist_info_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="LiquiBLQ"
+        android:textSize="19dp"
+        android:text="Artist Name:"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/artist_info_nickname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="music streaming" />
+        android:text="Nickname:" />
+
+    <TextView
+        android:id="@+id/artist_info_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date of birth:" />
 
 </LinearLayout>
