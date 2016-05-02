@@ -26,4 +26,5 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="title_activity_main_form">Welcome to LiquiBLQ</string>
+    <string name="title_activity_play">Playing music</string>
 </resources>

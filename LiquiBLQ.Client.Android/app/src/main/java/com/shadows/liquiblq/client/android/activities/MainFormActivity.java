@@ -14,11 +14,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -51,7 +49,6 @@ import com.shadows.liquiblq.data.interfaces.dto.Album;
 import com.shadows.liquiblq.data.interfaces.dto.Artist;
 import com.shadows.liquiblq.data.interfaces.dto.Song;
 
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -76,7 +73,6 @@ public class MainFormActivity extends AppCompatActivity
     private GetSongsInAlbumUIHandler songsInAlbumHandler = new GetSongsInAlbumUIHandler(this);
     private GetArtistsInAlbumUIHandler artistsInAlbumHandler = new GetArtistsInAlbumUIHandler(this);
     private TasksManager manager;
-    private MediaPlayer mediaPlayer;
 
     private void InitializeControls() {
         setContentView(R.layout.activity_main_form);
@@ -276,7 +272,7 @@ public class MainFormActivity extends AppCompatActivity
 
     public void SelectSong(int position) {
         NavigationView newNav = DrawerManager.ShowInfoPanel(this,R.layout.nav_header_song_info,R.menu.song_menu);
-        SongListItemModel model = (SongListItemModel)ObjectsList.getItemAtPosition(position);
+        final SongListItemModel model = (SongListItemModel)ObjectsList.getItemAtPosition(position);
         final UUID SongId = model.Id;
         if (!drawer.isDrawerOpen(Gravity.RIGHT)) {
             int children = drawer.getChildCount();
@@ -296,36 +292,7 @@ public class MainFormActivity extends AppCompatActivity
             playButton.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
-                    if (mediaPlayer != null){
-                        mediaPlayer.release();
-                        mediaPlayer = null;
-                    }
-                    mediaPlayer = new MediaPlayer();
-                    mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                    mediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
-                        @Override
-                        public boolean onError(MediaPlayer mp, int what, int extra) {
-                            AlertManager.ShowErrorAlert(self,"Could not start song!");
-                            return true;
-                        }
-                    });
-                    mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                        @Override
-                        public void onCompletion(MediaPlayer mp) {
-                            mp.release();
-                        }
-
-                    });
-                    try {
-                        String Url = SongsRequestsHandler.getStreamMusicUrl(getString(R.string.api_url),LoginSession.sessionKey,LoginSession.UserId,SongId);
-                        mediaPlayer.setDataSource(
-                                Url
-                        );
-                        mediaPlayer.prepare();
-                        mediaPlayer.start();
-                    } catch (Exception e) {
-                        AlertManager.ShowErrorAlert(self,"Could not start song!");
-                    }
+                    ActivityManager.OpenPlayActivity(self,model);
                     return true;
                 }
             });

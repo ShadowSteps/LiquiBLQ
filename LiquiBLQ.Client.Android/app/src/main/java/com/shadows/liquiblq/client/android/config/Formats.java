@@ -9,4 +9,5 @@ import java.text.SimpleDateFormat;
 public class Formats {
     public static DateFormat Date = new SimpleDateFormat("dd.MM.yyyy");
     public static DateFormat Year = new SimpleDateFormat("yyyy");
+    public static DateFormat Timer = new SimpleDateFormat("mm:ss");
 }
