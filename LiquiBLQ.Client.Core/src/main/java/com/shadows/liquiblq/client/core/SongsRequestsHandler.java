@@ -26,4 +26,8 @@ public class SongsRequestsHandler {
         String UrlParamanters = "sessionKey="+SessinKey.toString()+"&UserId="+UserId;
         return HttpRequestHandler.sendPost(ApiUrl+"Song/getByAlbum/"+SongId.toString(), UrlParamanters);
     }
+    public static String getStreamMusicUrl(String ApiUrl,UUID SessinKey,Integer UserId,UUID SongId){
+        String UrlParamanters = "sessionKey="+SessinKey.toString()+"&UserId="+UserId;
+        return ApiUrl+"Song/play/"+SongId.toString()+"?"+UrlParamanters;
+    }
 }

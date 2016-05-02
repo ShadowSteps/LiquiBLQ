@@ -15,9 +15,13 @@ import com.shadows.liquiblq.data.interfaces.dto.Genre;
 import com.shadows.liquiblq.data.interfaces.dto.Song;
 import com.shadows.liquiblq.data.interfaces.dto.SongInAlbum;
 import com.shadows.liquiblq.webapi.controllers.base.BaseAPIController;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.io.IOUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -53,15 +57,22 @@ public class SongsController extends BaseAPIController{
         }
     }
     
-    @RequestMapping(value = "/play/{id}",method = RequestMethod.POST)
-    public String doPlayById(@PathVariable("id") UUID id,@RequestParam("sessionKey") UUID Session,@RequestParam("UserId") Integer UserId){
+    @RequestMapping(value = "/play/{id}",method = RequestMethod.GET)
+    public void doPlayById(
+            @PathVariable("id") UUID id,
+            @RequestParam("sessionKey") UUID Session,
+            @RequestParam("UserId") Integer UserId,
+            HttpServletResponse response
+    ){
         try {
             Validator.ValidateRequest(Session, UserId);    
             Song song = Context.getSongsSet().GetById(id);
-            String BaseDir = 
+            InputStream File = SongsController.class.getResourceAsStream("/songs/"+song.Filename);
+            IOUtils.copy(File, response.getOutputStream());
+            response.flushBuffer();
         }
         catch (Exception Exp) {
-            return new ErrorResponse(Exp);
+            throw new RuntimeException("IOError writing file to output stream");
         }
     }
     

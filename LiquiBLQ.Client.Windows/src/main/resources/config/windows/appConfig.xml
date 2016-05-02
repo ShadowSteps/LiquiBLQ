@@ -7,5 +7,5 @@ and open the template in the editor.
 
 
 <Config>
-    <ApiUrl>http://localhost:8080/LiquiBLQ.Server.WebAPI-1.0/</ApiUrl>
+    <ApiUrl>http://81.161.246.26:8080/LiquiBLQ.Server.WebAPI-1.0/</ApiUrl>
 </Config>

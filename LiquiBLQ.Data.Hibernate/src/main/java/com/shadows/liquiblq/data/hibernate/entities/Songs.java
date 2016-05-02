@@ -26,6 +26,7 @@ public class Songs implements Serializable {
 	private UUID id;
 	private UUID genre;
 	private String name;
+        private String file;
 	private Date date;
 	public Songs() {
 	}
@@ -72,5 +73,13 @@ public class Songs implements Serializable {
 		this.date = date;
 	}
 
+        @Column(name = "file", nullable = false)
+        public String getFile() {
+            return file;
+        }
 
+        public void setFile(String filename) {
+            this.file = filename;
+        }
+        
 }

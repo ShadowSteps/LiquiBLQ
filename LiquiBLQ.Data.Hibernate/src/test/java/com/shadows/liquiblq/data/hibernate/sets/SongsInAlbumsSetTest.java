@@ -44,6 +44,7 @@ public class SongsInAlbumsSetTest {
         songData.Genre = GKey;
         songData.Name = "Song_" + UUID.randomUUID();
         songData.PublishDate = new Date();
+        songData.Filename = "test.wav";
         SongsSet SongInstance = new SongsSet();        
         UUID SongKey = SongInstance.Add(songData);
         assertNotNull(SongKey);

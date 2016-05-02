@@ -29,6 +29,7 @@ public class SongsSet extends BaseSet<Songs, Song> implements ISongsSet {
         dto.Id = entity.getId();
         dto.Name = entity.getName();
         dto.PublishDate = entity.getDate();
+        dto.Filename = entity.getFile();
         return dto;
     }
     
@@ -75,6 +76,7 @@ public class SongsSet extends BaseSet<Songs, Song> implements ISongsSet {
         entity.setDate(Data.PublishDate);
         entity.setGenre(Data.Genre);
         entity.setName(Data.Name);
+        entity.setFile(Data.Filename);
         UUID Id;
         Session session = factory.openSession();
         session.beginTransaction();
@@ -105,6 +107,7 @@ public class SongsSet extends BaseSet<Songs, Song> implements ISongsSet {
             entity.setDate(Data.PublishDate);
             entity.setGenre(Data.Genre);
             entity.setName(Data.Name);
+            entity.setFile(Data.Filename);
             session.update(entity);
             session.getTransaction().commit();
         } catch (HibernateException exp) {

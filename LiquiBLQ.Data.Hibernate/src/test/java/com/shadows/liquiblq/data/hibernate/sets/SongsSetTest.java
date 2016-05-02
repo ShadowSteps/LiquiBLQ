@@ -49,6 +49,7 @@ public class SongsSetTest {
         Data.Genre = GKey;
         Data.Name = "Song_" + UUID.randomUUID();
         Data.PublishDate = new Date();
+        Data.Filename = "test.wav";
         SongsSet instance = new SongsSet();        
         UUID result = instance.Add(Data);
         assertNotNull(result);
@@ -68,6 +69,7 @@ public class SongsSetTest {
         Data.Genre = GKey;
         Data.Name = "Song_" + UUID.randomUUID();
         Data.PublishDate = new Date();
+        Data.Filename = "test.wav";
         SongsSet instance = new SongsSet();        
         UUID Key = instance.Add(Data);
         assertNotNull(Key);
@@ -89,6 +91,7 @@ public class SongsSetTest {
         Data.Genre = GKey;
         Data.Name = "Song_" + UUID.randomUUID();
         Data.PublishDate = new Date();
+        Data.Filename = "test.wav";
         SongsSet instance = new SongsSet();        
         UUID Key = instance.Add(Data);
         assertNotNull(Key);
@@ -116,6 +119,7 @@ public class SongsSetTest {
         Data.Genre = GKey;
         Data.Name = "Song_" + UUID.randomUUID();
         Data.PublishDate = new Date();
+        Data.Filename = "test.wav";
         SongsSet instance = new SongsSet();        
         UUID Key = instance.Add(Data);
         assertNotNull(Key);
@@ -125,6 +129,7 @@ public class SongsSetTest {
         expResult.Id = Key;
         expResult.Name = Data.Name;
         expResult.PublishDate = Data.PublishDate;
+        expResult.Filename = Data.Filename;
         Song result = instance.GetById(Key);
         assertEquals(expResult, result);        
     }

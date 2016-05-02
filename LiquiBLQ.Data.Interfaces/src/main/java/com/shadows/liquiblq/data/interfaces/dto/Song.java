@@ -16,6 +16,7 @@ import java.util.UUID;
 public class Song {
     public UUID Id;
     public String Name;
+    public String Filename;
     public UUID Genre;
     public Date PublishDate;
 
@@ -26,6 +27,7 @@ public class Song {
         hash = 83 * hash + Objects.hashCode(this.Name);
         hash = 83 * hash + Objects.hashCode(this.Genre);
         hash = 83 * hash + Objects.hashCode(this.PublishDate);
+        hash = 83 * hash + Objects.hashCode(this.Filename);
         return hash;
     }
 
@@ -42,6 +44,9 @@ public class Song {
             return false;
         }
         if (!Objects.equals(this.Name, other.Name)) {
+            return false;
+        }
+        if (!Objects.equals(this.Filename, other.Filename)) {
             return false;
         }
         if (!Objects.equals(this.Genre, other.Genre)) {

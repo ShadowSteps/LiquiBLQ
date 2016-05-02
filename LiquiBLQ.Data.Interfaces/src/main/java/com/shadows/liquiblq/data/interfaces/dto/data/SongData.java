@@ -16,4 +16,5 @@ public class SongData {
     public String Name;
     public UUID Genre;
     public Date PublishDate;
+    public String Filename;
 }

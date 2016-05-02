@@ -20,7 +20,7 @@
     </string>
     <string name="title_activity_register">Register</string>
     <string name="title_activity_main">LiquiBLQ - music streaming</string>
-    <string name="api_url">http://192.168.2.151:8080/LiquiBLQ.Server.WebAPI-1.0/</string>
+    <string name="api_url">http://81.161.246.26:8080/LiquiBLQ.Server.WebAPI-1.0/</string>
     <string name="title_activity_object_list">ObjectListActivity</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>

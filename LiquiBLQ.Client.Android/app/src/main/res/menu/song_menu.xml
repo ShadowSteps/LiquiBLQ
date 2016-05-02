@@ -5,5 +5,10 @@
             android:id="@+id/nav_song_albums"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="View albums with song" />
+
+        <item
+            android:id="@+id/nav_song_play"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Play song" />
     </group>
 </menu>

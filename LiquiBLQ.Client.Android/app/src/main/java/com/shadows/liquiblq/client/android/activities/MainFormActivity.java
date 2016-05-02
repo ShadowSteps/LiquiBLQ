@@ -1,8 +1,11 @@
 package com.shadows.liquiblq.client.android.activities;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -43,10 +46,12 @@ import com.shadows.liquiblq.client.android.core.managers.ActivityManager;
 import com.shadows.liquiblq.client.android.core.managers.AlertManager;
 import com.shadows.liquiblq.client.android.core.managers.DrawerManager;
 import com.shadows.liquiblq.client.android.core.tasks.TasksManager;
+import com.shadows.liquiblq.client.core.SongsRequestsHandler;
 import com.shadows.liquiblq.data.interfaces.dto.Album;
 import com.shadows.liquiblq.data.interfaces.dto.Artist;
 import com.shadows.liquiblq.data.interfaces.dto.Song;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -62,7 +67,7 @@ public class MainFormActivity extends AppCompatActivity
     private TextView TableHeader;
     private DrawerLayout drawer;
     private DrawerLayout albumDrawer;
-
+    private Activity self;
     private GetAllAlbumsUIHandler albumsHandler;
     private GetAllArtistsUIHandler artistsHandler;
     private GetAllSongsUIHandler songsHandler;
@@ -71,6 +76,7 @@ public class MainFormActivity extends AppCompatActivity
     private GetSongsInAlbumUIHandler songsInAlbumHandler = new GetSongsInAlbumUIHandler(this);
     private GetArtistsInAlbumUIHandler artistsInAlbumHandler = new GetArtistsInAlbumUIHandler(this);
     private TasksManager manager;
+    private MediaPlayer mediaPlayer;
 
     private void InitializeControls() {
         setContentView(R.layout.activity_main_form);
@@ -122,7 +128,7 @@ public class MainFormActivity extends AppCompatActivity
                     AlertManager.ShowErrorAlert(this, "Permissions not granted for internet and the app cannot conntact server!");
                     finish();
                 } else {
-                    InitializeControls();
+                    CheckPermissions();
                 }
                 return;
             }
@@ -151,6 +157,7 @@ public class MainFormActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        self = this;
         super.onCreate(savedInstanceState);
         CheckPermissions();
     }
@@ -270,7 +277,7 @@ public class MainFormActivity extends AppCompatActivity
     public void SelectSong(int position) {
         NavigationView newNav = DrawerManager.ShowInfoPanel(this,R.layout.nav_header_song_info,R.menu.song_menu);
         SongListItemModel model = (SongListItemModel)ObjectsList.getItemAtPosition(position);
-        UUID SongId = model.Id;
+        final UUID SongId = model.Id;
         if (!drawer.isDrawerOpen(Gravity.RIGHT)) {
             int children = drawer.getChildCount();
             if (children > 2){
@@ -281,10 +288,47 @@ public class MainFormActivity extends AppCompatActivity
             TextView Genre = ((TextView)newNav.getHeaderView(0).findViewById(R.id.song_info_genre));
             TextView DateHolder = ((TextView)newNav.getHeaderView(0).findViewById(R.id.song_info_date));
             MenuItem albumsButton = newNav.getMenu().findItem(R.id.nav_song_albums);
+            MenuItem playButton = newNav.getMenu().findItem(R.id.nav_song_play);
             NameHolder.setText("Song name: "+model.Name);
             Genre.setText("Genre: "+ model.Genre);
             DateHolder.setText("Date published: "+ Formats.Date.format(model.DatePublished));
             albumsButton.setOnMenuItemClickListener(new OnSongGetAlbumsClickListener(manager, SongId, albumsOfSongHandler));
+            playButton.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    if (mediaPlayer != null){
+                        mediaPlayer.release();
+                        mediaPlayer = null;
+                    }
+                    mediaPlayer = new MediaPlayer();
+                    mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                    mediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+                        @Override
+                        public boolean onError(MediaPlayer mp, int what, int extra) {
+                            AlertManager.ShowErrorAlert(self,"Could not start song!");
+                            return true;
+                        }
+                    });
+                    mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                        @Override
+                        public void onCompletion(MediaPlayer mp) {
+                            mp.release();
+                        }
+
+                    });
+                    try {
+                        String Url = SongsRequestsHandler.getStreamMusicUrl(getString(R.string.api_url),LoginSession.sessionKey,LoginSession.UserId,SongId);
+                        mediaPlayer.setDataSource(
+                                Url
+                        );
+                        mediaPlayer.prepare();
+                        mediaPlayer.start();
+                    } catch (Exception e) {
+                        AlertManager.ShowErrorAlert(self,"Could not start song!");
+                    }
+                    return true;
+                }
+            });
         }
     }
 }

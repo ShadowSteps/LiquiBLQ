@@ -13,22 +13,10 @@ import com.shadows.liquiblq.client.android.core.UIHandlers.RegisterUIHandler;
 import com.shadows.liquiblq.client.android.core.tasks.listeners.TaskErrorListener;
 import com.shadows.liquiblq.client.android.core.tasks.listeners.TaskSuccessListener;
 import com.shadows.liquiblq.client.android.core.tasks.listeners.TaskStartListener;
-import com.shadows.liquiblq.client.core.tasks.GetAlbumsOfArtistTask;
-import com.shadows.liquiblq.client.core.tasks.GetAlbumsOfSongTask;
-import com.shadows.liquiblq.client.core.tasks.GetAllAlbumsTask;
-import com.shadows.liquiblq.client.core.tasks.GetAllArtistsTask;
-import com.shadows.liquiblq.client.core.tasks.GetAllSongsTask;
-import com.shadows.liquiblq.client.core.tasks.GetArtistsInAlbumTask;
-import com.shadows.liquiblq.client.core.tasks.GetSongsInAlbumTask;
-import com.shadows.liquiblq.client.core.tasks.RunnableTask;
-import com.shadows.liquiblq.client.core.tasks.UserLoginTask;
-import com.shadows.liquiblq.client.core.tasks.UserRegisterTask;
+import com.shadows.liquiblq.client.core.tasks.*;
 
 import java.util.UUID;
 
-/**
- * Created by John on 24.4.2016 г..
- */
 public class TasksManager {
     private String ApiUrl;
 
